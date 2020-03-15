@@ -73,7 +73,7 @@ class RouterPOO{
             }  
         }    
         if($matches === false){
-            $controller = new \App\Controller\BlogController();
+            $controller = new \App\Controller\MainController();
             $controller->notFound();
             exit;
         }

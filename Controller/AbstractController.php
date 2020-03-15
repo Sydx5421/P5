@@ -6,6 +6,11 @@ abstract class AbstractController
 {
     protected $basePath;
     protected $isAdmin = false;
+    //twig related vars
+    protected $templatePath;
+    protected $loader;
+    protected $twig;
+
     
     public function __construct() {
         // création dynamique du $basePath
@@ -19,7 +24,12 @@ abstract class AbstractController
         if(isset($_SESSION['adminConnected']) && $_SESSION['adminConnected'] === true ){
             $this->isAdmin = true;             
         }
-        
+
+        //configuration twig
+        $this->templatePath = realpath(__DIR__.'/../View');
+        $this->loader = new \Twig\Loader\FilesystemLoader($this->templatePath);
+        $this->twig = new \Twig\Environment($this->loader, ['cache'=>false]);
+
     }
     
     
@@ -37,7 +47,7 @@ abstract class AbstractController
     }
     
     public function notFound(){
-        require 'View/404View.php';   
+        echo $this->twig->render('notFound.twig');
     }
     
 }
