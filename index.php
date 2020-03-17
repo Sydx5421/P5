@@ -19,6 +19,7 @@ $router = new RouterPOO();
 
 //$router->addRoute(new Route('/home', 'blog', 'home'));
 $router->addRoute(new Route('/home', 'main', 'home'));
+$router->addRoute(new Route('/register', 'main', 'register'));
 $router->addRoute(new Route('/test', 'main', 'test'));
 $router->addRoute(new Route('/contact', 'main', 'contact'));
 

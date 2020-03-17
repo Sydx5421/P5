@@ -13,6 +13,7 @@
     <!-- Example row of columns -->
     <div class="row">
         <div class="col-md-4">
+            <img src="">
             <h2>Heading</h2>
             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
@@ -35,4 +36,29 @@
         <p>&copy; 2016 Company, Inc.</p>
     </footer>
 </div> <!-- /container -->
+{% endblock %}
+
+{% block javascripts %}
+{#    <script src="{{ asset('PathDuFichier/tonFichier.js') }}"></script>#}
+{#    <script src="Ton_URL"></script>#}
+    <script type="text/javascript">
+        var randomMovieArray = ['Star Wars', 'Ghost Busters', 'Harry Potter', 'Wanted'];
+
+        function apiCall() {
+            var randomNumber = Math.floor((Math.random() * randomMovieArray.length - 1)+1)
+            var randomMovie = randomMovieArray[randomNumber];
+            console.log(randomMovie);
+            $.getJSON('http://www.omdbapi.com/?apikey=7a68b075&t=' + encodeURI(randomMovie)).then(function(response){
+                console.log(response);
+                var image = response.Poster;
+
+                if(image !=="N/A"){
+                    $('img').attr('src', image);
+                }
+            });
+        }
+
+        apiCall();
+
+    </script>
 {% endblock %}

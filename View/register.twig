@@ -1,0 +1,39 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+    <h2>Inscrivez-vous</h2>
+
+    <form method="POST" action="" >
+        <div>
+            <label for="email">Votre E-mail</label>
+            <input type="text" name="email" >
+        </div>
+
+        <div>
+            <label for="pseudo">Votre Pseudo</label>
+            <input type="text" name="pseudo" >
+        </div>
+
+        <div>
+            <label for="password">Votre Pseudo</label>
+            <input type="password" name="password" >
+        </div>
+
+        <div>
+            <label for="confirm_password">Votre Pseudo</label>
+            <input type="password" name="confirm_password" >
+        </div>
+
+        <div>
+            <button type="submit" name="confirm_register">S'inscrire</button>
+
+        </div>
+
+    </form>
+
+{% endblock %}
+
+
+{% block javascripts %}
+{% endblock %}
