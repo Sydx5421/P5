@@ -36,9 +36,39 @@ class MainController extends AbstractController
             echo $this->twig->render('register.twig');
     }
 
+    public function login(){
+        $UserManager = new UserManager();
+
+        if($this->isPost()){
+            if(isset($_POST['email_or_pseudo']) && isset($_POST['password'])){
+                if(!empty($_POST['email_or_pseudo']) && !empty($_POST['password'])){
+                    $password = htmlspecialchars($_POST['password']);
+                    $login = htmlspecialchars($_POST['email_or_pseudo']);
+//                    vd($_POST);
+                    $userLogin = $UserManager->login($login, $password);
+                    if(is_object($userLogin)){
+                        $userLogged = new User($userLogin);
+//                        $_SESSION['user'] = $userLogin;
+                        vd('vous êtes connecté !', $userLogged);
+                    }else{
+                        vd($userLogin);
+                        // afficher un message d'erreur
+                    }
+                }
+            }else{
+                $error = "Erreur";
+            }
+        }
+
+        echo $this->twig->render('login.twig');
+
+    }
+
+
     public function test(){
 
-        echo $this->twig->render('test.twig');
+//        echo $this->twig->render('test.twig');
+        echo phpinfo();
     }
 
     public function contact(){

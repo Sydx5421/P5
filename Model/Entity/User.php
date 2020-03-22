@@ -12,6 +12,7 @@ class User
     protected $confirm_password;
     protected $email;
     protected $inscription_date;
+    protected $password_crypted;
 
     public function __construct($pseudo, $password, $confirm_password, $email, $id=null, $inscription_date=null)
     {
@@ -29,6 +30,8 @@ class User
 
     }
 
+
+
     /**
      * @param $pseudo
      * @param $password
@@ -43,6 +46,8 @@ class User
                 if(strlen($this->pseudo)>=1 && strlen($this->pseudo)<=250){
                     if(strlen($this->password)>=8 && strlen($this->password)<=100){
                         if($this->password == $this->confirm_password){
+                            $this->password_crypted = sha1($this->password);
+
                             return true;
                         }else{
                             $error='Vos mots de passes ne correspondent pas.';
@@ -168,6 +173,24 @@ class User
     public function setInscriptionDate($inscription_date)
     {
         $this->inscription_date = $inscription_date;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPasswordCrypted()
+    {
+        return $this->password_crypted;
+    }
+
+    /**
+     * @param mixed $password_crypted
+     * @return User
+     */
+    public function setPasswordCrypted($password_crypted)
+    {
+        $this->password_crypted = $password_crypted;
         return $this;
     }
 

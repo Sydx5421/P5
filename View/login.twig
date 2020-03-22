@@ -1,0 +1,30 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+    <h2>Se connecter</h2>
+
+    <form method="POST" action="login" >
+        <div>
+            <label for="email_or_pseudo">Votre E-mail ou Pseudo</label>
+            <input type="text" name="email_or_pseudo" >
+        </div>
+
+        <div>
+            <label for="password">Votre Mot de passe</label>
+            <input type="password" name="password" >
+        </div>
+
+        <div>
+            <button type="submit" name="confirm_login">Se connecter</button>
+
+        </div>
+
+    </form>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+{% endblock %}
