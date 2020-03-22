@@ -14,23 +14,38 @@ class User
     protected $inscription_date;
     protected $password_crypted;
 
-    public function __construct($pseudo, $password, $confirm_password, $email, $id=null, $inscription_date=null)
+//    public function __construct($pseudo, $password, $confirm_password, $email, $id=null, $inscription_date=null)
+    public function __construct($data)
     {
-        $this->$pseudo = $this->setPseudo($pseudo);
-        $this->$password =  $this->setPassword($password);
-        $this->$confirm_password = $this->setConfirmPassword($confirm_password);
-        $this->$email = $this->setEmail($email);
-
-        if(isset($id)){
-            $this->id = $this->setId($id);
-        }
-        if(isset($inscription_date)){
-            $this->inscription_date = $this->setInscriptionDate($inscription_date);
-        }
+//        $this->$pseudo = $this->setPseudo($pseudo);
+//        $this->$password =  $this->setPassword($password);
+//        $this->$confirm_password = $this->setConfirmPassword($confirm_password);
+//        $this->$email = $this->setEmail($email);
+//
+//        if(isset($id)){
+//            $this->id = $this->setId($id);
+//        }
+//        if(isset($inscription_date)){
+//            $this->inscription_date = $this->setInscriptionDate($inscription_date);
+//        }
+//        vd($data);
+        $this->hydrate($data);
 
     }
 
+    public function hydrate($data){
+        foreach ($data as $key => $value) {
+            // On récupère le nom du setter correspondant à l'attribut.
+            $method = 'set'.ucfirst(ucwords(str_replace('_', '', $key)));
 
+            // Si le setter correspondant existe.
+            if (method_exists($this, $method))
+            {
+                // On appelle le setter.
+                $this->$method($value);
+            }
+        }
+    }
 
     /**
      * @param $pseudo
@@ -46,8 +61,9 @@ class User
                 if(strlen($this->pseudo)>=1 && strlen($this->pseudo)<=250){
                     if(strlen($this->password)>=8 && strlen($this->password)<=100){
                         if($this->password == $this->confirm_password){
-                            $this->password_crypted = sha1($this->password);
-
+                            if(!isset($this->password_crypted)){
+                                $this->password_crypted = sha1($this->password);
+                            }
                             return true;
                         }else{
                             $error='Vos mots de passes ne correspondent pas.';

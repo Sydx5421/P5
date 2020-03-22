@@ -13,6 +13,23 @@ class UserManager extends AbstractManager
 
         $db = $this->dbConnect();
 
+        // checking that the email is not already used :
+        $req_email = $db->prepare("SELECT * FROM users WHERE email = ?");
+        $reqExec_email = $req_email->execute(array($user->getEmail()));
+        if($reqExec_email === true){
+            return "Cet email est déjà utilisé par un autre utilisateur, veuillez en choisir un autre.";
+        }
+
+        // checking that the pseudo is not already taken :
+        $req_pseudo = $db->prepare("SELECT * FROM users WHERE pseudo = ?");
+        $reqExec_pseudo = $req_pseudo->execute(array($user->getPseudo()));
+        if($reqExec_pseudo === true){
+            return "Ce pseudo est déjà utilisé par un autre utilisateur, veuillez en choisir un autre.";
+        }
+
+        // Now that we checked that the pseudo and email of the new user are not already taken, we can proceed with the
+        // registration.
+
         $req = $db->prepare('INSERT INTO users(pseudo, password, email) VALUES(:pseudo, :password, :email)');
 
         $req->bindValue(':pseudo', $user->getPseudo());

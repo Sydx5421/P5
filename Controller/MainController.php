@@ -21,15 +21,26 @@ class MainController extends AbstractController
             $confirm_password = trim(htmlspecialchars($_POST['confirm_password']));
             $email = trim(htmlspecialchars($_POST['email']));
 
-            $newUser = new User($pseudo, $password, $confirm_password, $email);
-            if($newUser->isValid() == true){
+            $newUserData = [
+                'pseudo' => $pseudo,
+                'password' => $password,
+                'confirmPassword' => $confirm_password,
+                'email' => $email
+            ];
+
+//            $newUser = new User($pseudo, $password, $confirm_password, $email);
+            $newUser = new User($newUserData);
+//            vd($newUser, $newUser->getPseudo() );
+            if($newUser->isValid() === true){
                 $userRegistration = $UserManager->register($newUser);
-                if($userRegistration == true){
-                    vd('votre compte a bien été créé !');
+                if($userRegistration === true){
+                    vd('votre compte a bien été créé !', $newUser->isValid());
                 }else{
                     // afficher un message d'erreur
+                    vd('Erreur :', $userRegistration);
                 }
             }else{
+                vd('Erreur :',  $newUser->isValid());
                 // afficher l'erreur dans un message flash
             }
         }
@@ -44,12 +55,13 @@ class MainController extends AbstractController
                 if(!empty($_POST['email_or_pseudo']) && !empty($_POST['password'])){
                     $password = htmlspecialchars($_POST['password']);
                     $login = htmlspecialchars($_POST['email_or_pseudo']);
-//                    vd($_POST);
+
                     $userLogin = $UserManager->login($login, $password);
+
                     if(is_object($userLogin)){
                         $userLogged = new User($userLogin);
 //                        $_SESSION['user'] = $userLogin;
-                        vd('vous êtes connecté !', $userLogged);
+                        vd('vous êtes connecté !', $userLogged->getPseudo());
                     }else{
                         vd($userLogin);
                         // afficher un message d'erreur
