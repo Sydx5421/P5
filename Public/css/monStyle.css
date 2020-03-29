@@ -1,5 +1,73 @@
 /*********** General **************/
 body{
     background-color: black;
+    color: grey!important;
+}
+
+.nwl_orange{
+    color: #ff7800;
+}
+
+.titleBrand{
+    color: #ff7800;
+    font-size: 1.5rem;
+}
+a{
+    color:grey;
+}
+a:hover{
+    text-decoration: none;
     color: grey;
+}
+
+.btn-outline-success{
+    color: #ff7800;
+    border-color: #ff7800;
+}
+.btn-outline-success:hover{
+    color: #fff;
+    background-color: #ff7800;
+    border-color: #ff7800;
+}
+
+/************ navbar *************/
+nav div.navbar{
+    flex-basis: auto;
+    flex-grow: 1;
+    display: flex;
+    justify-content: start;
+}
+nav div.navbar a:hover,
+nav div.navbar a.active{
+    color:  #e1dddd;
+}
+
+.navbar form.deconnexion div{
+    margin-right: 1rem;
+}
+.navbar form.deconnexion i{
+    font-size: 1.5rem;
+}
+.navbar form.deconnexion div span{
+    color: #e1dddd;
+}
+
+/********* Formx **********/
+
+.basicForms{
+    max-width: 500px;
+    margin: 2rem 0;
+}
+
+.basicForms div{
+    display: flex;
+}
+
+.basicForms div label{
+    width: -moz-available;
+}
+
+div.nwl_submit_btn{
+    justify-content: flex-end;
+    padding-right: 2rem;
 }

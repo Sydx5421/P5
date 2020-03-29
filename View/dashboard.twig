@@ -1,0 +1,12 @@
+{% extends 'layout.twig' %}
+
+{% block test %}
+    echo phpinfo()
+{% endblock %}
+
+
+{% block content %}
+<h1>Dashboard de {{ app.session.user.pseudo }}</h1>
+<p>Bienvenue sur votre tableau de bord Cinemood</p>
+
+{% endblock %}

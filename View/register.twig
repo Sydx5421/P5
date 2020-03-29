@@ -1,39 +1,24 @@
 {% extends 'layout.twig' %}
+{% import 'form.twig' as form %}
 
 {% block content %}
 
     <h2>Inscrivez-vous</h2>
 
-    <form method="POST" action="" >
-        <div>
-            <label for="email">Votre E-mail</label>
-            <input type="text" name="email" >
-        </div>
+    <form method="POST" action="" class="basicForms" >
+        {{ form.input_placeholder('email', {'label' : 'Votre E-mail', 'placeholder' : 'monmail@qch.com'}) }}
 
-        <div>
-            <label for="pseudo">Votre Pseudo</label>
-            <input type="text" name="pseudo" >
-        </div>
+        {{ form.input_placeholder('pseudo', {'label' : 'Votre Pseudo', 'placeholder' : 'pseudo'}) }}
 
-        <div>
-            <label for="password">Votre Mot de passe</label>
-            <input type="password" name="password" >
-        </div>
+        {{ form.input_placeholder('password', {'label' : 'Votre Mot de passe', 'type' : 'password', 'placeholder' : '********'}) }}
 
-        <div>
-            <label for="confirm_password">Confirmez votre mot de passe</label>
-            <input type="password" name="confirm_password" >
-        </div>
+        {{ form.input_placeholder('confirm_password', {'label' : 'Confirmez votre mot de passe', 'type' : 'password', 'placeholder' : '********'}) }}
 
-        <div>
-            <button type="submit" name="confirm_register">S'inscrire</button>
-
+        <div class="nwl_submit_btn">
+            <button class="btn btn-primary" type="submit" name="confirm_register">S'inscrire</button>
         </div>
 
     </form>
-
-    <a href="login">Se connecter</a>
-
 {% endblock %}
 
 

@@ -7,15 +7,25 @@ use App\Model\Manager\UserManager;
 
 class MainController extends AbstractController
 {
+    /**
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function home(){
 
-        echo $this->twig->render('home.twig');
+        echo $this->render('home.twig');
     }
+
+    /**
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function register(){
         $UserManager = new UserManager();
 
         if($this->isPost()){
-
             $pseudo = trim(htmlspecialchars($_POST['pseudo']));
             $password = trim(htmlspecialchars($_POST['password']));
             $confirm_password = trim(htmlspecialchars($_POST['confirm_password']));
@@ -28,30 +38,39 @@ class MainController extends AbstractController
                 'email' => $email
             ];
 
-//            $newUser = new User($pseudo, $password, $confirm_password, $email);
             $newUser = new User($newUserData);
-//            vd($newUser, $newUser->getPseudo() );
+
             if($newUser->isValid() === true){
                 $userRegistration = $UserManager->register($newUser);
                 if($userRegistration === true){
-                    vd('votre compte a bien été créé !', $newUser->isValid());
+                    $this->addFlash('Votre compte a bien été créé ! Bienvenue sur Cinemood ' . $newUser->getPseudo()
+                        . '. Vous pouvez dès à présent vous connecter.', 'success');
+                    $this->redirect('home');
                 }else{
-                    // afficher un message d'erreur
-                    vd('Erreur :', $userRegistration);
+                    // Erreur au niveau de l'enregistrement dans la base (mail ou pseudo déjà utilisés)
+                    $this->addFlash('Erreur : ' . $userRegistration, 'danger');
                 }
             }else{
-                vd('Erreur :',  $newUser->isValid());
-                // afficher l'erreur dans un message flash
+                // Erreurs au niveau de la validation du formulaire d'inscription (mal rempli)
+                $this->addFlash('Erreur : ' . $newUser->isValid(), 'danger');
             }
         }
-            echo $this->twig->render('register.twig');
+            echo $this->render('register.twig');
     }
 
+    /**
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function login(){
         $UserManager = new UserManager();
 
         if($this->isPost()){
+
             if(isset($_POST['email_or_pseudo']) && isset($_POST['password'])){
+//                vd('!', $this->isPost(), (isset($_POST['email_or_pseudo']) && isset($_POST['password'])), (!empty
+//                    ($_POST['email_or_pseudo']) && !empty($_POST['password'])));
                 if(!empty($_POST['email_or_pseudo']) && !empty($_POST['password'])){
                     $password = htmlspecialchars($_POST['password']);
                     $login = htmlspecialchars($_POST['email_or_pseudo']);
@@ -60,31 +79,40 @@ class MainController extends AbstractController
 
                     if(is_object($userLogin)){
                         $userLogged = new User($userLogin);
-//                        $_SESSION['user'] = $userLogin;
-                        vd('vous êtes connecté !', $userLogged->getPseudo());
+                        $_SESSION['user'] = $userLogin;
+                        $this->addFlash('Bienvenue ' . $userLogged->getPseudo());
+                        $this->redirect('dashboard');
+                        exit();
                     }else{
-                        vd($userLogin);
-                        // afficher un message d'erreur
+                        $this->addFlash($userLogin);
+                        $this->redirect('dashboard');
                     }
+                }else{
+                    $this->addFlash('Veuillez remplir tous les champs afin de pouvoir vous connecter.');
+                    $this->redirect('dashboard');
                 }
-            }else{
-                $error = "Erreur";
             }
+
         }
-
-        echo $this->twig->render('login.twig');
-
+        $this->redirect('home');
     }
 
+    /**
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function dashboard(){
 
-    public function test(){
-
-//        echo $this->twig->render('test.twig');
-        echo phpinfo();
+        echo $this->render('dashboard.twig');
     }
 
-    public function contact(){
-        echo $this->twig->render('contact.twig');
+    /**
+     *
+     */
+    public function deconnexion(){
+        session_destroy();
+        $this->redirect('home');
     }
 
 

@@ -15,14 +15,17 @@ Autoloader::register();
 require 'vendor/autoload.php';
 $router = new RouterPOO();
 
+//phpinfo();
+//die;
+
 // ------------------ Route(URL, nomDuController, nomDeLaction)
 
 $router->addRoute(new Route('/', 'main', 'home'));
 $router->addRoute(new Route('/home', 'main', 'home'));
+$router->addRoute(new Route('/dashboard', 'main', 'dashboard'));
 $router->addRoute(new Route('/register', 'main', 'register'));
-$router->addRoute(new Route('/test', 'main', 'test'));
-$router->addRoute(new Route('/contact', 'main', 'contact'));
 $router->addRoute(new Route('/login', 'main', 'login'));
+$router->addRoute(new Route('/deconnexion', 'main', 'deconnexion'));
 
 
 $router->run();

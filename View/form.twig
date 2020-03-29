@@ -1,0 +1,10 @@
+{% macro input_placeholder(name, options = [] ) %}
+    <div class="form-group  {{ options.class }}">
+        {% if options.label != null %}
+            <label for="{{ name }}" class="">{{ options.label }}</label>
+        {% endif %}
+        <div class="col-sm-5">
+            <input type="{{options.type ?: 'text'}}" class="form-control" id="{{ name }}" name="{{ name }}" placeholder="{{ options.placeholder }}">
+        </div>
+    </div>
+{% endmacro %}
