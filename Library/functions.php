@@ -8,7 +8,7 @@ function vd($args)
     foreach ($args as $arg) {
         $type = is_object($arg) ? 'object(' . get_class($arg) . ')' : gettype($arg);
         echo '<div style="color:#0a01f8;font-weight:bold;">' . $from['file'] . ':' . $from['line'] . ' Type:' . $type . '</div>';
-        var_dump($arg);
+        dump($arg);
     }
     echo '</pre></body></html>';
     die;

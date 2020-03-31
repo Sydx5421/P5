@@ -14,23 +14,10 @@ class User
     protected $inscription_date;
     protected $password_crypted;
 
-//    public function __construct($pseudo, $password, $confirm_password, $email, $id=null, $inscription_date=null)
+
     public function __construct($data)
     {
-//        $this->$pseudo = $this->setPseudo($pseudo);
-//        $this->$password =  $this->setPassword($password);
-//        $this->$confirm_password = $this->setConfirmPassword($confirm_password);
-//        $this->$email = $this->setEmail($email);
-//
-//        if(isset($id)){
-//            $this->id = $this->setId($id);
-//        }
-//        if(isset($inscription_date)){
-//            $this->inscription_date = $this->setInscriptionDate($inscription_date);
-//        }
-//        vd($data);
         $this->hydrate($data);
-
     }
 
     public function hydrate($data){

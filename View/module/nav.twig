@@ -4,9 +4,6 @@
 <nav class="navbar navbar-light justify-content-between">
     {#    <a class="navbar-brand">Navbar</a>#}
     <a class="titleBrand" href="/">Cinemood </a>
-{#    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">#}
-{#        <span class="navbar-toggler-icon"></span>#}
-{#    </button>#}
     <div class="navbar" id="navbarNavAltMarkup">
             <a class="nav-item nav-link active" href="home">Home <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="#">Catégorie</a>
@@ -20,7 +17,7 @@
         <form class="form-inline deconnexion" method="POST" action="deconnexion">
             <div>
                 <span>{{ app.session.user.pseudo }}</span>
-                <a href="dashboard"><i class="far fa-fw fa-user nwl_orange"></i></a>
+                <a href="dashboard" title="tableau de bord de {{ app.session.user.pseudo }}"><i class="far fa-fw fa-user nwl_orange"></i></a>
             </div>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="deconnexion">déconnexion</button>
         </form>
