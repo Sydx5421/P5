@@ -59,8 +59,37 @@ function MovieDbManager(){
         });
     }
 
-    this.searchMovie = function () {
+    this.searchMovie = function (userQuery, pageQuery) {
+        var userQuery = userQuery;
+        var pageQuery = pageQuery;
 
+        console.log(pageQuery);
+
+        var searchMoviesResults = ajaxGet("https://api.themoviedb.org/3/search/movie?api_key=" + APIKEY + "&language=en-US&query="+ userQuery +"&page=" + pageQuery + "&include_adult=false",function (response) {
+            var results = JSON.parse(response);
+            var totalResults = results.total_results;
+            var totalPages = results.total_pages;
+            var nbResultsPerPage = 20;
+            var resultsPage1 = results.results;
+
+            var resultsDisplayElt = $("#search_results");
+            var nbResultsElt = $("#nb_results");
+            var nbPagesElt = $("#nb_pages");
+
+            $(nbResultsElt).append(results.total_results);
+            $(nbPagesElt).append(results.total_pages);
+            console.log(results.total_results + " résultats. Page " + pageQuery + " sur " + results.total_pages + " pages.")
+
+            resultsPage1.forEach(function (results) {
+                // console.log(results.title);
+
+                // $(results.total_results).appendTo(nbResultsElt);
+                // $(results.total_pages).appendTo(nbPagesElt);
+                // nbResultsElt.text(results.total_results);
+                // nbPagesElt.text(results.total_pages);
+                $(resultsDisplayElt).append("<div class='movieElt'><img src='" + BASEURL + 'w185' + results.poster_path + "'><h3>" + results.title + "</h3></div>");
+            });
+        });
     }
 
 }
@@ -68,3 +97,7 @@ function MovieDbManager(){
 var movieDbManager = new MovieDbManager()
 
 movieDbManager.randomMovies();
+
+//test movie research form
+
+// document.getElementById("movieSearchBtn").addEventListener("click", movieDbManager.searchMovie("harry"));

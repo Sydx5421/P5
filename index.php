@@ -27,5 +27,9 @@ $router->addRoute(new Route('/register', 'main', 'register'));
 $router->addRoute(new Route('/login', 'main', 'login'));
 $router->addRoute(new Route('/deconnexion', 'main', 'deconnexion'));
 
+// requête API TMDB
+$router->addRoute(new Route('/searchMovies', 'TmdbRequests', 'searchMovies'));
+$router->addRoute(new Route('/searchMovies/()/(\d+)', 'TmdbRequests', 'searchMovies'));
+
 
 $router->run();

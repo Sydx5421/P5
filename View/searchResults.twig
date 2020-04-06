@@ -1,0 +1,76 @@
+{% extends 'layout.twig' %}
+{% import 'form.twig' as form %}
+
+
+{% block content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Search Page</h1>
+            <form method="POST" action="searchMovies" class="basicForms" >
+                {{ form.input_placeholder('search', {'placeholder' : 'search'}) }}
+
+                {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
+
+                <div class="nwl_submit_btn">
+                    <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        {% if searchQuery  %}
+            <h2>Résultat de la recherche pour "<span>{{searchQuery}}</span>", <span id="nb_results"></span> résultats. Page {{pageQuery}}  sur <span id="nb_pages"></span> pages : </h2>
+        {% endif %}
+
+        <div id="search_results">
+
+        </div>
+
+        {# Pagination #}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if previousPage > 0  %}
+                    <li class="page-item">
+                        <a class="page-link" href="searchMovies/{{searchQuery}}/{{ previousPage }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="#">{{pageQuery}}</a></li>
+                {% if nextPage < 10  %}
+                    <li class="page-item">
+                        <a class="page-link" href="searchMovies/{{searchQuery}}/{{ nextPage }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <hr>
+
+        <footer>
+            <p>&copy; 2016 Company, Inc.</p>
+        </footer>
+    </div> <!-- /container -->
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="Public/js/ajax.js"></script>
+    <script src="Public/js/MovieDbManager.js"></script>
+
+    <script type="text/javascript">
+        var movieDbManager = new MovieDbManager()
+        // search :
+        document.getElementById("movieSearchBtn").addEventListener("click", movieDbManager.searchMovie("{{searchQuery}}", "{{pageQuery}}"));
+    </script>
+
+{% endblock %}

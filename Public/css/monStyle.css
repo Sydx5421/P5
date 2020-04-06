@@ -52,7 +52,7 @@ nav div.navbar a.active{
     color: #e1dddd;
 }
 
-/********* Formx **********/
+/********* Forms **********/
 
 .basicForms{
     max-width: 500px;
@@ -70,4 +70,28 @@ nav div.navbar a.active{
 div.nwl_submit_btn{
     justify-content: flex-end;
     padding-right: 2rem;
+}
+
+
+/*********** Search Results *********/
+
+#search_results{
+    display: grid;
+    /*grid-template-columns: repeat(6, auto);*/
+    /*grid-column-gap: 2rem;*/
+
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+    grid-gap: 2rem 2rem;
+}
+
+.movieElt{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid transparent;
+    padding: 1rem;
+}
+.movieElt:hover{
+    cursor: pointer;
+    border: 2px solid #ff7800 ;
 }
