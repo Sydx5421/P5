@@ -50,9 +50,10 @@ class TmdbApi extends Curl
                 "https://api.themoviedb.org/3/movie/" . $randId,
                 'GET',
                 [
-                    'api_key' => $this->apiKey,
+                    "api_key" => $this->apiKey,
                 ]
             );
+
             if(isset($response->id) && isset($response->poster_path) && ($response->adult === false)){
                 $randomMovies[] = $response;
             }
@@ -74,6 +75,21 @@ class TmdbApi extends Curl
         return $my3Movies;
     }
 
+    public function searchMovie($userQuery, $pageQuery)
+    {
+        $response = $this->call(
+            "https://api.themoviedb.org/3/search/movie",
+            'GET',
+            [
+                "api_key" => $this->apiKey,
+                "language" => "en-US",
+                "query" => $userQuery,
+                "page" => $pageQuery,
+                "include_adult" => "false"
+            ]
+        );
+        return $response;
 
+    }
 
 }

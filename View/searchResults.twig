@@ -22,11 +22,18 @@
     <div class="container">
         <!-- Example row of columns -->
         {% if searchQuery  %}
-            <h2>Résultat de la recherche pour "<span>{{searchQuery}}</span>", <span id="nb_results"></span> résultats. Page {{pageQuery ? pageQuery : "1"}}  sur <span id="nb_pages"></span> pages : totalPage SessionStorage : {{ app.session.totalPagesForSearch }}</h2>
+            <h2>Résultat de la recherche pour "<span>{{searchQuery}}</span>", <span id="nb_results"></span> résultats. Page {{moviesSearchResults.page ? moviesSearchResults.page : "1"}}  sur <span id="nb_pages"></span> pages : totalPage SessionStorage : {{ app.session.totalPagesForSearch }}</h2>
         {% endif %}
 
         <div id="search_results">
-
+            {% for result in moviesSearchResults.results %}
+                <div class='movieElt'>
+                    <img src='http://image.tmdb.org/t/p/w185{{ result.poster_path }}'>
+                    <h3>{{ result.title }}</h3>
+                </div>
+            {% else %}
+                <li><em>no title found</em></li>
+            {% endfor %}
         </div>
 
         {# Pagination #}
@@ -40,7 +47,7 @@
                         </a>
                     </li>
                 {% endif %}
-                <li class="page-item"><a class="page-link" href="#">{{pageQuery ? pageQuery : "1"}}</a></li>
+                <li class="page-item"><a class="page-link" href="#">{{moviesSearchResults.page ? moviesSearchResults.page : "1"}}</a></li>
                 {% if nextPage < 10  %}
                     <li class="page-item">
                         <a class="page-link" href="{{ app.basepath }}searchMovies/{{searchQuery}}/{{ nextPage }}" aria-label="Next">
@@ -68,19 +75,6 @@
     <script src="{{ app.basepath }}/Public/js/MovieDbManager.js"></script>
 
     <script type="text/javascript">
-        {#$( document ).ready(function(){#}
-        {#    var movieDbManager = new MovieDbManager()#}
-
-        {#    // search on page change : ???#}
-        {#    $( window ).load(function() {#}
-        {#        movieDbManager.searchMovie("{{searchQuery}}", "{{pageQuery}}");#}
-        {#    });#}
-
-
-        {#    // search on click :#}
-        {#    document.getElementById("movieSearchBtn").addEventListener("click", movieDbManager.searchMovie("{{searchQuery}}", "{{pageQuery}}"));#}
-
-        {#});#}
 
     </script>
 

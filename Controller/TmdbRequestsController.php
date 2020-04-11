@@ -8,35 +8,31 @@ use App\Library\API\TmdbApi;
 
 class TmdbRequestsController extends AbstractController
 {
-    public function searchMovies($searchQuery = null, $pageQuery = null){
-
-        $test = new TmdbApi("01caf40148572dc465c9503e59ded4bf");
-//        $test->getLatestMovies();
-        $test->getRandomMovies();
-
-//        if($pageQuery!= null){
-//            vd("searchQuery = " . $searchQuery, 'pageQuery = ' . $pageQuery);
-//        }
-//        if($searchQuery!= null){
-//            vd("searchQuery = " . $searchQuery, 'pageQuery = ' . $pageQuery);
-//        }
+    public function searchMovies($searchQueryGet = null, $pageQueryGet = null){
+//        vd('$searchQueryGet = ' . $searchQueryGet, '$pageQueryGet = ' . $pageQueryGet);
+        $MovieAPI = new TmdbApi("01caf40148572dc465c9503e59ded4bf");
 
         if($this->isPost()){
-            $searchQuery = trim(htmlspecialchars($_POST['search']));
-            $pageQuery = trim(htmlspecialchars($_POST['pageQuery']));
-            $previousPage = $pageQuery - 1;
-            $nextPage = $pageQuery + 1;
+            $searchQueryPost = trim(htmlspecialchars($_POST['search']));
+            $pageQueryPost = trim(htmlspecialchars($_POST['pageQuery']));
+            $previousPage = $pageQueryPost - 1;
+            $nextPage = $pageQueryPost + 1;
 
-            echo $this->render('searchResults.twig', array('searchQuery' => $searchQuery, 'pageQuery' => $pageQuery, 'previousPage' => $previousPage, 'nextPage' => $nextPage));
+            $moviesSearchResults = $MovieAPI->searchMovie($searchQueryPost, $pageQueryPost);
+//            vd($moviesSearchResults->results);
 
-        }elseif ($searchQuery != null && $pageQuery != null){
-//            vd("searchQuery = " . $searchQuery, 'pageQuery = ' . $pageQuery);
-            $previousPage = $pageQuery - 1;
-            $nextPage = $pageQuery + 1;
+            echo $this->render('searchResults.twig', array('moviesSearchResults' => $moviesSearchResults, 'searchQuery' =>
+                $searchQueryPost, 'previousPage' => $previousPage, 'nextPage' => $nextPage));
 
-            echo $this->render('searchResults.twig', array('searchQuery' => $searchQuery, 'pageQuery' => $pageQuery, 'previousPage' => $previousPage, 'nextPage' => $nextPage));
+        }elseif ($searchQueryGet != null && $pageQueryGet != null){
+//            vd("searchQuery = " . $searchQueryGet, 'pageQuery = ' . $pageQueryGet);
+            $previousPage = $pageQueryGet - 1;
+            $nextPage = $pageQueryGet + 1;
+
+            $moviesSearchResults = $MovieAPI->searchMovie($searchQueryGet, $pageQueryGet);
+
+            echo $this->render('searchResults.twig', array('moviesSearchResults' => $moviesSearchResults, 'searchQuery' => $searchQueryGet, 'previousPage' => $previousPage, 'nextPage' => $nextPage));
         }
-
     }
 
 
