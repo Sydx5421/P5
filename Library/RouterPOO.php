@@ -64,7 +64,9 @@ class RouterPOO{
                 $controllerName = 'App\Controller\\' . ucfirst($route->getController()) . 'Controller';
                 $action = $route->getAction();
                 $controller = new $controllerName();
-                if(isset($matches[1])){
+                if(isset($matches[1]) && isset($matches[2])){
+                    $controller->$action($matches[1], $matches[2]);
+                }elseif(isset($matches[1])){
                     $controller->$action($matches[1]);
                 }else{
                     $controller->$action();    

@@ -8,7 +8,7 @@
             <h1>Home</h1>
             <form method="POST" action="searchMovies" class="basicForms" >
                 {{ form.input_placeholder('search', {'placeholder' : 'search'}) }}
-    {#            <p><a id="movieSearchBtn" class="btn btn-primary btn-lg" href="#" role="button">Search</a></p>#}
+                {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
 
                 <div class="nwl_submit_btn">
                     <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>
@@ -24,22 +24,22 @@
     <div class="container">
         <!-- Example row of columns -->
         <div class="row">
-            <div class="col-md-4">
-                <img src="" class="randomMovie un">
-                <h2>Heading</h2>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <div class="col-md-4 text-center">
+                <img src="http://image.tmdb.org/t/p/w185{{ randMovies.0.poster_path }}" class="randomMovie un">
+                <h2>{{ randMovies.0.title }}</h2>
+{#                <p>{{ randMovies.0.overview }}</p>#}
                 <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
             </div>
-            <div class="col-md-4">
-                <img src="" class="randomMovie deux">
-                <h2>Heading</h2>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <div class="col-md-4 text-center">
+                <img src="http://image.tmdb.org/t/p/w185{{ randMovies.1.poster_path }}" class="randomMovie deux">
+                <h2>{{ randMovies.1.title }}</h2>
+{#                <p>{{  randMovies.1.overview }}</p>#}
                 <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
             </div>
-            <div class="col-md-4">
-                <img src="" class="randomMovie trois">
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+            <div class="col-md-4 text-center">
+                <img src="http://image.tmdb.org/t/p/w185{{ randMovies.2.poster_path }}" class="randomMovie trois">
+                <h2>{{randMovies.2.title}}</h2>
+{#                <p>{{  randMovies.2.overview }}</p>#}
                 <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
             </div>
         </div>

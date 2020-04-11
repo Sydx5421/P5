@@ -69,6 +69,8 @@ function MovieDbManager(){
             var results = JSON.parse(response);
             var totalResults = results.total_results;
             var totalPages = results.total_pages;
+            sessionStorage.setItem("totalPagesForSearch", totalPages);
+
             var nbResultsPerPage = 20;
             var resultsPage1 = results.results;
 
@@ -94,9 +96,9 @@ function MovieDbManager(){
 
 }
 
-var movieDbManager = new MovieDbManager()
+// var movieDbManager = new MovieDbManager()
 
-movieDbManager.randomMovies();
+// movieDbManager.randomMovies();
 
 //test movie research form
 

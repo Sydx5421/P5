@@ -13,6 +13,11 @@ class UserManager extends AbstractManager
 
         $db = $this->dbConnect();
 
+        $this->select("users", array('id', 'name'))
+            ->where("email IS NOT null ")
+            ->where("email IS NOT null ");
+        vd($this->sqlRows());
+
         // checking that the email is not already used :
         $req_email = $db->prepare("SELECT 'id' FROM users WHERE email = ?");
         $reqExec_email = $req_email->execute(array($user->getEmail()));

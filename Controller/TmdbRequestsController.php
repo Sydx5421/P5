@@ -4,10 +4,22 @@
 namespace App\Controller;
 
 
+use App\Library\API\TmdbApi;
+
 class TmdbRequestsController extends AbstractController
 {
     public function searchMovies($searchQuery = null, $pageQuery = null){
-//        vd("arrivé dans l'action searchMovies !");
+
+        $test = new TmdbApi("01caf40148572dc465c9503e59ded4bf");
+//        $test->getLatestMovies();
+        $test->getRandomMovies();
+
+//        if($pageQuery!= null){
+//            vd("searchQuery = " . $searchQuery, 'pageQuery = ' . $pageQuery);
+//        }
+//        if($searchQuery!= null){
+//            vd("searchQuery = " . $searchQuery, 'pageQuery = ' . $pageQuery);
+//        }
 
         if($this->isPost()){
             $searchQuery = trim(htmlspecialchars($_POST['search']));
@@ -15,12 +27,18 @@ class TmdbRequestsController extends AbstractController
             $previousPage = $pageQuery - 1;
             $nextPage = $pageQuery + 1;
 
-//            vd($pageQuery);
+            echo $this->render('searchResults.twig', array('searchQuery' => $searchQuery, 'pageQuery' => $pageQuery, 'previousPage' => $previousPage, 'nextPage' => $nextPage));
+
+        }elseif ($searchQuery != null && $pageQuery != null){
+//            vd("searchQuery = " . $searchQuery, 'pageQuery = ' . $pageQuery);
+            $previousPage = $pageQuery - 1;
+            $nextPage = $pageQuery + 1;
 
             echo $this->render('searchResults.twig', array('searchQuery' => $searchQuery, 'pageQuery' => $pageQuery, 'previousPage' => $previousPage, 'nextPage' => $nextPage));
-        }elseif ($searchQuery != null && $pageQuery != null){
-            //relancer l'API pour les résultats suivants ou précédants
         }
 
     }
+
+
+
 }

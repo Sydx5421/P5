@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Library\API\TmdbApi;
 use App\Model\Entity\User;
 use App\Model\Manager\UserManager;
 
@@ -13,8 +14,16 @@ class MainController extends AbstractController
      * @throws \Twig\Error\SyntaxError
      */
     public function home(){
+        $TmdbApi = new TmdbApi("01caf40148572dc465c9503e59ded4bf");
+        $randMovies =  $TmdbApi->getRandomMovies();
 
-        echo $this->render('home.twig');
+        $randMovie1 = $randMovies[0];
+        $randMovie2 = $randMovies[1];
+        $randMovie3 = $randMovies[2];
+
+        echo $this->render('home.twig', array('randMovies' => $randMovies) );
+
+//        array('searchQuery' => $searchQuery, 'pageQuery' => $pageQuery, 'previousPage' => $previousPage, 'nextPage' => $nextPage)
     }
 
     /**

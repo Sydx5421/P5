@@ -22,7 +22,7 @@
     <div class="container">
         <!-- Example row of columns -->
         {% if searchQuery  %}
-            <h2>Résultat de la recherche pour "<span>{{searchQuery}}</span>", <span id="nb_results"></span> résultats. Page {{pageQuery}}  sur <span id="nb_pages"></span> pages : </h2>
+            <h2>Résultat de la recherche pour "<span>{{searchQuery}}</span>", <span id="nb_results"></span> résultats. Page {{pageQuery ? pageQuery : "1"}}  sur <span id="nb_pages"></span> pages : totalPage SessionStorage : {{ app.session.totalPagesForSearch }}</h2>
         {% endif %}
 
         <div id="search_results">
@@ -31,19 +31,19 @@
 
         {# Pagination #}
         <nav aria-label="Page navigation example">
-            <ul class="pagination">
+            <ul class="pagination d-flex justify-content-center">
                 {% if previousPage > 0  %}
                     <li class="page-item">
-                        <a class="page-link" href="searchMovies/{{searchQuery}}/{{ previousPage }}" aria-label="Previous">
+                        <a class="page-link" href="{{ app.basepath }}searchMovies/{{searchQuery}}/{{ previousPage }}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                             <span class="sr-only">Previous</span>
                         </a>
                     </li>
                 {% endif %}
-                <li class="page-item"><a class="page-link" href="#">{{pageQuery}}</a></li>
+                <li class="page-item"><a class="page-link" href="#">{{pageQuery ? pageQuery : "1"}}</a></li>
                 {% if nextPage < 10  %}
                     <li class="page-item">
-                        <a class="page-link" href="searchMovies/{{searchQuery}}/{{ nextPage }}" aria-label="Next">
+                        <a class="page-link" href="{{ app.basepath }}searchMovies/{{searchQuery}}/{{ nextPage }}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                             <span class="sr-only">Next</span>
                         </a>
@@ -64,13 +64,24 @@
 
 {% block javascripts %}
 
-    <script src="Public/js/ajax.js"></script>
-    <script src="Public/js/MovieDbManager.js"></script>
+    <script src="{{ app.basepath }}/Public/js/ajax.js"></script>
+    <script src="{{ app.basepath }}/Public/js/MovieDbManager.js"></script>
 
     <script type="text/javascript">
-        var movieDbManager = new MovieDbManager()
-        // search :
-        document.getElementById("movieSearchBtn").addEventListener("click", movieDbManager.searchMovie("{{searchQuery}}", "{{pageQuery}}"));
+        {#$( document ).ready(function(){#}
+        {#    var movieDbManager = new MovieDbManager()#}
+
+        {#    // search on page change : ???#}
+        {#    $( window ).load(function() {#}
+        {#        movieDbManager.searchMovie("{{searchQuery}}", "{{pageQuery}}");#}
+        {#    });#}
+
+
+        {#    // search on click :#}
+        {#    document.getElementById("movieSearchBtn").addEventListener("click", movieDbManager.searchMovie("{{searchQuery}}", "{{pageQuery}}"));#}
+
+        {#});#}
+
     </script>
 
 {% endblock %}
