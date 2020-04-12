@@ -75,13 +75,23 @@ div.nwl_submit_btn{
 
 /*********** Search Results *********/
 
-#search_results{
+.search_results{
     display: grid;
     /*grid-template-columns: repeat(6, auto);*/
     /*grid-column-gap: 2rem;*/
 
     grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
     grid-gap: 2rem 2rem;
+}
+
+.search_results a{
+    display: block;
+    width: min-content;
+    /*border: solid #fff 1px;*/
+}
+
+.search_results a figure{
+    width: min-content;
 }
 
 .movieElt{

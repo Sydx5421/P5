@@ -22,30 +22,31 @@
     </div>
 
     <div class="container">
-        <!-- Example row of columns -->
-        <div class="row">
-            <div class="col-md-4 text-center">
-                <img src="http://image.tmdb.org/t/p/w185{{ randMovies.0.poster_path }}" class="randomMovie un">
-                <h2>{{ randMovies.0.title }}</h2>
-{#                <p>{{ randMovies.0.overview }}</p>#}
-                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div>
-            <div class="col-md-4 text-center">
-                <img src="http://image.tmdb.org/t/p/w185{{ randMovies.1.poster_path }}" class="randomMovie deux">
-                <h2>{{ randMovies.1.title }}</h2>
-{#                <p>{{  randMovies.1.overview }}</p>#}
-                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div>
-            <div class="col-md-4 text-center">
-                <img src="http://image.tmdb.org/t/p/w185{{ randMovies.2.poster_path }}" class="randomMovie trois">
-                <h2>{{randMovies.2.title}}</h2>
-{#                <p>{{  randMovies.2.overview }}</p>#}
-                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div>
+        <!-- ********************** Random Movies ****************** -->
+        <div class="search_results row">
+
+            {% for movie in randMovies %}
+                <a href="" class="text-center">
+                    <figure class="">
+                        {% if movie.poster_path  %}
+                            <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movies.title }} poster">
+                        {% else %}
+                            <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
+                        {% endif %}
+                        <figcaption>{{ movie.title }}</figcaption>
+                    </figure>
+                </a>
+            {% else %}
+                <figure class='movieElt'>
+                    <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
+                    <figcaption>Not Found</figcaption>
+                </figure>
+            {% endfor %}
         </div>
 
         <hr>
 
+        <!-- **************** FOOTER **************** -->
         <footer>
             <p>&copy; 2016 Company, Inc.</p>
         </footer>
@@ -53,47 +54,5 @@
 {% endblock %}
 
 {% block javascripts %}
-{#    <script src="{{ asset('PathDuFichier/tonFichier.js') }}"></script>#}
-{#    <script src="Ton_URL"></script>#}
-    <script src="Public/js/ajax.js"></script>
-    <script src="Public/js/MovieDbManager.js"></script>
-    <script type="text/javascript">
-        // var randomMovieArray = ['Star Wars', 'Ghost Busters', 'Harry Potter', 'Wanted'];
-        //
-        // function apiCall() {
-        //     var randomNumber = Math.floor((Math.random() * randomMovieArray.length - 1)+1)
-        //     var randomMovie = randomMovieArray[randomNumber];
-        //     console.log(randomNumber);
-        //     console.log(randomMovie);
-        //     $.getJSON('http://www.omdbapi.com/?apikey=7a68b075&t=' + encodeURI(randomMovie)).then(function(response){
-        //         console.log(response);
-        //         var image = response.Poster;
-        //
-        //         if(image !=="N/A"){
-        //             $('img.un').attr('src', image);
-        //         }
-        //     });
-        // }
-        //
-        // apiCall();
-        //
-        // var randomNumber2 = Math.floor((Math.random() * randomMovieArray.length - 1)+1)
-        // console.log(randomNumber2);
-        // var randomMovie2 = randomMovieArray[randomNumber2];
-        // function apiCall2() {
-        //     // console.log(randomMovie);
-        //     $.getJSON('http://www.omdbapi.com/?apikey=7a68b075&t=' + encodeURI(randomMovie2)).then(function(response){
-        //         console.log(response);
-        //         var image = response.Poster;
-        //
-        //         if(image !=="N/A"){
-        //             $('img.deux').attr('src', image);
-        //         }
-        //     });
-        // }
-        //
-        //
-        // ajaxGet("http://www.omdbapi.com/?apikey=7a68b075&t=" + encodeURI(randomMovie2), apiCall2);
 
-    </script>
 {% endblock %}

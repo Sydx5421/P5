@@ -23,7 +23,6 @@ class MainController extends AbstractController
 
         echo $this->render('home.twig', array('randMovies' => $randMovies) );
 
-//        array('searchQuery' => $searchQuery, 'pageQuery' => $pageQuery, 'previousPage' => $previousPage, 'nextPage' => $nextPage)
     }
 
     /**

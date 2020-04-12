@@ -20,19 +20,29 @@
     </div>
 
     <div class="container">
-        <!-- Example row of columns -->
+        <!-- Search results description -->
         {% if searchQuery  %}
             <h2>Résultat de la recherche pour "<span>{{searchQuery}}</span>", <span id="nb_results"></span> résultats. Page {{moviesSearchResults.page ? moviesSearchResults.page : "1"}}  sur <span id="nb_pages"></span> pages : totalPage SessionStorage : {{ app.session.totalPagesForSearch }}</h2>
         {% endif %}
 
-        <div id="search_results">
+        <!-- *************** film elements ***************** -->
+        <div class="search_results">
             {% for result in moviesSearchResults.results %}
-                <div class='movieElt'>
-                    <img src='http://image.tmdb.org/t/p/w185{{ result.poster_path }}'>
-                    <h3>{{ result.title }}</h3>
-                </div>
+                <a href="" title="" class="col-md-4 text-center">
+                    <figure class='movieElt'>
+                        {% if result.poster_path  %}
+                            <img src='http://image.tmdb.org/t/p/w185{{ result.poster_path }}' alt="{{ result.title }} poster">
+                        {% else %}
+                            <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
+                        {% endif %}
+                        <figcaption>{{ result.title }}</figcaption>
+                    </figure>
+                </a>
             {% else %}
-                <li><em>no title found</em></li>
+                <figure class='movieElt'>
+                    <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
+                    <figcaption>Not Found</figcaption>
+                </figure>
             {% endfor %}
         </div>
 
@@ -61,6 +71,7 @@
 
         <hr>
 
+        <!-- **************** FOOTER **************** -->
         <footer>
             <p>&copy; 2016 Company, Inc.</p>
         </footer>
@@ -70,12 +81,5 @@
 {% endblock %}
 
 {% block javascripts %}
-
-    <script src="{{ app.basepath }}/Public/js/ajax.js"></script>
-    <script src="{{ app.basepath }}/Public/js/MovieDbManager.js"></script>
-
-    <script type="text/javascript">
-
-    </script>
 
 {% endblock %}
