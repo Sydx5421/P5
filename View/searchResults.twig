@@ -14,7 +14,6 @@
                 <div class="nwl_submit_btn">
                     <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>
                 </div>
-
             </form>
         </div>
     </div>
@@ -27,15 +26,15 @@
 
         <!-- *************** film elements ***************** -->
         <div class="search_results">
-            {% for result in moviesSearchResults.results %}
-                <a href="" title="" class="col-md-4 text-center">
+            {% for movie in moviesSearchResults.results %}
+                <a href="{{ app.basepath }}movie/{{ movie.id }}" title="" class="col-md-4 text-center">
                     <figure class='movieElt'>
-                        {% if result.poster_path  %}
-                            <img src='http://image.tmdb.org/t/p/w185{{ result.poster_path }}' alt="{{ result.title }} poster">
+                        {% if movie.poster_path  %}
+                            <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movie.title }} poster">
                         {% else %}
                             <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
                         {% endif %}
-                        <figcaption>{{ result.title }}</figcaption>
+                        <figcaption>{{ movie.title }}</figcaption>
                     </figure>
                 </a>
             {% else %}
@@ -46,7 +45,7 @@
             {% endfor %}
         </div>
 
-        {# Pagination #}
+        {# **************** Pagination **************** #}
         <nav aria-label="Page navigation example">
             <ul class="pagination d-flex justify-content-center">
                 {% if previousPage > 0  %}

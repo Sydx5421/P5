@@ -16,9 +16,6 @@
 
             </form>
         </div>
-        <div id="search_results">
-
-        </div>
     </div>
 
     <div class="container">
@@ -26,7 +23,7 @@
         <div class="search_results row">
 
             {% for movie in randMovies %}
-                <a href="" class="text-center">
+                <a href="{{ app.basepath }}movie/{{ movie.id }}" class="text-center">
                     <figure class="">
                         {% if movie.poster_path  %}
                             <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movies.title }} poster">

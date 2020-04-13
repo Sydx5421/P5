@@ -35,6 +35,14 @@ class TmdbRequestsController extends AbstractController
         }
     }
 
+    public function movie($movieId){
+        $MovieAPI = new TmdbApi("01caf40148572dc465c9503e59ded4bf");
+
+        $infosMovie = $MovieAPI->getMoviesById($movieId);
+
+        echo $this->render('movie.twig', array("movie" => $infosMovie, "classPage" => "moviePage"));
+    }
+
 
 
 }

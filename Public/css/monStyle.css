@@ -106,3 +106,26 @@ div.nwl_submit_btn{
     cursor: pointer;
     border: 2px solid #ff7800 ;
 }
+
+
+/*********** Movie Page *********/
+body.moviePage .jumbotron{
+    padding: 1rem 2rem;
+}
+
+body.moviePage .jumbotron h1{
+    padding-bottom: 1rem;
+}
+
+body.moviePage .container{
+    display: flex;
+}
+
+body.moviePage .container div{
+    padding: 0 2rem;
+}
+body.moviePage .container div table tr td:first-child{
+    white-space:nowrap;
+    font-weight: bold;
+    padding: .3rem 2rem .3rem 0rem;
+}

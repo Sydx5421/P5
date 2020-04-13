@@ -35,7 +35,25 @@ class TmdbApi extends Curl
 //        return isset($response->results) && is_array($response->results) ? $response->results : [];
         return isset($response->id)  ? $response->id : 691972;
     }
+    public function getMoviesById($movieId)
+    {
+        $response = $this->call(
+            "https://api.themoviedb.org/3/movie/" . $movieId,
+            'GET',
+            [
+                "api_key" => $this->apiKey,
+            ]
+        );
 
+        return $response;
+    }
+
+
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public function getRandomMovies()
     {
         // To make sure I'll get 3 valid movies with posters I search for 21 random movies ids then on the 10 I get the
@@ -75,6 +93,11 @@ class TmdbApi extends Curl
         return $my3Movies;
     }
 
+    /**
+     * @param string $userQuery
+     * @param int $pageQuery
+     * @return array
+     */
     public function searchMovie($userQuery, $pageQuery)
     {
         $response = $this->call(
