@@ -6,7 +6,7 @@
     <a class="titleBrand" href="/">Cinemood </a>
     <div class="navbar" id="navbarNavAltMarkup">
             <a class="nav-item nav-link active" href="{{ app.basepath }}home">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Catégorie</a>
+            <a class="nav-item nav-link" href="{{ app.basepath }}categories">Catégories</a>
             {% if app.session.user  %}
                 <a class="nav-item nav-link" href="{{ app.basepath }}dashboard">Dashboard</a>
             {% else %}

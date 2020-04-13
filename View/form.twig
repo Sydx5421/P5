@@ -1,10 +1,28 @@
 {% macro input_placeholder(name, options = [] ) %}
     <div class="form-group  {{ options.class }}">
-        {% if options.label != null %}
-            <label for="{{ name }}" class="">{{ options.label }}</label>
-        {% endif %}
-        <div class="col-sm-5">
-            <input type="{{options.type ?: 'text'}}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ options.value }}" placeholder="{{ options.placeholder }}">
-        </div>
+        <tr>
+            <td>
+                {% if options.label != null %}
+                    <label for="{{ name }}" class="{{ options.labelClass }}">{{ options.label }}</label>
+                {% endif %}
+            </td>
+
+            <td class="col-sm-5">
+                <input type="{{options.type ?: 'text'}}" class="form-control {{ options.inputClass }}" id="{{ name }}" name="{{ name }}" value="{{ options.value }}" placeholder="{{ options.placeholder }}">
+            </td>
+        </tr>
     </div>
+{% endmacro %}
+
+{% macro textarea(name, options = [] ) %}
+    <tr>
+        <td>
+            <label for="{{ name }}">{{ options.label }}:</label>
+        </td>
+        <td>
+            <textarea id="{{ options.id }}" name="{{ name }}" class="{{ options.class }}" rows="{{ options.rows }}" cols="{{ options.cols }}" placeholder="{{ options.placeholder }}">
+                {{ options.value }}
+            </textarea>
+        </td>
+    </tr>
 {% endmacro %}

@@ -8,6 +8,7 @@ abstract class AbstractController
 {
     protected $basePath;
     protected $isAdmin = false;
+//    protected $userConnected = false;
 
     //--- twig related vars ---
     protected $templatePath;
@@ -38,6 +39,11 @@ abstract class AbstractController
 
         // on récupère le tableau de session $session
         $this->session = $_SESSION;
+
+//        vd($this->session["user"]->id);
+//        if(isset($this->session["user"]->id) && $this->session["user"]->id != null){
+//            $this->userConnected = true;
+//        }
     }
 
     /**

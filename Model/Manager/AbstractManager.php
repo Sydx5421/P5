@@ -19,7 +19,7 @@ abstract class AbstractManager
 //        $password = $yaml["database"]["password"];
         
 //        $db = new \PDO('mysql:host='.$host.';dbname='.$dbname.';charset=utf8', $username, $password);
-        $this->db = new \PDO('mysql:host=localhost;dbname=p5_test;charset=utf8', 'root', '');
+        $this->db = new \PDO('mysql:host=127.0.0.1;dbname=p5_test;charset=utf8', 'root', '');
         return $this->db;
     }
 

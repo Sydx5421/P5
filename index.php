@@ -22,12 +22,15 @@ $router = new RouterPOO();
 
 $router->addRoute(new Route('/', 'main', 'home'));
 $router->addRoute(new Route('/home', 'main', 'home'));
-$router->addRoute(new Route('/dashboard', 'main', 'dashboard'));
 $router->addRoute(new Route('/register', 'main', 'register'));
 $router->addRoute(new Route('/login', 'main', 'login'));
-$router->addRoute(new Route('/deconnexion', 'main', 'deconnexion'));
+$router->addRoute(new Route('/categories', 'main', 'categories'));
 
-// requête API TMDB
+// ------------------- Actions réservées à l'utilisateur connecté
+$router->addRoute(new Route('/dashboard', 'UserActions', 'dashboard'));
+$router->addRoute(new Route('/deconnexion', 'UserActions', 'deconnexion'));
+
+// ----------------------------- requête API TMDB
 $router->addRoute(new Route('/searchMovies', 'TmdbRequests', 'searchMovies'));
 $router->addRoute(new Route('/searchMovies/(\w+)/(\d+)', 'TmdbRequests', 'searchMovies'));
 $router->addRoute(new Route('/movie/(\d+)', 'TmdbRequests', 'movie'));

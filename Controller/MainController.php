@@ -100,28 +100,13 @@ class MainController extends AbstractController
                     $this->redirect('dashboard');
                 }
             }
-
         }
         $this->redirect('home');
     }
 
-    /**
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    public function dashboard(){
 
-        echo $this->render('dashboard.twig');
+    public function categories(){
+        echo $this->render('categories.twig');
     }
-
-    /**
-     *
-     */
-    public function deconnexion(){
-        session_destroy();
-        $this->redirect('home');
-    }
-
 
 }

@@ -1,0 +1,36 @@
+{% extends 'layout.twig' %}
+{% import 'form.twig' as form %}
+
+
+{% block content %}
+    <h1>Catégories</h1>
+
+    {% if app.session.user  %}
+        <div class="jumbotron">
+            <div class="container">
+                <h2>Créer une nouvelle catégorie</h2>
+                <form method="POST" action="" class="basicForms" >
+                    <table>
+                        {{ form.input_placeholder('userId', {'type' : 'hidden', 'value' : app.session.user.id }) }}
+
+                        {{ form.input_placeholder('nameCategory', {'label' : 'Nom de la catégorie', 'placeholder' : 'Womance'}) }}
+
+                        {{ form.textarea('descriptionCat', {'label' : 'Description', 'cols' : '50', 'rows' : '5', 'placeholder' : 'La catégorie "Womance" peut-être/doit être attribuée aux films dépeignant comme relation romantique principale une relation d\'amitié forte entre 2 personnages principaux féminins. Ex: The Heat.'}) }}
+
+                        {{ form.input_placeholder('backgroundColor', {'label' : 'Choisissez une couleur de fond pour votre catégorie', 'type' : 'color'}) }}
+                        {{ form.input_placeholder('fontColor', {'label' : 'Choisissez une couleur de police pour votre catégorie', 'type' : 'color'}) }}
+                    </table>
+
+                    <div class="nwl_submit_btn">
+                        <button class="btn btn-primary" type="submit" name="confirm_register">S'inscrire</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    <h2>Liste des catégories</h2>
+
+
+
+{% endblock %}

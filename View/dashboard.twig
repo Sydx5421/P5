@@ -1,12 +1,11 @@
 {% extends 'layout.twig' %}
 
-{% block test %}
-    echo phpinfo()
-{% endblock %}
-
 
 {% block content %}
-<h1>Dashboard de {{ app.session.user.pseudo }}</h1>
+<h1>Dashboard de {{ app.session.user.pseudo }} {{ app.session.user.id}}</h1>
 <p>Bienvenue sur votre tableau de bord Cinemood</p>
+    {% for elt in app.session.user %}
+        <p>{{ elt }}</p>
+    {% endfor %}
 
 {% endblock %}
