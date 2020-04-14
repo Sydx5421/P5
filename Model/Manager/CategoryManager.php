@@ -36,4 +36,38 @@ class CategoryManager extends AbstractManager
         return $reqExec;
 
     }
+
+    public function getCategories(){
+        $db = $this->dbConnect();
+        $req = $db->query("SELECT * FROM categories ORDER BY up_votes, nom");
+        $categories = [];
+
+        while($category = $req->fetchObject('App\Model\Entity\Category')){
+            $categories[] = $category;
+        }
+        $req->closeCursor();
+
+        if($categories == null){
+            return "Aucunes catégories.";
+        }
+        return $categories;
+
+    }
+
+    public function getCategory($categoryId){
+        $db = $this->dbConnect();
+        $req = $db->prepare("SELECT * FROM categories WHERE id = ?");
+        $req->execute(array($categoryId));
+
+        if($req !== false){
+            $category = $req->fetchObject('App\Model\Entity\Category');
+
+            $req->closeCursor();
+            return $category;
+        }else {
+            $error = $db->errorInfo()[2];
+            return $error;
+        }
+    }
+
 }

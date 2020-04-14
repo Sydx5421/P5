@@ -131,6 +131,18 @@ body.moviePage .container div table tr td:first-child{
 }
 
 /************* Category Page ************/
-body.categoryPage .jumbotron{
+body.categoriesPage .jumbotron{
     padding: 1rem 2rem;
+}
+.categoriesPage h2{
+    width: 100%;
+}
+.categoriesPage .search_results a{
+    display: block;
+}
+.categoryElt{
+    padding: 2rem;
+    font-size: 2rem;
+    border-radius: 15px;
+    width: max-content;
 }

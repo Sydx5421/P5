@@ -28,8 +28,16 @@
         </div>
     {% endif %}
 
-    <h2>Liste des catégories</h2>
-
+    <div class="container">
+        <h2>Liste des catégories</h2>
+    </div>
+    <div class="container search_results">
+        {% for category in categories %}
+            <a href="{{ app.basepath }}category/{{ category.id }}">
+                <p class="categoryElt" style="background-color: {{ category.backgroundColor }}; color : {{ category.fontColor }} "> {{ category.nom }}</p>
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}

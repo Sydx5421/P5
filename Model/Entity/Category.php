@@ -7,7 +7,7 @@ namespace App\Model\Entity;
 class Category extends AbstractEntity
 {
     protected $id;
-    protected $userId;
+    protected $user_id;
     protected $nom;
     protected $description;
     protected $status;
@@ -16,9 +16,11 @@ class Category extends AbstractEntity
     protected $font_color;
     protected $background_color;
 
-    public function __construct($data)
+    public function __construct($data = null)
     {
-        $this->hydrate($data);
+        if($data != null){
+            $this->hydrate($data);
+        }
     }
 
 
@@ -75,12 +77,12 @@ class Category extends AbstractEntity
     }
 
     /**
-     * @param mixed $userId
+     * @param mixed $user_id
      * @return Category
      */
-    public function setUserId($userId)
+    public function setUserId($user_id)
     {
-        $this->userId = $userId;
+        $this->userId = $user_id;
         return $this;
     }
 

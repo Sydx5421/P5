@@ -60,7 +60,9 @@ class UserActionsController extends AbstractController
 
         }
 
-        echo $this->render('categories.twig');
+        $categories =  $CategoryManager->getCategories();
+
+        echo $this->render('categories.twig', array('categories' => $categories));
 
     }
 }

@@ -25,6 +25,8 @@ $router->addRoute(new Route('/home', 'main', 'home'));
 $router->addRoute(new Route('/register', 'main', 'register'));
 $router->addRoute(new Route('/login', 'main', 'login'));
 $router->addRoute(new Route('/categories', 'main', 'categories'));
+$router->addRoute(new Route('/category/(\d+)', 'main', 'category'));
+
 
 // ------------------- Actions réservées à l'utilisateur connecté
 $router->addRoute(new Route('/dashboard', 'UserActions', 'dashboard'));

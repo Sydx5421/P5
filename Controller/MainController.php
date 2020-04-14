@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Library\API\TmdbApi;
 use App\Model\Entity\User;
+use App\Model\Manager\CategoryManager;
 use App\Model\Manager\UserManager;
 
 class MainController extends AbstractController
@@ -106,7 +107,17 @@ class MainController extends AbstractController
 
 
     public function categories(){
-        echo $this->render('categories.twig', array('classPage' =>'categoryPage'));
+        $CategoryManager = new CategoryManager();
+        $categories =  $CategoryManager->getCategories();
+
+        echo $this->render('categories.twig', array('classPage' =>'categoriesPage', 'categories' => $categories));
+    }
+
+    public function category($categoryId){
+        $CategoryManager = new CategoryManager();
+        $category =  $CategoryManager->getCategory($categoryId);
+
+        echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category));
     }
 
 }
