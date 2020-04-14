@@ -23,6 +23,8 @@ abstract class AbstractManager
         return $this->db;
     }
 
+
+
     /**
      * @param string|array $table
      * @param array $fields

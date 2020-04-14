@@ -1,5 +1,5 @@
 {% macro input_placeholder(name, options = [] ) %}
-    <div class="form-group  {{ options.class }}">
+{#    <div class="form-group  {{ options.class }}">#}
         <tr>
             <td>
                 {% if options.label != null %}
@@ -8,10 +8,10 @@
             </td>
 
             <td class="col-sm-5">
-                <input type="{{options.type ?: 'text'}}" class="form-control {{ options.inputClass }}" id="{{ name }}" name="{{ name }}" value="{{ options.value }}" placeholder="{{ options.placeholder }}">
+                <input type="{{options.type ?: 'text'}}" class="form-control {{ options.inputClass }}" id="{{ name }}" name="{{ name }}" value="{{ options.value }}" placeholder="{{ options.placeholder }}" onchange="{{ options.onchange }}">
             </td>
         </tr>
-    </div>
+{#    </div>#}
 {% endmacro %}
 
 {% macro textarea(name, options = [] ) %}

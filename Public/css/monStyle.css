@@ -129,3 +129,8 @@ body.moviePage .container div table tr td:first-child{
     font-weight: bold;
     padding: .3rem 2rem .3rem 0rem;
 }
+
+/************* Category Page ************/
+body.categoryPage .jumbotron{
+    padding: 1rem 2rem;
+}

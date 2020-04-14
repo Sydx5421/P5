@@ -43,6 +43,4 @@ class TmdbRequestsController extends AbstractController
         echo $this->render('movie.twig', array("movie" => $infosMovie, "classPage" => "moviePage"));
     }
 
-
-
 }

@@ -29,6 +29,7 @@ $router->addRoute(new Route('/categories', 'main', 'categories'));
 // ------------------- Actions réservées à l'utilisateur connecté
 $router->addRoute(new Route('/dashboard', 'UserActions', 'dashboard'));
 $router->addRoute(new Route('/deconnexion', 'UserActions', 'deconnexion'));
+$router->addRoute(new Route('/createCategory', 'UserActions', 'createCategory'));
 
 // ----------------------------- requête API TMDB
 $router->addRoute(new Route('/searchMovies', 'TmdbRequests', 'searchMovies'));

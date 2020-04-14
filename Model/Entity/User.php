@@ -4,7 +4,7 @@
 namespace App\Model\Entity;
 
 
-class User
+class User extends AbstractEntity
 {
     protected $id;
     protected $pseudo;
@@ -20,19 +20,6 @@ class User
         $this->hydrate($data);
     }
 
-    public function hydrate($data){
-        foreach ($data as $key => $value) {
-            // On récupère le nom du setter correspondant à l'attribut.
-            $method = 'set'.ucfirst(ucwords(str_replace('_', '', $key)));
-
-            // Si le setter correspondant existe.
-            if (method_exists($this, $method))
-            {
-                // On appelle le setter.
-                $this->$method($value);
-            }
-        }
-    }
 
     /**
      * @param $pseudo
@@ -69,6 +56,10 @@ class User
         }
         return $error;
     }
+
+
+
+    // Getters & Setters
 
     /**
      * @return mixed

@@ -106,7 +106,7 @@ class MainController extends AbstractController
 
 
     public function categories(){
-        echo $this->render('categories.twig');
+        echo $this->render('categories.twig', array('classPage' =>'categoryPage'));
     }
 
 }
