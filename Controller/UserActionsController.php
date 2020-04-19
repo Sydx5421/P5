@@ -5,9 +5,12 @@ namespace App\Controller;
 
 use App\Model\Entity\Category;
 use App\Model\Manager\CategoryManager;
+use App\Controller\TmdbRequestsTrait;
 
 class UserActionsController extends AbstractController
 {
+
+    use TmdbRequestsTrait;
 
     /**
      * @throws \Twig\Error\LoaderError
@@ -65,6 +68,26 @@ class UserActionsController extends AbstractController
         echo $this->render('categories.twig', array('categories' => $categories));
 
     }
+
+    public function categorySearchNewMovies($catId){
+        $CategoryManager = new CategoryManager();
+        $category =  $CategoryManager->getCategory($catId);
+        $module = "categorySearch";
+        $searchResult = $this->searchMovies();
+
+
+        echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module, 'moviesSearchResults' => $searchResult["moviesSearchResults"], 'searchQuery' => $searchResult["searchQuery"], 'previousPage' => $searchResult["previousPage"], 'nextPage' => $searchResult["nextPage"]));
+    }
+
+    public function addMoviesToCategory($catId, $movieId){
+        $CategoryManager = new CategoryManager();
+        $category =  $CategoryManager->getCategory($catId);
+        $module = "addMovie";
+        $searchResult = $this->movie($movieId);
+
+        echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module, 'movie' => $searchResult["movie"]));
+    }
+
 }
 
 

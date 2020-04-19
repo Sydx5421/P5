@@ -6,20 +6,53 @@
     {% if app.session.user  %}
         <div class="jumbotron">
             <div class="container">
-                <h1>{{ category.nom }}</h1>
-                <p>{{ category.description }}</p>
+                <div class="categorieInfos">
+                    <h1>{{ category.nom }}</h1>
+                    <p>{{ category.description }}</p>
+                </div>
+                <div class="categoryActions">
+{#                    <button type="button" id="moviesSearch" class="btn btn_cinemood_basic_full" data-target="categoryFilms">Afficher les films à appartenant à cette catégorie</button>#}
+{#                    <button type="button" id="moviesSearch" class="btn btn_cinemood_basic_full" data-target="categorySearch">Chercher des films à ajouter à cette catégorie</button>#}
+{#                    <a type="button" href="{{ app.basepath }}moviesSearch/{{ category.id }}" id="moviesSearch" class="btn btn_cinemood_basic_full" data-target="categorySearch">Chercher des films à ajouter à cette catégorie</a>#}
+                    <a type="button" href="{{ app.basepath }}category/{{ category.id }}" id="moviesSearch" class="btn btn_cinemood_basic_full" data-target="categoryFilms">Afficher les films à appartenant à cette catégorie</a>
+                    <a type="button" href="{{ app.basepath }}category/{{ category.id }}/search" id="moviesSearch" class="btn btn_cinemood_basic_full" data-target="categorySearch">Chercher des films à ajouter à cette catégorie</a>
+                </div>
             </div>
         </div>
     {% endif %}
 
-    <div class="container">
-        <h2>Liste des films liés à cette catégorie</h2>
-    </div>
-    <div class="container search_results">
-        {# Tous les films liés à cette catégorie #}
+    <div id="innerContent" class="container">
+        {% if module == 'categorySearch' %}
+            <h2>{{ module }}</h2>
+            {{ include('module/categoryNewMovieSearch.twig') }}
+        {% elseif module == 'addMovie' %}
+            <h2>{{ module }}</h2>
+            {{ include('module/addMoviesToCategory.twig') }}
+        {% else %}
+            <h2>{{ module }}</h2>
+            {{ include('module/categoryMovieList.twig') }}
+        {% endif %}
     </div>
 {% endblock %}
 
 {% block javascripts %}
+<script>
+    $(document).ready(function(){
+        // set the trigger and the container variables
+        var trigger = $(".categoryActions button"),
+            container = $("#innerContent");
 
+        // Fire on click
+        trigger.on('click', function(){
+            // Set $this for re-use. Set target from data-attribute
+            var $this = $(this),
+                target = $this.data('target'); console.log(target);
+
+            // Load target page into container
+            container.load('module/' + target + '.twig');
+            {#container.load('{{ include('module/'+ target +'.twig') }}');#}
+
+        });
+    });
+</script>
 {% endblock %}

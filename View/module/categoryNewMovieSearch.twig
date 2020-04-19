@@ -1,23 +1,19 @@
-{% extends 'layout.twig' %}
 {% import 'form.twig' as form %}
 
+<div class="container">
+    <h2>Recherchez des films à ajouter à cette catégorie</h2>
+    <form method="POST" action="{{ app.basepath }}categorySearchNewMovies/{{ category.id }}" class="basicForms" >
+        {{ form.input_placeholder('search', {'placeholder' : 'search'}) }}
 
-{% block content %}
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Search Page</h1>
-            <form method="POST" action="../index.php" class="basicForms" >
-                {{ form.input_placeholder('search', {'placeholder' : 'search'}) }}
+        {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
 
-                {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
-
-                <div class="nwl_submit_btn">
-                    <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>
-                </div>
-            </form>
+        <div class="nwl_submit_btn">
+            <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>
         </div>
-    </div>
-
+    </form>
+</div>
+<div class="container search_results">
+    {# résultat de la recherche #}
     <div class="container">
         <!-- Search results description -->
         {% if searchQuery  %}
@@ -27,7 +23,7 @@
         <!-- *************** film elements ***************** -->
         <div class="search_results">
             {% for movie in moviesSearchResults.results %}
-                <a href="{{ app.basepath }}movie/{{ movie.id }}" title="" class="col-md-4 text-center">
+                <a href="{{ app.basepath }}addMoviesToCategory/{{ category.id }}/{{ movie.id }}" title="Ajouter ce film à la catégorie {{ category.nom }}" class="col-md-4 text-center">
                     <figure class='movieElt'>
                         {% if movie.poster_path  %}
                             <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movie.title }} poster">
@@ -76,9 +72,4 @@
         </footer>
     </div> <!-- /container -->
 
-
-{% endblock %}
-
-{% block javascripts %}
-
-{% endblock %}
+</div>

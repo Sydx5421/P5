@@ -22,21 +22,27 @@ $router = new RouterPOO();
 
 $router->addRoute(new Route('/', 'main', 'home'));
 $router->addRoute(new Route('/home', 'main', 'home'));
+$router->addRoute(new Route('/simpleMovieSearch', 'main', 'simpleMovieSearch'));
+$router->addRoute(new Route('/simpleMovieSearch/(\w+)/(\d+)', 'main', 'simpleMovieSearch'));
 $router->addRoute(new Route('/register', 'main', 'register'));
 $router->addRoute(new Route('/login', 'main', 'login'));
 $router->addRoute(new Route('/categories', 'main', 'categories'));
 $router->addRoute(new Route('/category/(\d+)', 'main', 'category'));
+$router->addRoute(new Route('/category/(\d+)/(\w+)', 'main', 'category'));
 
 
 // ------------------- Actions réservées à l'utilisateur connecté
 $router->addRoute(new Route('/dashboard', 'UserActions', 'dashboard'));
 $router->addRoute(new Route('/deconnexion', 'UserActions', 'deconnexion'));
 $router->addRoute(new Route('/createCategory', 'UserActions', 'createCategory'));
+$router->addRoute(new Route('/categorySearchNewMovies/(\d+)', 'UserActions', 'categorySearchNewMovies'));
+$router->addRoute(new Route('/addMoviesToCategory/(\d+)/(\d+)', 'UserActions', 'addMoviesToCategory'));
+
 
 // ----------------------------- requête API TMDB
-$router->addRoute(new Route('/searchMovies', 'TmdbRequests', 'searchMovies'));
-$router->addRoute(new Route('/searchMovies/(\w+)/(\d+)', 'TmdbRequests', 'searchMovies'));
+//$router->addRoute(new Route('/searchMovies', 'TmdbRequests', 'searchMovies'));
+//$router->addRoute(new Route('/searchMovies/(\w+)/(\d+)', 'TmdbRequests', 'searchMovies'));
 $router->addRoute(new Route('/movie/(\d+)', 'TmdbRequests', 'movie'));
-
+$router->addRoute(new Route('/categoryFilms', 'TmdbRequests', 'categoryFilms'));
 
 $router->run();

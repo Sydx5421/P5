@@ -1,9 +1,11 @@
 /*********** General **************/
 body{
     background-color: black;
-    color: grey!important;
+    color: #cccaca!important;
 }
-
+body .jumbotron{
+    color: grey !important;
+}
 .nwl_orange{
     color: #ff7800;
 }
@@ -20,16 +22,41 @@ a:hover{
     color: grey;
 }
 
+.btn_cinemood_basic_full{
+    color: #fff;
+    background-color: #ff7800c7;
+    /*background-color: #ff9333;*/
+    /*color: #ff7800;*/
+    border-color: #ff7800;
+}
+.btn_cinemood_basic_empty,
 .btn-outline-success{
     color: #ff7800;
     border-color: #ff7800;
 }
+.btn_cinemood_basic:hover,
 .btn-outline-success:hover{
+    /*color: #fff !important;*/
+    /*background-color: #ff7800;*/
+    /*border-color: #ff7800;*/
     color: #fff;
-    background-color: #ff7800;
-    border-color: #ff7800;
+    background-color: #275baf;
+    border-color: #204b91;
 }
 
+.btn:hover {
+    color: #fff ;
+    text-decoration: none;
+}
+
+.btn_cinemood_basic:active,
+.btn-outline-success:not(:disabled):not(.disabled).active,
+.btn-outline-success:not(:disabled):not(.disabled):active,
+.show > .btn-outline-success.dropdown-toggle {
+    color: #fff;
+    background-color: #275baf;
+    border-color: #204b91;
+}
 /************ navbar *************/
 nav div.navbar{
     flex-basis: auto;
@@ -52,7 +79,7 @@ nav div.navbar a.active{
     color: #e1dddd;
 }
 
-/********* Forms **********/
+/**************** Forms ********************/
 
 .basicForms{
     /*max-width: 500px;*/
@@ -71,6 +98,13 @@ div.nwl_submit_btn{
     justify-content: flex-end;
     padding-right: 2rem;
 }
+
+.basicForms textarea{
+    border-radius: 10px;
+}
+
+/**** Form d'ajout de film à une catégorie ***** /
+
 
 
 /*********** Search Results *********/

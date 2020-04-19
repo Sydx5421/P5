@@ -9,6 +9,9 @@ use App\Model\Manager\UserManager;
 
 class MainController extends AbstractController
 {
+    use TmdbRequestsTrait;
+
+
     /**
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -105,6 +108,14 @@ class MainController extends AbstractController
         $this->redirect('home');
     }
 
+    public function simpleMovieSearch($searchQueryGet = null, $pageQueryGet = null){
+        $searchResult = $this->searchMovies($searchQueryGet, $pageQueryGet);
+//        vd($searchResult["searchQuery"]);
+
+        echo $this->render('searchResults.twig', array('moviesSearchResults' => $searchResult["moviesSearchResults"], 'searchQuery' => $searchResult["searchQuery"], 'previousPage' => $searchResult["previousPage"], 'nextPage' => $searchResult["nextPage"]));
+
+    }
+
 
     public function categories(){
         $CategoryManager = new CategoryManager();
@@ -113,11 +124,20 @@ class MainController extends AbstractController
         echo $this->render('categories.twig', array('classPage' =>'categoriesPage', 'categories' => $categories));
     }
 
-    public function category($categoryId){
+    public function category($categoryId, $search=null){
         $CategoryManager = new CategoryManager();
         $category =  $CategoryManager->getCategory($categoryId);
 
-        echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category));
+        $module = "categoryFilms";
+
+
+        if($search != null){
+//            vd($search);
+            $module = "categorySearch";
+        }
+
+        echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module'
+        => $module));
     }
 
 }

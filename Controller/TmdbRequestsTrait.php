@@ -6,10 +6,10 @@ namespace App\Controller;
 
 use App\Library\API\TmdbApi;
 
-class TmdbRequestsController extends AbstractController
+trait TmdbRequestsTrait
 {
     public function searchMovies($searchQueryGet = null, $pageQueryGet = null){
-        vd('searchMovies method to be deprecated');
+//        vd('TmdbRequestsTrait !!!');
         $MovieAPI = new TmdbApi("01caf40148572dc465c9503e59ded4bf");
 
         if($this->isPost()){
@@ -19,9 +19,9 @@ class TmdbRequestsController extends AbstractController
             $nextPage = $pageQueryPost + 1;
 
             $moviesSearchResults = $MovieAPI->searchMovie($searchQueryPost, $pageQueryPost);
-//            vd($moviesSearchResults->results);
 
-            echo $this->render('searchResults.twig', array('moviesSearchResults' => $moviesSearchResults, 'searchQuery' => $searchQueryPost, 'previousPage' => $previousPage, 'nextPage' => $nextPage));
+            return array('moviesSearchResults' => $moviesSearchResults, 'searchQuery' =>
+                $searchQueryPost, 'previousPage' => $previousPage, 'nextPage' => $nextPage);
 
         }elseif ($searchQueryGet != null && $pageQueryGet != null){
 //            vd("searchQuery = " . $searchQueryGet, 'pageQuery = ' . $pageQueryGet);
@@ -30,7 +30,7 @@ class TmdbRequestsController extends AbstractController
 
             $moviesSearchResults = $MovieAPI->searchMovie($searchQueryGet, $pageQueryGet);
 
-            echo $this->render('searchResults.twig', array('moviesSearchResults' => $moviesSearchResults, 'searchQuery' => $searchQueryGet, 'previousPage' => $previousPage, 'nextPage' => $nextPage));
+            return array('moviesSearchResults' => $moviesSearchResults, 'searchQuery' => $searchQueryGet, 'previousPage' => $previousPage, 'nextPage' => $nextPage);
         }
     }
 
@@ -39,11 +39,9 @@ class TmdbRequestsController extends AbstractController
 
         $infosMovie = $MovieAPI->getMoviesById($movieId);
 
-        echo $this->render('movie.twig', array("movie" => $infosMovie, "classPage" => "moviePage"));
+        return array("movie" => $infosMovie, "classPage" => "moviePage");
     }
 
-    public function categoryFilms(){
-//        vd('est-ce quon rentre ici?');
-        $this->render('categoryFilms');
-    }
+
+
 }

@@ -17,7 +17,7 @@
 {% macro textarea(name, options = [] ) %}
     <tr>
         <td>
-            <label for="{{ name }}">{{ options.label }}:</label>
+            <label for="{{ name }}">{{ options.label }} :</label>
         </td>
         <td>
             <textarea id="{{ options.id }}" name="{{ name }}" class="{{ options.class }}" rows="{{ options.rows }}" cols="{{ options.cols }}" placeholder="{{ options.placeholder }}">
