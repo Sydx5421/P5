@@ -103,8 +103,53 @@ div.nwl_submit_btn{
     border-radius: 10px;
 }
 
-/**** Form d'ajout de film à une catégorie ***** /
+/**** Form d'ajout de film à une catégorie ******/
+.categoriesPage .jumbotron form{
+    width: 100%;
+    max-width: 500px;
+}
+.categoriesPage .formContainer{
+    display: flex;
+}
+@media (max-width: 1000px) {
+    .categoriesPage .jumbotron>.container{
+        max-width: 100%;
+    }
+    .categoriesPage .formContainer{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .categoriesPage .formContainer form{
+        border: solid 1px #fff;
+        border-radius: 10px;
+        padding: 1rem;
+        margin: auto;
+    }
+}
+.categoriesPage .jumbotron form tr{
+    display: flex;
+    flex-wrap: wrap;
+    width: max-content;
+}
+.categoriesPage .jumbotron form tr td,
+.categoriesPage .jumbotron form tr td input[text]{
+    width: 100%;
+}
+.categoriesPage .jumbotron form tr td input[color],
+.categoriesPage .jumbotron form #backgroundColor,
+.categoriesPage .jumbotron form #fontColor{
+    max-width: 200px;
+    margin: auto;
+}
 
+.categoriesPage #cat_preview{
+    margin: 2rem auto;
+}
+.categoriesPage #cat_preview p{
+    background-color: #fff;
+    color: #000;
+    margin: auto;
+}
 
 
 /*********** Search Results *********/
@@ -179,4 +224,6 @@ body.categoriesPage .jumbotron{
     font-size: 2rem;
     border-radius: 15px;
     width: max-content;
+    max-width: 300px;
+    text-align: center;
 }

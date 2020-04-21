@@ -4,6 +4,8 @@
 namespace App\Controller;
 
 use App\Model\Entity\Category;
+use App\Model\Entity\MCUConnection;
+use App\Model\Entity\Movie;
 use App\Model\Manager\CategoryManager;
 use App\Controller\TmdbRequestsTrait;
 
@@ -65,7 +67,7 @@ class UserActionsController extends AbstractController
 
         $categories =  $CategoryManager->getCategories();
 
-        echo $this->render('categories.twig', array('categories' => $categories));
+        echo $this->render('categories.twig', array('classPage' =>'categoriesPage', 'categories' => $categories));
 
     }
 
@@ -82,8 +84,38 @@ class UserActionsController extends AbstractController
     public function addMoviesToCategory($catId, $movieId){
         $CategoryManager = new CategoryManager();
         $category =  $CategoryManager->getCategory($catId);
+//        vd($category); // vérifier la nature de cette variable, objet?
         $module = "addMovie";
         $searchResult = $this->movie($movieId);
+
+        if($this->isPost()){
+//            vd($_POST, $_POST['movieId'], $_POST['movieTitle']);
+            $newMovieData = [
+                'movie_id' => trim(htmlspecialchars($_POST['movieId'])),
+                'movie_title' => trim(htmlspecialchars($_POST['movieTitle'])),
+            ];
+
+            $newMovie = new Movie($newMovieData);
+
+            $newMCUConnectionData = [
+                'movie_id' => trim(htmlspecialchars($_POST['movieId'])),
+                'category_id' => trim(htmlspecialchars($_POST['categoryId'])),
+                'user_id' => trim(htmlspecialchars($_POST['userId'])),
+                'justification_comment' => trim(htmlspecialchars($_POST['justificationText'])),
+            ];
+
+            $newMCUConnection = new MCUConnection($newMCUConnectionData);
+
+            $MCUConnectionCreation = $CategoryManager->createMovieConnection($newMovie, $newMCUConnection);
+
+            if($MCUConnectionCreation === true){
+                $this->addFlash('Votre classement du film "'  . $newMCUConnection->getMovieId() .  '" dans la catégorie ' . $newMCUConnection->getCategoryId() . ' a bien été enregistré ! Merci pour votre contribution !', 'success');
+                $this->redirect('categories');
+            }else{
+                // Erreur au niveau de l'enregistrement dans la base (mail ou pseudo déjà utilisés)
+                $this->addFlash('Erreur : ' . $MCUConnectionCreation, 'danger');
+            }
+        }
 
         echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module, 'movie' => $searchResult["movie"]));
     }

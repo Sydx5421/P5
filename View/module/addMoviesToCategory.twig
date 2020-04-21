@@ -15,6 +15,7 @@
         <input type="hidden" name="userId" value="{{ app.session.user.id }}">
         <input type="hidden" name="categoryId" value="{{ category.id }}">
         <input type="hidden" name="movieId" value="{{ movie.id }}">
+        <input type="hidden" name="movieTitle" value="{{ movie.title }}">
         {{ form.textarea('justificationText', {'type' : 'textarea', 'label' : 'Expliquez brièvement votre choix de classer ce film dans cette catégorie',  'cols' : '50', 'rows' : 7}) }}
         <div class="nwl_submit_btn mt-1 p-0">
             <button class="btn btn-primary" type="submit" name="confirm_add">Ajouter</button>

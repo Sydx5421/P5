@@ -17,13 +17,14 @@ abstract class AbstractManager
 //        $dbname = $yaml["database"]["dbname"];
 //        $username = $yaml["database"]["username"];
 //        $password = $yaml["database"]["password"];
-        
-//        $db = new \PDO('mysql:host='.$host.';dbname='.$dbname.';charset=utf8', $username, $password);
+
+//        $this->db = new \PDO('mysql:host='.$host.';dbname='.$dbname.';charset=utf8', $username, $password);
         $this->db = new \PDO('mysql:host=127.0.0.1;dbname=p5_test;charset=utf8', 'root', '');
+
         return $this->db;
     }
 
-
+    // ******* Méthodes de construciton de requête fluent ********
 
     /**
      * @param string|array $table
@@ -45,6 +46,7 @@ abstract class AbstractManager
         $fields = implode("`, `", $fields);
 
         $this->query = "SELECT `$fields` FROM `$table` $alias ";
+//        $this->query = $this->db->prepare("SELECT `$fields` FROM `$table` $alias ");
 
         return $this;
     }
@@ -60,10 +62,16 @@ abstract class AbstractManager
 
     protected function sqlRows()
     {
-        $req = $this->db->execute($this->query);
+//        vd($this->query);
+        $req = $this->db->prepare($this->query);
+        $req_exec = $req->execute();
+
+//        $req = $this->db->execute($this->query);
 
         $result = array();
-        while ($row = $req->fetch(\PDO::FETCH_ASSOC)){
+//        while ($row = $req->fetch(\PDO::FETCH_ASSOC)){
+        vd($req, $req->fetchObject());
+        while ($row = $req->fetchObject()){
             $result[] = $row;
         }
 

@@ -7,23 +7,30 @@
         <div class="jumbotron">
             <div class="container">
                 <h1>Créer une nouvelle catégorie</h1>
-                <form method="POST" action="{{ app.basepath }}createCategory" class="basicForms" >
-                    <table>
-                        {{ form.input_placeholder('userId', {'type' : 'hidden', 'value' : app.session.user.id }) }}
-
-                        {{ form.input_placeholder('nameCategory', {'label' : 'Nom de la catégorie', 'placeholder' : 'Womance'}) }}
-
-                        {{ form.textarea('descriptionCat', {'label' : 'Description', 'cols' : '50', 'rows' : '5', 'placeholder' : 'La catégorie "Womance" peut-être/doit être attribuée aux films dépeignant comme relation romantique principale une relation d\'amitié forte entre 2 personnages principaux féminins. Ex: The Heat.'}) }}
-
-                        {{ form.input_placeholder('backgroundColor', {'label' : 'Choisissez une couleur de fond pour votre catégorie', 'onchange' : 'fetch()', 'type' : 'color'}) }}
-                        {{ form.input_placeholder('fontColor', {'label' : 'Choisissez une couleur de police pour votre catégorie', 'type' : 'color'}) }}
-                    </table>
-{#                    <p id="colorInputTest"></p>#}
-
-                    <div class="nwl_submit_btn">
-                        <button class="btn btn-primary" type="submit" name="confirm_create">Créer</button>
+                <div class="formContainer">
+                    <div id="cat_preview">
+                        <p class="categoryElt" >Nom de votre categorie</p>
                     </div>
-                </form>
+                    <form method="POST" action="{{ app.basepath }}createCategory" class="basicForms" >
+                        <table>
+                            {{ form.input_placeholder('userId', {'type' : 'hidden', 'value' : app.session.user.id }) }}
+
+                            {{ form.input_placeholder('nameCategory', {'label' : 'Nom de la catégorie', 'placeholder' : 'Womance'}) }}
+
+                            {{ form.input_placeholder('backgroundColor', {'label' : 'Choisissez une couleur de fond pour votre catégorie', 'onchange' : 'fetch()', 'type' : 'color'}) }}
+                            {{ form.input_placeholder('fontColor', {'label' : 'Choisissez une couleur de police pour votre catégorie', 'type' : 'color'}) }}
+
+                            {{ form.textarea('descriptionCat', {'label' : 'Description', 'cols' : '40', 'rows' : '5', 'placeholder' : 'La catégorie "Womance" peut-être/doit être attribuée aux films dépeignant comme relation romantique principale une relation d\'amitié forte entre 2 personnages principaux féminins. Ex: The Heat.'}) }}
+
+
+                        </table>
+                        {#                    <p id="colorInputTest"></p>#}
+
+                        <div class="nwl_submit_btn">
+                            <button class="btn btn-primary" type="submit" name="confirm_create">Créer</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     {% endif %}
@@ -42,9 +49,35 @@
 
 {% block javascripts %}
     <script>
-        function fetch(){
-            var get = document.getElementById("backgroundColor").value;
-            document.getElementById("colorInputTest").innerText = get;
-        }
+        // function fetch(){
+        //     var get = document.getElementById("backgroundColor").value;
+        //     document.getElementById("colorInputTest").innerText = get;
+        // }
+
+        $( document ).ready(function(){
+            console.log("ready!")
+            let input = $("#nameCategory");
+            input.keyup(function() {
+                console.log('Value:', input.value);
+                let value = $("#nameCategory").val();
+                console.log(value);
+                $("#cat_preview p").text(value);
+            });
+
+            $("#backgroundColor").change(function(){
+                var value = $("#backgroundColor").val();
+                console.log(value);
+                $("#cat_preview p").css( "background-color", value);
+            })
+
+            $("#fontColor").change(function(){
+                var value = $("#fontColor").val();
+                console.log(value);
+                $("#cat_preview p").css( "color", value);
+            })
+
+        });
+
+
     </script>
 {% endblock %}

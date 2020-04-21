@@ -4,7 +4,9 @@
 namespace App\Model\Manager;
 
 use App\Model\Entity\Category;
+use App\Model\Entity\Movie;
 use App\Model\Manager\AbstractManager;
+use App\Model\Entity\MCUConnection;
 
 class CategoryManager extends AbstractManager
 {
@@ -68,6 +70,36 @@ class CategoryManager extends AbstractManager
             $error = $db->errorInfo()[2];
             return $error;
         }
+    }
+
+    public function createMovieConnection(Movie $movie, MCUConnection $newMCUConnection){
+//        vd($newMCUConnection);
+        $db = $this->dbConnect();
+
+        // on regarde si le film a déjà été classé sur le site
+        $req_movie = $db->prepare("SELECT 'id' FROM movies WHERE id = ?");
+        $reqExec_movie = $req_movie->execute(array($movie->getId()));
+//        vd($reqExec_movie, $req_movie->rowCount());
+        if($reqExec_movie === true && $req_movie->rowCount() == 0){
+            $insert_movie = $db->prepare("INSERT INTO movies (id, title) VALUES(:id, :title)");
+            $insert_movie->bindValue(':id', $movie->getId());
+            $insert_movie->bindValue(':title', $movie->getTitle());
+            $insert_movie->execute();
+            vd($insert_movie->execute());
+        }
+
+        $req = $db->prepare("INSERT INTO mcu_connection (movie_id, category_id, user_id, justification_comment) VALUES(:movie_id, :category_id, :user_id, :justification_comment)");
+
+//        vd($db, $req, $newMCUConnection, $newMCUConnection->getMovieId());
+        $req->bindValue(':movie_id', $newMCUConnection->getMovieId());
+        $req->bindValue(':category_id', $newMCUConnection->getCategoryId());
+        $req->bindValue(':user_id', $newMCUConnection->getUserId());
+        $req->bindValue(':justification_comment', $newMCUConnection->getJustificationComment());
+
+        $reqExec = $req->execute();
+
+        return $reqExec;
+
     }
 
 }

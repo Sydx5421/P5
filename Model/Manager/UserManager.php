@@ -52,6 +52,7 @@ class UserManager extends AbstractManager
         $req_pseudo = $db->prepare("SELECT * FROM users WHERE pseudo = ? AND password = ?");
         $reqExec_pseudo = $req_pseudo->execute(array($login, $password));
 
+//        vd($req_pseudo->rowCount());
         if($req_pseudo->rowCount() == 1){
             return $req_pseudo->fetchObject();
         }else{
@@ -65,6 +66,14 @@ class UserManager extends AbstractManager
                 return "Login ou mot de passe incorrect";
             }
         }
+
+        // version avec constructeur de requête :
+
+//        $this->select("users", array('id'))
+//            ->where("pseudo = $login ")
+//            ->where("password = $password");
+//        vd($this->sqlRows());
+
     }
 
 }

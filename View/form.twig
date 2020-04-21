@@ -3,11 +3,11 @@
         <tr>
             <td>
                 {% if options.label != null %}
-                    <label for="{{ name }}" class="{{ options.labelClass }}">{{ options.label }}</label>
+                    <label for="{{ name }}" class="{{ options.labelClass }}">{{ options.label }} :</label>
                 {% endif %}
             </td>
 
-            <td class="col-sm-5">
+            <td class="">
                 <input type="{{options.type ?: 'text'}}" class="form-control {{ options.inputClass }}" id="{{ name }}" name="{{ name }}" value="{{ options.value }}" placeholder="{{ options.placeholder }}" onchange="{{ options.onchange }}">
             </td>
         </tr>
