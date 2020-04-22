@@ -91,8 +91,8 @@ class UserActionsController extends AbstractController
         if($this->isPost()){
 //            vd($_POST, $_POST['movieId'], $_POST['movieTitle']);
             $newMovieData = [
-                'movie_id' => trim(htmlspecialchars($_POST['movieId'])),
-                'movie_title' => trim(htmlspecialchars($_POST['movieTitle'])),
+                'id' => trim(htmlspecialchars($_POST['movieId'])),
+                'title' => trim(htmlspecialchars($_POST['movieTitle'])),
             ];
 
             $newMovie = new Movie($newMovieData);
@@ -106,14 +106,35 @@ class UserActionsController extends AbstractController
 
             $newMCUConnection = new MCUConnection($newMCUConnectionData);
 
-            $MCUConnectionCreation = $CategoryManager->createMovieConnection($newMovie, $newMCUConnection);
+            // TODO A compléter !!!
+            if(!$CategoryManager->doesMovieExist($newMovie)){
+                if($CategoryManager->doesMovieExist($newMovie) === false ){
+                    // on enregistre le nouveau film
+                    $movieCreation = $CategoryManager->createMovie($newMovie);
+                    if($movieCreation !== true){
+                        $this->addFlash('Erreur 1: le classement n\'a pas pu être enregistré car  ' .                         $movieCreation,'danger');
+                    echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module));
+                    }
+
+                }else{
+                    // on gère l'erreur qui a été généré
+                    $this->addFlash('Erreur 1: le classement n\'a pas pu être enregistré car  ' .                         $CategoryManager->doesMovieExist($newMovie),'danger');
+                    echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module));
+                }
+            }
+            // Le film existe déjà dans notre base ou vient d'être créé, on peut donc créer la connection :
+
+            $MCUConnectionCreation = $CategoryManager->createMovieConnection($newMCUConnection);
 
             if($MCUConnectionCreation === true){
                 $this->addFlash('Votre classement du film "'  . $newMCUConnection->getMovieId() .  '" dans la catégorie ' . $newMCUConnection->getCategoryId() . ' a bien été enregistré ! Merci pour votre contribution !', 'success');
-                $this->redirect('categories');
+
+                $this->redirect($this->basePath . 'category/' . $catId);
+
             }else{
                 // Erreur au niveau de l'enregistrement dans la base (mail ou pseudo déjà utilisés)
-                $this->addFlash('Erreur : ' . $MCUConnectionCreation, 'danger');
+                $this->addFlash('Erreur 2: le classement n\'a pas pu être enregistré car ' . $MCUConnectionCreation, 'danger');
+                $this->redirect($this->basePath . 'category/' . $catId);
             }
         }
 

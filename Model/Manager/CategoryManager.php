@@ -72,21 +72,37 @@ class CategoryManager extends AbstractManager
         }
     }
 
-    public function createMovieConnection(Movie $movie, MCUConnection $newMCUConnection){
-//        vd($newMCUConnection);
-        $db = $this->dbConnect();
-
-        // on regarde si le film a déjà été classé sur le site
-        $req_movie = $db->prepare("SELECT 'id' FROM movies WHERE id = ?");
-        $reqExec_movie = $req_movie->execute(array($movie->getId()));
-//        vd($reqExec_movie, $req_movie->rowCount());
-        if($reqExec_movie === true && $req_movie->rowCount() == 0){
-            $insert_movie = $db->prepare("INSERT INTO movies (id, title) VALUES(:id, :title)");
-            $insert_movie->bindValue(':id', $movie->getId());
-            $insert_movie->bindValue(':title', $movie->getTitle());
-            $insert_movie->execute();
-            vd($insert_movie->execute());
+    public function doesMovieExist(Movie $movie){
+        $req_movie = $this->db->prepare("SELECT 'id' FROM movies WHERE id = ?");
+        $req_movie->execute(array($movie->getId()));
+        // return boolean
+        if($req_movie->rowCount() == 0){
+            return false;
+        }elseif($req_movie->rowCount() > 0){
+            return true;
+        }else{
+            return "error " . $req_movie->errorInfo();
         }
+    }
+
+    public function createMovie(Movie $movie){
+        //vérifier le nombre de lignes insérées > 0 pour être sur que l'insertion a bien marché et ne pas allé plus loin si ce n'est pas le cas
+        $insert_movie = $this->db->prepare('INSERT INTO movies(id, title) VALUES(:id, :title)');
+
+        $insert_movie->bindValue(':id', $movie->getId());
+        $insert_movie->bindValue(':title', $movie->getTitle());
+
+        $insert_movie_exec = $insert_movie->execute();
+        if($insert_movie_exec == 1){
+            return true;
+        }else{
+            $error_info = $insert_movie->errorInfo();
+            return "erreur dans la création du film en base : " . $error_info[2];
+        }
+    }
+
+    public function createMovieConnection(MCUConnection $newMCUConnection){
+        $db = $this->dbConnect();
 
         $req = $db->prepare("INSERT INTO mcu_connection (movie_id, category_id, user_id, justification_comment) VALUES(:movie_id, :category_id, :user_id, :justification_comment)");
 
