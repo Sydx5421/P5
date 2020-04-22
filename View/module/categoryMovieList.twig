@@ -3,4 +3,23 @@
 </div>
 <div class="container film_list">
     {# Tous les films liés à cette catégorie #}
+    <div class="search_results">
+        {% if movieList is iterable %}
+            {% for movie in movieList %}
+                <a href="{{ app.basepath }}addMoviesToCategory/{{ category.id }}/{{ movie.id }}" title="Voir la fiche Cinemood de ce film" class="col-md-4 text-center">
+                    <figure class='movieElt'>
+                        {% if movie.posterPath is null %}
+                            <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
+                        {% else %}
+                            <img src='http://image.tmdb.org/t/p/w185{{ movie.posterPath }}' alt="{{ movie.title }} poster"
+                        {% endif %}
+                        <figcaption>{{ movie.title }}</figcaption>
+                    </figure>
+                </a>
+            {% endfor %}
+        {% else %}
+            {# users is probably a string #}
+            {{ movieList }}
+        {% endif %}
+    </div>
 </div>

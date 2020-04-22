@@ -128,6 +128,10 @@ class MainController extends AbstractController
         $CategoryManager = new CategoryManager();
         $category =  $CategoryManager->getCategory($categoryId);
 
+        $movieList = $CategoryManager->getCategoryMovieList($categoryId);
+        $posterPath = $movieList[3]->getPosterPath();
+//        vd($movieList, $movieList[3]->getPosterPath() );
+
         $module = "categoryFilms";
 
 
@@ -137,7 +141,7 @@ class MainController extends AbstractController
         }
 
         echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module'
-        => $module));
+        => $module, 'movieList' => $movieList, 'posterPath' => $posterPath));
     }
 
 }

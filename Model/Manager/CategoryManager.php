@@ -87,10 +87,11 @@ class CategoryManager extends AbstractManager
 
     public function createMovie(Movie $movie){
         //vérifier le nombre de lignes insérées > 0 pour être sur que l'insertion a bien marché et ne pas allé plus loin si ce n'est pas le cas
-        $insert_movie = $this->db->prepare('INSERT INTO movies(id, title) VALUES(:id, :title)');
+        $insert_movie = $this->db->prepare('INSERT INTO movies(id, title, poster_path ) VALUES(:id, :title, :poster_path)');
 
         $insert_movie->bindValue(':id', $movie->getId());
         $insert_movie->bindValue(':title', $movie->getTitle());
+        $insert_movie->bindValue(':poster_path', $movie->getPosterPath());
 
         $insert_movie_exec = $insert_movie->execute();
         if($insert_movie_exec == 1){
@@ -116,6 +117,32 @@ class CategoryManager extends AbstractManager
 
         return $reqExec;
 
+    }
+
+    public function getCategoryMovieList($categoryId){
+        $db = $this->dbConnect();
+//        $req = $db->prepare("SELECT movie_id as id FROM `mcu_connection` WHERE category_id = ? GROUP BY movie_id" );
+        $req = $db->prepare(
+            "SELECT m.id, m.title, m.poster_path 
+                        FROM `movies` m
+                        INNER JOIN `mcu_connection` mcu
+                        ON mcu.movie_id = m.id 
+                        WHERE mcu.category_id = ?
+                        GROUP BY m.id" );
+        $reqExec = $req->execute(array($categoryId));
+
+        $movieIdList = [];
+
+        while($movieId = $req->fetchObject('App\Model\Entity\Movie')){
+
+            $movieIdList[] = $movieId;
+        }
+        $req->closeCursor();
+
+        if($movieIdList == null){
+            return "Aucuns films classés dans cette catégorie.";
+        }
+        return $movieIdList;
     }
 
 }

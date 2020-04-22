@@ -93,6 +93,7 @@ class UserActionsController extends AbstractController
             $newMovieData = [
                 'id' => trim(htmlspecialchars($_POST['movieId'])),
                 'title' => trim(htmlspecialchars($_POST['movieTitle'])),
+                'poster_path' => trim(htmlspecialchars($_POST['posterPath'])),
             ];
 
             $newMovie = new Movie($newMovieData);
@@ -106,7 +107,7 @@ class UserActionsController extends AbstractController
 
             $newMCUConnection = new MCUConnection($newMCUConnectionData);
 
-            // TODO A compléter !!!
+
             if(!$CategoryManager->doesMovieExist($newMovie)){
                 if($CategoryManager->doesMovieExist($newMovie) === false ){
                     // on enregistre le nouveau film
