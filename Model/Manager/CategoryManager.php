@@ -147,8 +147,13 @@ class CategoryManager extends AbstractManager
 
     public function getMcuMovie($movieId, $categoryId){
         $db = $this->dbConnect();
-        $req = $db->prepare("SELECT * FROM mcu_connection WHERE movie_id = ? AND category_id = ? ");
-        $reqExec = $req->execute(array($movieId, $categoryId));
+//        $req = $db->prepare("SELECT * FROM mcu_connection WHERE movie_id = ? AND category_id = ? ");
+        $req = $db->prepare("SELECT  mcu.user_id, mcu.justification_comment, mcu.creation_date, u.pseudo
+                                        FROM mcu_connection mcu
+                                        INNER JOIN users u
+                                        ON mcu.user_id = u.id
+                                        WHERE movie_id = ? AND category_id = ? ");
+        $req->execute(array($movieId, $categoryId));
 
         $mcuList = [];
 

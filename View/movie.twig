@@ -68,7 +68,9 @@
                     {% if mcuList is iterable %}
                         {% for MCUConnection in mcuList %}
                             <div class="comment_elt">
-                                <p> {{ MCUConnection.justificationComment }} </p>
+                                <span><a href=""><i class="far fa-fw fa-user"></i>{{ MCUConnection.pseudo }}</a> - {{ MCUConnection.creationDate }} </span>
+                                <p class="text_comment"> {{ MCUConnection.justificationComment }} </p>
+                                <i class="fas fa-dumpster-fire"></i>
                             </div>
                         {% endfor %}
                     {% else %}

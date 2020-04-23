@@ -6,6 +6,7 @@ namespace App\Model\Entity;
 
 class MCUConnection extends AbstractEntity
 {
+    protected $id;
     protected $movie_id;
     protected $category_id;
     protected $user_id;
@@ -18,6 +19,25 @@ class MCUConnection extends AbstractEntity
             $this->hydrate($data);
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     * @return MCUConnection
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
 
     /**
      * @return mixed

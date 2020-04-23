@@ -129,7 +129,8 @@ div.nwl_submit_btn{
 .categoriesPage .jumbotron form tr{
     display: flex;
     flex-wrap: wrap;
-    width: max-content;
+    /*width: max-content;*/
+    width: 100%;
 }
 .categoriesPage .jumbotron form tr td,
 .categoriesPage .jumbotron form tr td input[text]{
@@ -141,7 +142,9 @@ div.nwl_submit_btn{
     max-width: 200px;
     margin: auto;
 }
-
+.categoriesPage .jumbotron form textarea{
+    width: 100%;
+}
 .categoriesPage #cat_preview{
     margin: 2rem auto;
 }
@@ -155,11 +158,9 @@ div.nwl_submit_btn{
 /*********** Search Results *********/
 
 .search_results{
-    display: grid;
-    /*grid-template-columns: repeat(6, auto);*/
-    /*grid-column-gap: 2rem;*/
-
-    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     grid-gap: 2rem 2rem;
 }
 
@@ -241,4 +242,14 @@ body.categoriesPage .jumbotron{
     color: #808080;
     border: 1px solid #ff7800;
     margin: 1rem 0;
+    position: relative;
+}
+.comments_list .comment_elt i.fa-dumpster-fire{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: #cc1616;
+}
+.comments_list .comment_elt p.text_comment{
+    margin: 0;
 }
