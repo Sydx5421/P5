@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Library\API\TmdbApi;
+use App\Model\Entity\Category;
 use App\Model\Entity\User;
 use App\Model\Manager\CategoryManager;
 use App\Model\Manager\UserManager;
@@ -129,11 +130,8 @@ class MainController extends AbstractController
         $category =  $CategoryManager->getCategory($categoryId);
 
         $movieList = $CategoryManager->getCategoryMovieList($categoryId);
-        $posterPath = $movieList[3]->getPosterPath();
-//        vd($movieList, $movieList[3]->getPosterPath() );
 
         $module = "categoryFilms";
-
 
         if($search != null){
 //            vd($search);
@@ -141,7 +139,33 @@ class MainController extends AbstractController
         }
 
         echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module'
-        => $module, 'movieList' => $movieList, 'posterPath' => $posterPath));
+        => $module, 'movieList' => $movieList));
+    }
+
+    public function movie($movieId, $categoryId = null){
+//        vd($movieId, $categoryId );
+        $MovieAPI = new TmdbApi("01caf40148572dc465c9503e59ded4bf");
+        $infosMovie = $MovieAPI->getMoviesById($movieId);
+
+        $CategoryManager = new CategoryManager();
+        $category =  $CategoryManager->getCategory($categoryId);
+
+        if($categoryId === null ){
+            echo $this->render('movie.twig', array("movie" => $infosMovie, "classPage" => "moviePage"));
+            die;
+        }else{
+            // récupérer les comentaires pour cette catégory et ce film
+            $mcuList = $CategoryManager->getMcuMovie($movieId, $categoryId);
+//            vd($mcuList);
+
+            echo $this->render('movie.twig', array("movie" => $infosMovie, "classPage" => "moviePage", "category" =>
+                $category->getNom(), "mcuList" => $mcuList));
+        }
+    }
+
+    public function categoryFilms(){
+//        vd('est-ce quon rentre ici?');
+        $this->render('categoryFilms');
     }
 
 }

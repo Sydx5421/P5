@@ -57,8 +57,26 @@
         </div>
     </div>
 
-        <div id="search_results">
-
+        <div id="search_results" class="container">
+            {% if category is null %}
+            {# AFficher la liste des catégorie associée à ce film si il y en a #}
+                <h2>Liste des catégories associées à ce film</h2>
+            {% else %}
+            {# Dans le cas ou une catégorie est déjà selectionnée, afficher les commentaires concernant ce film pour cette catégorie#}
+                <h2>Commentaires justifiant du classement de ce film dans la catégorie "{{ category }}"</h2>
+                <div class="comments_list">
+                    {% if mcuList is iterable %}
+                        {% for MCUConnection in mcuList %}
+                            <div class="comment_elt">
+                                <p> {{ MCUConnection.justificationComment }} </p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {# users is probably a string #}
+                        {{ mcuList }}
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
 
 {% endblock %}

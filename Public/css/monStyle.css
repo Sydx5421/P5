@@ -196,11 +196,11 @@ body.moviePage .jumbotron h1{
     padding-bottom: 1rem;
 }
 
-body.moviePage .container{
+body.moviePage .jumbotron .container{
     display: flex;
 }
 
-body.moviePage .container div{
+body.moviePage .jumbotron .container div{
     padding: 0 2rem;
 }
 body.moviePage .container div table tr td:first-child{
@@ -226,4 +226,19 @@ body.categoriesPage .jumbotron{
     width: max-content;
     max-width: 300px;
     text-align: center;
+}
+
+/************** Fiche Movie ******************/
+
+/* Gestion de l'affichage des commentaires*/
+.comments_list{
+    margin-top: 2rem;
+}
+.comments_list .comment_elt{
+    background-color: #e9ecef;
+    padding: 1rem;
+    border-radius: 10px;
+    color: #808080;
+    border: 1px solid #ff7800;
+    margin: 1rem 0;
 }

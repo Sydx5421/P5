@@ -140,9 +140,28 @@ class CategoryManager extends AbstractManager
         $req->closeCursor();
 
         if($movieIdList == null){
-            return "Aucuns films classés dans cette catégorie.";
+            return "Aucun films classés dans cette catégorie.";
         }
         return $movieIdList;
+    }
+
+    public function getMcuMovie($movieId, $categoryId){
+        $db = $this->dbConnect();
+        $req = $db->prepare("SELECT * FROM mcu_connection WHERE movie_id = ? AND category_id = ? ");
+        $reqExec = $req->execute(array($movieId, $categoryId));
+
+        $mcuList = [];
+
+        while($mcuElt = $req->fetchObject('App\Model\Entity\MCUConnection')){
+            $mcuList[] = $mcuElt;
+        }
+        $req->closeCursor();
+
+        if($mcuList == null){
+            return "Aucun commentaire justifiant le classement de ce film dans cette catégorie.";
+        }
+        return $mcuList;
+
     }
 
 }
