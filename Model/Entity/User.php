@@ -8,6 +8,7 @@ class User extends AbstractEntity
 {
     protected $id;
     protected $pseudo;
+    protected $is_admin;
     protected $password;
     protected $confirm_password;
     protected $email;
@@ -18,6 +19,24 @@ class User extends AbstractEntity
     public function __construct($data)
     {
         $this->hydrate($data);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsAdmin()
+    {
+        return $this->is_admin;
+    }
+
+    /**
+     * @param mixed $is_admin
+     * @return User
+     */
+    public function setIsAdmin($is_admin)
+    {
+        $this->is_admin = $is_admin;
+        return $this;
     }
 
 

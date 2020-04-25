@@ -67,13 +67,6 @@ class UserManager extends AbstractManager
             }
         }
 
-        // version avec constructeur de requête :
-
-//        $this->select("users", array('id'))
-//            ->where("pseudo = $login ")
-//            ->where("password = $password");
-//        vd($this->sqlRows());
-
     }
 
 }

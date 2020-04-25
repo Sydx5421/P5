@@ -5,16 +5,16 @@
     {#    <a class="navbar-brand">Navbar</a>#}
     <a class="titleBrand" href="/">Cinemood </a>
     <div class="navbar" id="navbarNavAltMarkup">
-            <a class="nav-item nav-link active" href="{{ app.basepath }}home">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="{{ app.basepath }}categories">Catégories</a>
-            {% if app.session.user  %}
-                <a class="nav-item nav-link" href="{{ app.basepath }}dashboard">Dashboard</a>
-            {% else %}
-                <a class="nav-item nav-link" href="{{ app.basepath }}register">S'inscrire</a>
-            {% endif %}
+        <a class="nav-item nav-link active" href="{{ app.basepath }}home">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link" href="{{ app.basepath }}categories">Catégories</a>
+        {% if app.session.user  %}
+            <a class="nav-item nav-link" href="{{ app.basepath }}dashboard">Dashboard</a>
+        {% else %}
+            <a class="nav-item nav-link" href="{{ app.basepath }}register">S'inscrire</a>
+        {% endif %}
     </div>
     {% if app.session.user  %}
-        <form class="form-inline deconnexion" method="POST" action="deconnexion">
+        <form class="form-inline deconnexion" method="POST" action="{{ app.basepath }}deconnexion">
             <div>
                 <span>{{ app.session.user.pseudo }}</span>
                 <a href="{{ app.basepath }}dashboard" title="tableau de bord de {{ app.session.user.pseudo }}"><i class="far fa-fw fa-user nwl_orange"></i></a>
@@ -22,13 +22,12 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="deconnexion">déconnexion</button>
         </form>
     {% else %}
+        <form class="form-inline" method="POST" action="{{ app.basepath }}login">
+            {{ form.input_placeholder('email_or_pseudo', {'class' : 'col-xs', 'placeholder' : 'E-mail ou pseudo'}) }}
+            {{ form.input_placeholder('password', {'class' : 'col-xs', 'placeholder' : 'Mot de passe', 'type':'password'}) }}
 
-            <form class="form-inline" method="POST" action="login">
-                {{ form.input_placeholder('email_or_pseudo', {'class' : 'col-xs', 'placeholder' : 'E-mail ou pseudo'}) }}
-                {{ form.input_placeholder('password', {'class' : 'col-xs', 'placeholder' : 'Mot de passe', 'type':'password'}) }}
-
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="confirm_login">Login</button>
-            </form>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="confirm_login">Login</button>
+        </form>
     {% endif %}
 
 </nav>

@@ -89,9 +89,14 @@ class MainController extends AbstractController
                     $login = htmlspecialchars($_POST['email_or_pseudo']);
 
                     $userLogin = $UserManager->login($login, $password);
-
+//                    vd($userLogin);
                     if(is_object($userLogin)){
                         $userLogged = new User($userLogin);
+                        if($userLogged->getIsAdmin() == 1){
+                            $_SESSION['admin'] = true;
+                            $this->isAdmin = true;
+                        }
+//                        vd($userLogged->getIsAdmin(), $this->isAdmin);
                         $_SESSION['user'] = $userLogin;
                         $this->addFlash('Bienvenue ' . $userLogged->getPseudo());
                         $this->redirect('dashboard');

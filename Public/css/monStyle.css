@@ -244,10 +244,13 @@ body.categoriesPage .jumbotron{
     margin: 1rem 0;
     position: relative;
 }
-.comments_list .comment_elt i.fa-dumpster-fire{
+.comments_list .comment_elt button.nwl_suprimer,
+.comments_list .comment_elt button.nwl_report{
     position: absolute;
     top: 1rem;
     right: 1rem;
+}
+.comments_list .comment_elt i.fa-dumpster-fire{
     color: #cc1616;
 }
 .comments_list .comment_elt p.text_comment{

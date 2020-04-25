@@ -26,9 +26,9 @@ abstract class AbstractController
         $this->basePath =  $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"] . $relativeRootDir . '/';
         
         // isAdmin ?
-//        if(isset($_SESSION['adminConnected']) && $_SESSION['adminConnected'] === true ){
-//            $this->isAdmin = true;
-//        }
+        if(isset($_SESSION['admin']) && $_SESSION['admin'] = true ){
+            $this->isAdmin = true;
+        }
 
         //configuration twig
         $this->templatePath = realpath(__DIR__.'/../View');

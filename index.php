@@ -50,6 +50,9 @@ $router->addRoute(new Route('/addMoviesToCategory/(\d+)/(\d+)', 'UserActions', '
 //$router->addRoute(new Route('/searchMovies', 'TmdbRequests', 'searchMovies'));
 //$router->addRoute(new Route('/searchMovies/(\w+)/(\d+)', 'TmdbRequests', 'searchMovies'));
 
+//------------------------------ action réservées à l'admin :
+$router->addRoute(new Route('/adminActionComment', 'admin', 'adminActionComment'));
+
 
 
 $router->run();

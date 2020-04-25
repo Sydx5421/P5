@@ -29,6 +29,8 @@ class UserActionsController extends AbstractController
      */
     public function deconnexion(){
         session_destroy();
+        $this->isAdmin = false;
+        $this->isAdmin = false;
         $this->redirect('home');
     }
 
