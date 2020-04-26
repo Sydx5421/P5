@@ -8,7 +8,7 @@ abstract class AbstractController
 {
     protected $basePath;
     protected $isAdmin = false;
-//    protected $userConnected = false;
+    protected $userConnected = false;
 
     //--- twig related vars ---
     protected $templatePath;
@@ -29,6 +29,13 @@ abstract class AbstractController
         if(isset($_SESSION['admin']) && $_SESSION['admin'] = true ){
             $this->isAdmin = true;
         }
+//        vd($this->session["user"]->id, $_SESSION['user']);
+//        if(isset($this->session["user"]->id) && $this->session["user"]->id != null){
+//            $this->userConnected = true;
+//        }
+        if(isset($_SESSION['user']) && $_SESSION['user']->id != null){
+            $this->userConnected = true;
+        }
 
         //configuration twig
         $this->templatePath = realpath(__DIR__.'/../View');
@@ -40,11 +47,9 @@ abstract class AbstractController
         // on récupère le tableau de session $session
         $this->session = $_SESSION;
 
-//        vd($this->session["user"]->id);
-//        if(isset($this->session["user"]->id) && $this->session["user"]->id != null){
-//            $this->userConnected = true;
-//        }
+
     }
+
 
     /**
      * Cette methode est un racourcit de la méthode twig premettant de retourner les vues + elle est enrichie de

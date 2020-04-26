@@ -8,9 +8,26 @@ use App\Model\Entity\MCUConnection;
 use App\Model\Entity\Movie;
 use App\Model\Manager\CategoryManager;
 use App\Controller\TmdbRequestsTrait;
+use App\Model\Manager\McuManager;
+use App\Model\Manager\MovieManager;
 
-class UserActionsController extends AbstractController
+class UserController extends AbstractController
 {
+
+    public function __construct() {
+        parent::__construct();
+
+        if($this->userConnected === false){
+            $this->redirectIfNotConnected();
+        }
+    }
+
+    protected function redirectIfNotConnected() {
+        $this->addFlash("Ces pages sont réservées aux utilisateurs connectés, veuillez vous connecter.", "danger",
+            true);
+        $this->redirect('home');
+        die;
+    }
 
     use TmdbRequestsTrait;
 
@@ -19,9 +36,11 @@ class UserActionsController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function dashboard(){
-
-        echo $this->render('dashboard.twig');
+    public function dashboard($userId){
+        $McuManager = new McuManager();
+        $mcuList = $McuManager->getMcuFromUser($userId);
+//        vd($mcuList);
+        echo $this->render('dashboard.twig',  array("classPage" => "dashboard", "mcuList" => $mcuList));
     }
 
     /**
@@ -34,6 +53,11 @@ class UserActionsController extends AbstractController
         $this->redirect('home');
     }
 
+    /**
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function createCategory(){
         $CategoryManager = new CategoryManager();
 
@@ -73,6 +97,12 @@ class UserActionsController extends AbstractController
 
     }
 
+    /**
+     * @param $catId
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function categorySearchNewMovies($catId){
         $CategoryManager = new CategoryManager();
         $category =  $CategoryManager->getCategory($catId);
@@ -83,8 +113,17 @@ class UserActionsController extends AbstractController
         echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module, 'moviesSearchResults' => $searchResult["moviesSearchResults"], 'searchQuery' => $searchResult["searchQuery"], 'previousPage' => $searchResult["previousPage"], 'nextPage' => $searchResult["nextPage"]));
     }
 
+    /**
+     * @param $catId
+     * @param $movieId
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function addMoviesToCategory($catId, $movieId){
         $CategoryManager = new CategoryManager();
+        $MovieManager = new MovieManager();
+        $McuManager = new McuManager();
         $category =  $CategoryManager->getCategory($catId);
 //        vd($category); // vérifier la nature de cette variable, objet?
         $module = "addMovie";
@@ -110,10 +149,10 @@ class UserActionsController extends AbstractController
             $newMCUConnection = new MCUConnection($newMCUConnectionData);
 
 
-            if(!$CategoryManager->doesMovieExist($newMovie)){
-                if($CategoryManager->doesMovieExist($newMovie) === false ){
+            if(!$MovieManager->doesMovieExist($newMovie)){
+                if($MovieManager->doesMovieExist($newMovie) === false ){
                     // on enregistre le nouveau film
-                    $movieCreation = $CategoryManager->createMovie($newMovie);
+                    $movieCreation = $MovieManager->createMovie($newMovie);
                     if($movieCreation !== true){
                         $this->addFlash('Erreur 1: le classement n\'a pas pu être enregistré car  ' .                         $movieCreation,'danger');
                     echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module));
@@ -121,13 +160,13 @@ class UserActionsController extends AbstractController
 
                 }else{
                     // on gère l'erreur qui a été généré
-                    $this->addFlash('Erreur 1: le classement n\'a pas pu être enregistré car  ' .                         $CategoryManager->doesMovieExist($newMovie),'danger');
+                    $this->addFlash('Erreur 1: le classement n\'a pas pu être enregistré car  ' .                         $MovieManager->doesMovieExist($newMovie),'danger');
                     echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module));
                 }
             }
             // Le film existe déjà dans notre base ou vient d'être créé, on peut donc créer la connection :
 
-            $MCUConnectionCreation = $CategoryManager->createMovieConnection($newMCUConnection);
+            $MCUConnectionCreation = $McuManager->createMovieConnection($newMCUConnection);
 
             if($MCUConnectionCreation === true){
                 $this->addFlash('Votre classement du film "'  . $newMCUConnection->getMovieId() .  '" dans la catégorie ' . $newMCUConnection->getCategoryId() . ' a bien été enregistré ! Merci pour votre contribution !', 'success');
@@ -143,6 +182,7 @@ class UserActionsController extends AbstractController
 
         echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module, 'movie' => $searchResult["movie"]));
     }
+
 
 }
 

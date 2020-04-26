@@ -14,16 +14,17 @@ class AdminController extends AbstractController
         parent::__construct();
 
         if($this->isAdmin === false){
-            $this->redirectIfNotCOnnected();
+            $this->redirectIfNotAdmin();
         }
     }
 
-    protected function redirectIfNotCOnnected()
+    protected function redirectIfNotAdmin()
     {
         $this->addFlash("Ces pages sont réservées aux administrateurs, veuillez vous connecter.", "danger", true);
         $this->redirect('home');
         die;
     }
+
 
     public function adminActionComment(){
         // Gestion des actions sur les commentaires en Ajax

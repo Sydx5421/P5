@@ -72,53 +72,6 @@ class CategoryManager extends AbstractManager
         }
     }
 
-    public function doesMovieExist(Movie $movie){
-        $req_movie = $this->db->prepare("SELECT 'id' FROM movies WHERE id = ?");
-        $req_movie->execute(array($movie->getId()));
-        // return boolean
-        if($req_movie->rowCount() == 0){
-            return false;
-        }elseif($req_movie->rowCount() > 0){
-            return true;
-        }else{
-            return "error " . $req_movie->errorInfo();
-        }
-    }
-
-    public function createMovie(Movie $movie){
-        //vérifier le nombre de lignes insérées > 0 pour être sur que l'insertion a bien marché et ne pas allé plus loin si ce n'est pas le cas
-        $insert_movie = $this->db->prepare('INSERT INTO movies(id, title, poster_path ) VALUES(:id, :title, :poster_path)');
-
-        $insert_movie->bindValue(':id', $movie->getId());
-        $insert_movie->bindValue(':title', $movie->getTitle());
-        $insert_movie->bindValue(':poster_path', $movie->getPosterPath());
-
-        $insert_movie_exec = $insert_movie->execute();
-        if($insert_movie_exec == 1){
-            return true;
-        }else{
-            $error_info = $insert_movie->errorInfo();
-            return "erreur dans la création du film en base : " . $error_info[2];
-        }
-    }
-
-    public function createMovieConnection(MCUConnection $newMCUConnection){
-        $db = $this->dbConnect();
-
-        $req = $db->prepare("INSERT INTO mcu_connection (movie_id, category_id, user_id, justification_comment) VALUES(:movie_id, :category_id, :user_id, :justification_comment)");
-
-//        vd($db, $req, $newMCUConnection, $newMCUConnection->getMovieId());
-        $req->bindValue(':movie_id', $newMCUConnection->getMovieId());
-        $req->bindValue(':category_id', $newMCUConnection->getCategoryId());
-        $req->bindValue(':user_id', $newMCUConnection->getUserId());
-        $req->bindValue(':justification_comment', $newMCUConnection->getJustificationComment());
-
-        $reqExec = $req->execute();
-
-        return $reqExec;
-
-    }
-
     public function getCategoryMovieList($categoryId){
         $db = $this->dbConnect();
 //        $req = $db->prepare("SELECT movie_id as id FROM `mcu_connection` WHERE category_id = ? GROUP BY movie_id" );
@@ -145,28 +98,5 @@ class CategoryManager extends AbstractManager
         return $movieIdList;
     }
 
-    public function getMcuMovie($movieId, $categoryId){
-        $db = $this->dbConnect();
-//        $req = $db->prepare("SELECT * FROM mcu_connection WHERE movie_id = ? AND category_id = ? ");
-        $req = $db->prepare("SELECT mcu.id, mcu.user_id, mcu.justification_comment, mcu.creation_date, u.pseudo
-                                        FROM mcu_connection mcu
-                                        INNER JOIN users u
-                                        ON mcu.user_id = u.id
-                                        WHERE movie_id = ? AND category_id = ? ");
-        $req->execute(array($movieId, $categoryId));
-
-        $mcuList = [];
-
-        while($mcuElt = $req->fetchObject('App\Model\Entity\MCUConnection')){
-            $mcuList[] = $mcuElt;
-        }
-        $req->closeCursor();
-
-        if($mcuList == null){
-            return "Aucun commentaire justifiant le classement de ce film dans cette catégorie.";
-        }
-        return $mcuList;
-
-    }
 
 }

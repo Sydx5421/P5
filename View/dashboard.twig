@@ -2,10 +2,76 @@
 
 
 {% block content %}
-<h1>Dashboard de {{ app.session.user.pseudo }} {{ app.session.user.id}}</h1>
-<p>Bienvenue sur votre tableau de bord Cinemood</p>
-    {% for elt in app.session.user %}
-        <p>{{ elt }}</p>
-    {% endfor %}
+    <div class="jumbotron">
+        <div  class="container">
+            <h1>Dashboard de {{ app.session.user.pseudo }} </h1>
+            <p>Bienvenue sur votre tableau de bord Cinemood</p>
+        </div>
+    </div>
+
+    <div id="innerContent" class="container">
+        <h2>Vos classements</h2>
+
+        <div>
+            <div class="media mb-4">
+{#                <form action="" method="post">#}
+                    <table class="table table-dark">
+                        <thead class="">
+                            <tr class="d-flex">
+                                <th scope="col" class="col-2 text-center">Films</th>
+                                <th scope="col" class="col-3 text-center">Catégories</th>
+                                <th scope="col" class="col-7 text-center">Commentaires</th>
+                            </tr>
+                        </thead>
+                        <tbody class="">
+                        {% if mcuList is iterable %}
+                            {% for MCUConnection in mcuList %}
+                                {# Boucle affichage des connexions : #}
+                                <tr class="d-flex">
+                                    <td class="col-2 text-center">
+                                        <a href="{{ app.basepath }}movie/{{ MCUConnection.movieId }}">
+                                            <figure class="">
+                                                {% if MCUConnection.poster_path  %}
+                                                    <img src='http://image.tmdb.org/t/p/w92{{ MCUConnection.poster_path }}' alt="{{ MCUConnection.title }} poster">
+                                                {% else %}
+                                                    <img style="width : 92px; height : 138px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
+                                                {% endif %}
+                                                <figcaption>{{ MCUConnection.title }}</figcaption>
+                                            </figure>
+                                        </a>
+                                    </td>
+                                    <td class="col-3 text-center">
+                                        <a href="{{ app.basepath }}category/{{ MCUConnection.categoryId }}">
+                                            <p class="categoryElt" style="background-color: {{ MCUConnection.background_color }}; color : {{ MCUConnection.font_color }} "> {{ MCUConnection.nom }}</p>
+                                        </a>
+                                    </td>
+                                    <td class="col-7">
+                                        <p>{{ MCUConnection.justificationComment }}</p>
+                                    </td>
+                                </tr>
+                                {# Fin du foreach #}
+                            {% endfor %}
+                        {% else %}
+                            {# mcuList is probably a string #}
+                            <tr class="d-flex">
+                                <td class="col-12 text-center">
+                                    <h5 class="mt-0">{{ mcuList }}</h5>
+                                </td>
+                            </tr>
+                        {% endif %}
+
+                            <tfoot>
+                                <tr class="d-flex">
+                                    <th scope="col" class="col-2">Films</th>
+                                    <th scope="col" class="col-3">Categories</th>
+                                    <th scope="col" class="col-7">Commentaires</th>
+                                </tr>
+                            </tfoot>
+                        </tbody>
+                    </table>
+{#                </form>#}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

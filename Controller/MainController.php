@@ -6,6 +6,7 @@ use App\Library\API\TmdbApi;
 use App\Model\Entity\Category;
 use App\Model\Entity\User;
 use App\Model\Manager\CategoryManager;
+use App\Model\Manager\McuManager;
 use App\Model\Manager\UserManager;
 
 class MainController extends AbstractController
@@ -98,6 +99,8 @@ class MainController extends AbstractController
                         }
 //                        vd($userLogged->getIsAdmin(), $this->isAdmin);
                         $_SESSION['user'] = $userLogin;
+                        $this->userConnected = true;
+//                        vd($_SESSION['user']->id, $_SESSION['user']);
                         $this->addFlash('Bienvenue ' . $userLogged->getPseudo());
                         $this->redirect('dashboard');
                         exit();
@@ -153,6 +156,7 @@ class MainController extends AbstractController
         $infosMovie = $MovieAPI->getMoviesById($movieId);
 
         $CategoryManager = new CategoryManager();
+        $McuManager = new McuManager();
         $category =  $CategoryManager->getCategory($categoryId);
 
         if($categoryId === null ){
@@ -160,7 +164,7 @@ class MainController extends AbstractController
             die;
         }else{
             // récupérer les comentaires pour cette catégory et ce film
-            $mcuList = $CategoryManager->getMcuMovie($movieId, $categoryId);
+            $mcuList = $McuManager->getMcuMovie($movieId, $categoryId);
 //            vd($mcuList);
 
             echo $this->render('movie.twig', array("movie" => $infosMovie, "classPage" => "moviePage", "category" =>
