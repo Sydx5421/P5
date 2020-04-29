@@ -102,15 +102,15 @@ class MainController extends AbstractController
                         $this->userConnected = true;
 //                        vd($_SESSION['user']->id, $_SESSION['user']);
                         $this->addFlash('Bienvenue ' . $userLogged->getPseudo());
-                        $this->redirect('dashboard');
+                        $this->redirect('dashboard/' . $userLogged->getId());
                         exit();
                     }else{
                         $this->addFlash($userLogin);
-                        $this->redirect('dashboard');
+                        $this->redirect('home' );
                     }
                 }else{
                     $this->addFlash('Veuillez remplir tous les champs afin de pouvoir vous connecter.');
-                    $this->redirect('dashboard');
+                    $this->redirect('home');
                 }
             }
         }
@@ -164,7 +164,7 @@ class MainController extends AbstractController
             die;
         }else{
             // récupérer les comentaires pour cette catégory et ce film
-            $mcuList = $McuManager->getMcuMovie($movieId, $categoryId);
+            $mcuList = $McuManager->getAllCommentsForMC($movieId, $categoryId);
 //            vd($mcuList);
 
             echo $this->render('movie.twig', array("movie" => $infosMovie, "classPage" => "moviePage", "category" =>

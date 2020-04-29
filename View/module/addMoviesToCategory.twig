@@ -11,7 +11,7 @@
         <figcaption>{{ movie.title }}</figcaption>
     </figure>
 
-    <form  method="POST" action="" class="basicForms d-flex flex-column" >
+    <form  method="POST" class="basicForms d-flex flex-column" >
         <input type="hidden" name="userId" value="{{ app.session.user.id }}">
         <input type="hidden" name="categoryId" value="{{ category.id }}">
         <input type="hidden" name="movieId" value="{{ movie.id }}">

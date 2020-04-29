@@ -28,10 +28,16 @@ class McuManager extends AbstractManager
 
     }
 
-
-    public function getMcuMovie($movieId, $categoryId){
+    public function doesMcuExistsAlready(MCUConnection $newMCUConnection){
         $db = $this->dbConnect();
-//        $req = $db->prepare("SELECT * FROM mcu_connection WHERE movie_id = ? AND category_id = ? ");
+        $req = $db->prepare("SELECT * FROM mcu_connection WHERE movie_id= ? AND category_id = ? AND  user_id = ? ");
+        $req->execute(array($newMCUConnection->getMovieId(), $newMCUConnection->getCategoryId(),
+            $newMCUConnection->getUserId()));
+        return $req->rowCount();
+    }
+
+    public function getAllCommentsForMC($movieId, $categoryId){
+        $db = $this->dbConnect();
         $req = $db->prepare("SELECT mcu.id, mcu.user_id, mcu.justification_comment, mcu.creation_date, u.pseudo
                                         FROM mcu_connection mcu
                                         INNER JOIN users u
@@ -53,12 +59,32 @@ class McuManager extends AbstractManager
 
     }
 
+
+
     public function deleteComment($mcuId){
         $db = $this->dbConnect();
         $req = $db->prepare('UPDATE  mcu_connection set justification_comment = NULL WHERE id = ?');
         $req->execute(array($mcuId));
 
         return $req;
+    }
+
+    public function updateComment($mcuId, $newComment){
+        $db = $this->dbConnect();
+        $req = $db->prepare('UPDATE  mcu_connection set justification_comment = ? WHERE id = ?');
+        $reqExec = $req->execute(array($newComment, $mcuId));
+
+        return $reqExec;
+    }
+
+    public function getComment($mcuId){
+        $db = $this->dbConnect();
+        $req = $db->prepare('SELECT justification_comment FROM mcu_connection WHERE id = ?');
+        $req->execute(array( $mcuId));
+
+        $comment = $req->fetch();
+
+        return $comment["justification_comment"];
     }
 
     public function getMcuFromUser($userId){

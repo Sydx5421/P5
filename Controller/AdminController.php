@@ -30,7 +30,7 @@ class AdminController extends AbstractController
         // Gestion des actions sur les commentaires en Ajax
 //        $commentsManager = new CommentsManager();
         $mcuManager = new McuManager();
-//        vd("action admin !");
+        vd("action admin !");
         if($this->isPost()){
             if(isset($_POST['commentAction']) && isset($_POST['id'])){
                 if($_POST['commentAction'] == 'delete'){

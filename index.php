@@ -41,8 +41,9 @@ $router->addRoute(new Route('/movie/(\d+)/cat/(\d+)', 'main', 'movie'));
 // ------------------- Actions réservées à l'utilisateur connecté
 $router->addRoute(new Route('/dashboard/(\d+)', 'User', 'dashboard'));
 $router->addRoute(new Route('/deconnexion', 'User', 'deconnexion'));
+$router->addRoute(new Route('/editComment/(\d+)', 'User', 'editComment'));
 $router->addRoute(new Route('/createCategory', 'User', 'createCategory'));
-$router->addRoute(new Route('/categorySearchNewMovies/c', 'User', 'categorySearchNewMovies'));
+$router->addRoute(new Route('/categorySearchNewMovies/(\d+)', 'User', 'categorySearchNewMovies'));
 $router->addRoute(new Route('/addMoviesToCategory/(\d+)/(\d+)', 'User', 'addMoviesToCategory'));
 
 

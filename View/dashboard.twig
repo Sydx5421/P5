@@ -45,8 +45,16 @@
                                             <p class="categoryElt" style="background-color: {{ MCUConnection.background_color }}; color : {{ MCUConnection.font_color }} "> {{ MCUConnection.nom }}</p>
                                         </a>
                                     </td>
-                                    <td class="col-7">
-                                        <p>{{ MCUConnection.justificationComment }}</p>
+                                    <td id="nwl_comment_cell_{{ MCUConnection.id }}" class="col-7 nwl_comment_cell">
+                                        <div id="comment_elt_{{ MCUConnection.id }}" class="comment_elt" contenteditable="false" >{{ MCUConnection.justificationComment }} </div>
+                                        <button class="btn editComment" data-mcuId ="{{ MCUConnection.id }}" ><i class="far fa-edit"></i></button>
+                                        <button  class="btn sendComment" data-mcuId ="{{ MCUConnection.id }}">Valider</button>
+                                        {#                                        <form class="ajax" method="POST" action="{{ app.basepath }}editComment/{{ MCUConnection.id  }}" >#}
+                                        {#                                            <textarea name="newComment">{{ MCUConnection.justificationComment }} </textarea>#}
+{#                                            <button type="submit" class="submitBtn">Enregistrer </button>#}
+{#                                            <input type="submit"  value="Enregistrer">#}
+
+{#                                        </form>#}
                                     </td>
                                 </tr>
                                 {# Fin du foreach #}
@@ -73,5 +81,71 @@
             </div>
         </div>
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function(){
+            var allButtons = $('button[class^=btn]');
+
+            // On abonne chaque bouton à un evt click
+            for (var i = 0; i < allButtons.length; i++) {
+                allButtons[i].addEventListener('click', function() {
+                    if(this.classList.contains("editComment")){
+                        var that = $(this),
+                            commentDiv = $(this).siblings(".comment_elt"),
+                            commentDivId = $(commentDiv).attr("id"),
+                            sendBtn = $(this).siblings(".sendComment"),
+                            thisParentCellId = $(this).parent().attr("id"),
+                            mcuId =  this.getAttribute("data-mcuId");
+                        $(commentDiv).attr("contenteditable", "true");
+                        $(this).hide();
+                        $(sendBtn).show();
+                        $(sendBtn).on('click', function() {
+                            if ( confirm( "Êtes-vous sur-e de vouloir enregistrer ces modifications? " + commentDivId + " " + thisParentCellId ) ) {
+                                let comment = $(this).siblings(".comment_elt").text();
+                                // Code à éxécuter si le l'utilisateur clique sur "OK"
+                                testAjax("editComment/" + mcuId, comment, thisParentCellId, callback);
+                            }
+                        });
+                    }
+                });
+            }
+
+
+            function testAjax(url, comment, thisParentCellId, callback){ // actions administrateur
+                var xhr = new XMLHttpRequest();
+                let returnValue;
+                let formData = new FormData();
+                formData.append("comment", comment);
+                xhr.open('POST','{{ app.basepath }}' + url );
+
+                xhr.addEventListener('readystatechange', function() { // On gère ici une requête asynchrone
+                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur
+                        let response = xhr.response;
+                        console.log(response);
+                        callback(response, thisParentCellId);
+                    } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) { // En cas d'erreur !
+                        console.error('Echec HTTP : code' + xhr.status);
+                    }
+                });
+                xhr.send(formData);
+            }
+
+            function callback(response, parentCellId) {
+                let commentDiv = $("#"+parentCellId).find(".comment_elt"),
+                    editBtn = $("#"+parentCellId).find(".editComment"),
+                    sendBtn = $("#"+parentCellId).find(".sendComment");
+
+                $(commentDiv).attr("contenteditable", "false");
+                $(commentDiv).text(response);
+                $(editBtn).show();
+                $(sendBtn).hide();
+            }
+
+        });
+    </script>
 
 {% endblock %}

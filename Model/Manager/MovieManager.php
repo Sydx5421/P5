@@ -9,7 +9,8 @@ use App\Model\Entity\Movie;
 class MovieManager extends AbstractManager
 {
     public function doesMovieExist(Movie $movie){
-        $req_movie = $this->db->prepare("SELECT 'id' FROM movies WHERE id = ?");
+        $db = $this->dbConnect();
+        $req_movie = $db->prepare("SELECT 'id' FROM movies WHERE id = ?");
         $req_movie->execute(array($movie->getId()));
         // return boolean
         if($req_movie->rowCount() == 0){
@@ -22,8 +23,9 @@ class MovieManager extends AbstractManager
     }
 
     public function createMovie(Movie $movie){
+        $db = $this->dbConnect();
         //vérifier le nombre de lignes insérées > 0 pour être sur que l'insertion a bien marché et ne pas allé plus loin si ce n'est pas le cas
-        $insert_movie = $this->db->prepare('INSERT INTO movies(id, title, poster_path ) VALUES(:id, :title, :poster_path)');
+        $insert_movie = $db->prepare('INSERT INTO movies(id, title, poster_path ) VALUES(:id, :title, :poster_path)');
 
         $insert_movie->bindValue(':id', $movie->getId());
         $insert_movie->bindValue(':title', $movie->getTitle());

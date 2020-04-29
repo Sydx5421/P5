@@ -53,6 +53,26 @@ class UserController extends AbstractController
         $this->redirect('home');
     }
 
+    public function editComment($mcuId){
+
+        $McuManager = new McuManager();
+
+        if($this->isPost()){
+            $previousComment = $McuManager->getComment($mcuId);
+            $newComment = trim(htmlspecialchars($_POST["comment"]));
+//            vd("On arrive bien dans l'action", $newComment);
+            $newComment = $McuManager->updateComment($mcuId, $newComment);
+            $newUpdatedComment = $McuManager->getComment($mcuId);
+//            vd($_POST["newComment"], $previousComment, $mcuId, $newComment, $newUpdatedComment);
+//            return 'retour traitement PHP ';
+//            $response = json_encode( array("newerComment" => $newUpdatedComment));
+//            echo "did it !";
+//            $this->addFlash('Votre commentaire a bien été mis à jour', 'success');
+            echo $newUpdatedComment;
+        }
+//        vd('On est pas rentré dans le if');
+    }
+
     /**
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -149,6 +169,7 @@ class UserController extends AbstractController
             $newMCUConnection = new MCUConnection($newMCUConnectionData);
 
 
+
             if(!$MovieManager->doesMovieExist($newMovie)){
                 if($MovieManager->doesMovieExist($newMovie) === false ){
                     // on enregistre le nouveau film
@@ -165,6 +186,12 @@ class UserController extends AbstractController
                 }
             }
             // Le film existe déjà dans notre base ou vient d'être créé, on peut donc créer la connection :
+
+            if($McuManager->doesMcuExistsAlready($newMCUConnection) > 0 ){
+                $this->addFlash('Vous avez déjà classé ce film dans cette catégorie. Vous pouvez modifier ou supprimer cette connexion depuis votre  dashboard.', 'info');
+                $this->redirect($this->basePath . 'category/' . $catId);
+                die;
+            }
 
             $MCUConnectionCreation = $McuManager->createMovieConnection($newMCUConnection);
 
