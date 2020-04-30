@@ -6,7 +6,7 @@
     <div class="search_results">
         {% if movieList is iterable %}
             {% for movie in movieList %}
-                <a href="{{ app.basepath }}movie/{{ movie.id }}/cat/{{ category.id }}" title="Voir la fiche Cinemood de ce film" class="col-md-4 text-center">
+                <a href="{{ app.basepath }}movie/{{ movie.id }}/cat/{{ category.id }}" title="Voir la fiche Cinemood de ce film" class="col-12 col-xs-4 col-md-3 col-xl-2 text-center">
                     <figure class='movieElt'>
                         {% if movie.posterPath is null %}
                             <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">

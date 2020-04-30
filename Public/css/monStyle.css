@@ -223,6 +223,14 @@ body.moviePage .container div table tr td:first-child{
 }
 
 /************* Category Page ************/
+.categoryPage .categorieInfos{
+    display: flex;
+}
+.categoryPage .categorieInfos .descriptionWrapper{
+    padding: 0 1rem;
+}
+
+/************* Categories Page ************/
 body.categoriesPage .jumbotron{
     padding: 1rem 2rem;
 }
@@ -239,6 +247,22 @@ body.categoriesPage .jumbotron{
     width: max-content;
     max-width: 300px;
     text-align: center;
+    font-weight: bold;
+}
+@media (max-width: 1200px) {
+    .categoryElt{
+        font-size: 1.8rem;
+    }
+}
+@media (max-width: 1000px) {
+    .categoryElt{
+        font-size: 1.5rem;
+    }
+}
+@media (max-width: 500px) {
+    .categoryElt{
+        font-size: 1.2rem;
+    }
 }
 
 /************** Fiche Movie ******************/
@@ -292,22 +316,38 @@ body.categoriesPage .jumbotron{
     min-height: 140px;
     height: 100%;
 }
-.dashboard .editComment{
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-}
-
-.dashboard .nwl_comment_cell{
-    position: relative;
+.dashboard .firstBtnsWrapper{
+    text-align: right;
 }
 
 .dashboard button.editComment{
     /*display: none;*/
 }
-.dashboard button.sendComment{
+.dashboard .secondBtnsWrapper{
     display: none;
     position: absolute;
     bottom: .5rem;
     right: 1rem;
+}
+
+.deleteCol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red!important;
+    font-size: 1.5rem;
+}
+.deleteCol button{
+    color: red!important;
+    transition: .25s;
+}
+.deleteCol button:hover{
+    background-color: red;
+    color: #fff !important;
+}
+
+.dashboard table td.categoryElt{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Model\Entity\Category;
 use App\Model\Entity\MCUConnection;
 use App\Model\Entity\Movie;
+use App\Model\Entity\User;
 use App\Model\Manager\CategoryManager;
 use App\Controller\TmdbRequestsTrait;
 use App\Model\Manager\McuManager;
@@ -53,24 +54,65 @@ class UserController extends AbstractController
         $this->redirect('home');
     }
 
-    public function editComment($mcuId){
+
+
+    public function deleteConnection($mcuId){
+//        vd("On rentre dans la méthode deleteConnection");
+//        echo "connection to delete : " . $mcuId;
 
         $McuManager = new McuManager();
-
-        if($this->isPost()){
-            $previousComment = $McuManager->getComment($mcuId);
-            $newComment = trim(htmlspecialchars($_POST["comment"]));
-//            vd("On arrive bien dans l'action", $newComment);
-            $newComment = $McuManager->updateComment($mcuId, $newComment);
-            $newUpdatedComment = $McuManager->getComment($mcuId);
-//            vd($_POST["newComment"], $previousComment, $mcuId, $newComment, $newUpdatedComment);
-//            return 'retour traitement PHP ';
-//            $response = json_encode( array("newerComment" => $newUpdatedComment));
-//            echo "did it !";
-//            $this->addFlash('Votre commentaire a bien été mis à jour', 'success');
-            echo $newUpdatedComment;
+        $connectedUser = new User($this->session["user"]);
+        $mcuConnection  = $McuManager->getMcuFromMcuId($mcuId);
+        // On vérifie avant tout que l'utilisateur est bien l'auteur du commentaire :
+//        vd($mcuConnection);
+        if($mcuConnection->getUserId() === $connectedUser->getId()){
+            $req = $McuManager->deleteMcuConnection($mcuId);
+            if ( $req->errorInfo()[0] == "00000" ){
+                echo "supression réussie";
+            }
+            die;
+        }else{
+            vd("Vous n'êtes pas l'auteur de cette connexion !") ;
+            die;
         }
-//        vd('On est pas rentré dans le if');
+    }
+
+    public function editComment($mcuId){
+//        vd("On rentre dans l'action");
+        $McuManager = new McuManager();
+        $previousComment = $McuManager->getComment($mcuId);
+        $connectedUser = new User($this->session["user"]);
+        $mcuConnection  = $McuManager->getMcuFromMcuId($mcuId);
+        // On vérifie avant tout que l'utilisateur est bien l'auteur du commentaire :
+        if($mcuConnection->getUserId() === $connectedUser->getId()){
+//            vd("On rentre dans le if de vérification de l'utilisateur");
+            if($this->isPost()){
+//                vd("On rentre dans le if isPost");
+                if($_POST["action"] == "edit"){
+                    $newComment = trim(htmlspecialchars($_POST["comment"]));
+                    $newComment = $McuManager->updateComment($mcuId, $newComment);
+                    $newUpdatedComment = $McuManager->getComment($mcuId);
+                    echo $newUpdatedComment;
+                    die;
+
+                }else if($_POST["action"] == "delete"){
+                    $McuManager->deleteComment($mcuId);
+                    $newUpdatedComment = $McuManager->getComment($mcuId);
+                    echo $newUpdatedComment;
+                    die;
+
+                }else if($_POST["action"] == "cancel") {
+                    $newUpdatedComment = $McuManager->getComment($mcuId);
+                    echo $newUpdatedComment;
+                    die;
+                }
+            }
+        }else{
+            // l'utilisateur n'a pas le droit de modifier se commentaire, car il n'est pas son auteur
+            // on ne fait donc rien et on renvoie le commentaire initiale à l'affichage.
+            echo $previousComment;
+        }
+
     }
 
     /**
@@ -86,8 +128,8 @@ class UserController extends AbstractController
                 'user_id' => trim(htmlspecialchars($_POST['userId'])),
                 'nom' => trim(htmlspecialchars($_POST['nameCategory'])),
                 'description' => trim(htmlspecialchars($_POST['descriptionCat'])),
-                'font_color' => trim(htmlspecialchars($_POST['backgroundColor'])),
-                'background_color' => trim(htmlspecialchars($_POST['fontColor']))
+                'background_color' => trim(htmlspecialchars($_POST['backgroundColor'])),
+                'font_color' => trim(htmlspecialchars($_POST['fontColor']))
             ];
 
             $newCategory = new Category($newCategoryData);

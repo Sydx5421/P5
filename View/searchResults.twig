@@ -27,7 +27,7 @@
         <!-- *************** film elements ***************** -->
         <div class="search_results">
             {% for movie in moviesSearchResults.results %}
-                <a href="{{ app.basepath }}movie/{{ movie.id }}" title="" class="col-md-4 text-center">
+                <a href="{{ app.basepath }}movie/{{ movie.id }}" title="" class="col-12 col-xs-4 col-md-3 col-xl-2 text-center">
                     <figure class='movieElt'>
                         {% if movie.poster_path  %}
                             <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movie.title }} poster">

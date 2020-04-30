@@ -18,17 +18,23 @@
                     <table class="table table-dark">
                         <thead class="">
                             <tr class="d-flex">
-                                <th scope="col" class="col-2 text-center">Films</th>
-                                <th scope="col" class="col-3 text-center">Catégories</th>
-                                <th scope="col" class="col-7 text-center">Commentaires</th>
+                                <th scope="col" class="col-12 col-md-1 text-center"></th>
+                                <th scope="col" class="col-5 col-md-2 text-center">Films</th>
+                                <th scope="col" class="col-6 col-md-3 text-center">Catégories</th>
+                                <th scope="col" class="col-12 col-md-6 text-center">Commentaires</th>
                             </tr>
                         </thead>
                         <tbody class="">
                         {% if mcuList is iterable %}
                             {% for MCUConnection in mcuList %}
                                 {# Boucle affichage des connexions : #}
-                                <tr class="d-flex">
-                                    <td class="col-2 text-center">
+                                <tr id="row_{{ MCUConnection.id }}" class="d-flex flex-wrap">
+                                    <td class="deleteCol col-12 col-md-1">
+                                        <button class="btn deleteMcuConnection" data-mcuId ="{{ MCUConnection.id }}" >
+                                            <i class="far fa-times-circle"></i>
+                                        </button>
+                                    </td>
+                                    <td class="col-5 col-md-2 text-center">
                                         <a href="{{ app.basepath }}movie/{{ MCUConnection.movieId }}">
                                             <figure class="">
                                                 {% if MCUConnection.poster_path  %}
@@ -40,21 +46,23 @@
                                             </figure>
                                         </a>
                                     </td>
-                                    <td class="col-3 text-center">
+                                    <td class="col-6 col-md-3 text-center categoryElt" style="background-color: {{ MCUConnection.background_color }};">
                                         <a href="{{ app.basepath }}category/{{ MCUConnection.categoryId }}">
-                                            <p class="categoryElt" style="background-color: {{ MCUConnection.background_color }}; color : {{ MCUConnection.font_color }} "> {{ MCUConnection.nom }}</p>
+                                            <p style="color : {{ MCUConnection.font_color }} "> {{ MCUConnection.nom }}</p>
                                         </a>
                                     </td>
-                                    <td id="nwl_comment_cell_{{ MCUConnection.id }}" class="col-7 nwl_comment_cell">
+                                    <td id="nwl_comment_cell_{{ MCUConnection.id }}" class="col-12 col-md-6 nwl_comment_cell">
+                                        <div class="firstBtnsWrapper">
+                                            <button class="btn editComment" data-mcuId ="{{ MCUConnection.id }}" ><i class="far fa-edit"></i></button>
+                                            {% if MCUConnection.justificationComment is not null %}
+                                                <button class="btn deleteComment" data-mcuId ="{{ MCUConnection.id }}" ><i class="fas fa-dumpster-fire"></i></button>
+                                            {% endif %}
+                                        </div>
                                         <div id="comment_elt_{{ MCUConnection.id }}" class="comment_elt" contenteditable="false" >{{ MCUConnection.justificationComment }} </div>
-                                        <button class="btn editComment" data-mcuId ="{{ MCUConnection.id }}" ><i class="far fa-edit"></i></button>
-                                        <button  class="btn sendComment" data-mcuId ="{{ MCUConnection.id }}">Valider</button>
-                                        {#                                        <form class="ajax" method="POST" action="{{ app.basepath }}editComment/{{ MCUConnection.id  }}" >#}
-                                        {#                                            <textarea name="newComment">{{ MCUConnection.justificationComment }} </textarea>#}
-{#                                            <button type="submit" class="submitBtn">Enregistrer </button>#}
-{#                                            <input type="submit"  value="Enregistrer">#}
-
-{#                                        </form>#}
+                                        <div class="secondBtnsWrapper">
+                                            <button  class="btn cancelEdit" data-mcuId ="{{ MCUConnection.id }}">Annuler</button>
+                                            <button  class="btn sendComment" data-mcuId ="{{ MCUConnection.id }}">Valider</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 {# Fin du foreach #}
@@ -95,38 +103,76 @@
                 allButtons[i].addEventListener('click', function() {
                     if(this.classList.contains("editComment")){
                         var that = $(this),
-                            commentDiv = $(this).siblings(".comment_elt"),
+                            firstBtnsWrapper = $(this).parent(".firstBtnsWrapper"),
+                            commentDiv = $(this).parent(".firstBtnsWrapper").siblings(".comment_elt"),
                             commentDivId = $(commentDiv).attr("id"),
-                            sendBtn = $(this).siblings(".sendComment"),
-                            thisParentCellId = $(this).parent().attr("id"),
+                            secondBtnsWrapper = $(commentDiv).siblings(".secondBtnsWrapper"),
+                            sendBtn = $(secondBtnsWrapper).find(".sendComment"),
+                            cancelBtn = $(secondBtnsWrapper).find(".cancelEdit"),
+                            thisParentCellId = $(firstBtnsWrapper).parent().attr("id"),
                             mcuId =  this.getAttribute("data-mcuId");
                         $(commentDiv).attr("contenteditable", "true");
-                        $(this).hide();
-                        $(sendBtn).show();
+                        $(firstBtnsWrapper).hide();
+                        $(secondBtnsWrapper).show();
                         $(sendBtn).on('click', function() {
                             if ( confirm( "Êtes-vous sur-e de vouloir enregistrer ces modifications? " + commentDivId + " " + thisParentCellId ) ) {
-                                let comment = $(this).siblings(".comment_elt").text();
+                                let comment = $(firstBtnsWrapper).siblings(".comment_elt").text();
                                 // Code à éxécuter si le l'utilisateur clique sur "OK"
-                                testAjax("editComment/" + mcuId, comment, thisParentCellId, callback);
+                                EditAjax("editComment/" + mcuId, "edit", thisParentCellId, callbackOnEdit, comment);
+                            }
+                        });
+                        $(cancelBtn).on('click', function() {
+                            let comment = $(firstBtnsWrapper).siblings(".comment_elt").text();
+                            EditAjax("editComment/" + mcuId, "cancel", thisParentCellId, callbackOnEdit, comment);
+                            $(commentDiv).attr("contenteditable", "false");
+                            $(commentDiv).text("");
+                            $(firstBtnsWrapper).show();
+                            $(secondBtnsWrapper).hide();
+                        });
+                    }else if(this.classList.contains("deleteComment")){
+                        var firstBtnsWrapper = $(this).parent(".firstBtnsWrapper");
+                        var thisParentCellId = $(firstBtnsWrapper).parent().attr("id");
+                        var mcuId =  this.getAttribute("data-mcuId");
+                        $(this).on('click', function() {
+                            if ( confirm( "Êtes-vous sur-e de vouloir enregistrer ces modifications? " + commentDivId + " " + thisParentCellId ) ) {
+                                console.log("allez on supprime le commentaire ! ");
+                                EditAjax("editComment/" + mcuId, "delete", thisParentCellId, callbackOnEdit);
+                                $(this).hide();
+                            }
+                        });
+                    }else if(this.classList.contains("deleteMcuConnection")){
+                        var firstBtnsWrapper = $(this).parent(".firstBtnsWrapper");
+                        var thisParentCellId = $(firstBtnsWrapper).parent().attr("id");
+                        var mcuId =  this.getAttribute("data-mcuId");
+                        $(this).on('click', function() {
+                            if ( confirm( "Êtes-vous sur-e de vouloir supprimer cette connection? ") ) {
+                                console.log("allez on supprime la connexion ! ");
+                                deleteRowAjax("deleteConnection/" + mcuId, "row_" + mcuId, callbackOnDelete);
+                                // testAjax("editComment/" + mcuId, "delete", thisParentCellId, callback);
+                                // $(this).hide();
                             }
                         });
                     }
+
                 });
             }
 
 
-            function testAjax(url, comment, thisParentCellId, callback){ // actions administrateur
+            function EditAjax(url, action, thisParentCellId, callbackOnEdit, comment = null){ // actions administrateur
                 var xhr = new XMLHttpRequest();
                 let returnValue;
                 let formData = new FormData();
-                formData.append("comment", comment);
+                if(comment != null){
+                    formData.append("comment", comment);
+                }
+                formData.append("action", action);
                 xhr.open('POST','{{ app.basepath }}' + url );
 
                 xhr.addEventListener('readystatechange', function() { // On gère ici une requête asynchrone
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur
                         let response = xhr.response;
                         console.log(response);
-                        callback(response, thisParentCellId);
+                        callbackOnEdit(response, thisParentCellId);
                     } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) { // En cas d'erreur !
                         console.error('Echec HTTP : code' + xhr.status);
                     }
@@ -134,15 +180,36 @@
                 xhr.send(formData);
             }
 
-            function callback(response, parentCellId) {
+            function callbackOnEdit(response, parentCellId) {
                 let commentDiv = $("#"+parentCellId).find(".comment_elt"),
-                    editBtn = $("#"+parentCellId).find(".editComment"),
-                    sendBtn = $("#"+parentCellId).find(".sendComment");
+                    firstBtnsWrapper = $("#"+parentCellId).find(".firstBtnsWrapper"),
+                    secondBtnsWrapper = $("#"+parentCellId).find(".secondBtnsWrapper");
 
+                console.log(parentCellId);
                 $(commentDiv).attr("contenteditable", "false");
                 $(commentDiv).text(response);
-                $(editBtn).show();
-                $(sendBtn).hide();
+                $(firstBtnsWrapper).show();
+                $(secondBtnsWrapper).hide();
+            }
+
+            function deleteRowAjax(url, rowId, callbackOnDelete) { // actions administrateur
+                // 1. create a new XMLHttpRequest object -- an object like any other!
+                var myRequest = new XMLHttpRequest();
+                myRequest.open('GET', '{{ app.basepath }}' + url);
+                myRequest.onreadystatechange = function () {
+                    if (myRequest.readyState === 4) {
+                        console.log(myRequest.responseText);
+                        console.log("#" + rowId);
+                        callbackOnDelete(rowId);
+                    }
+                };
+                myRequest.send();
+                $("#" + rowId).hide();
+            }
+
+            function callbackOnDelete(rowId) {
+                $("#" + rowId).remove();
+                console.log("FUNCTION callbackOnDelete ??!!!");
             }
 
         });

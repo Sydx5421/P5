@@ -7,8 +7,10 @@
         <div class="jumbotron">
             <div class="container">
                 <div class="categorieInfos">
-                    <h1>{{ category.nom }}</h1>
-                    <p>{{ category.description }}</p>
+                    <div class="titleWrapper" ><h1 class="categoryElt" style="background-color: {{ category.backgroundColor }}; color : {{ category.fontColor }} ">{{ category.nom }}</h1></div>
+                    <div class="descriptionWrapper"><p>{{ category.description }}</p></div>
+
+
                 </div>
                 <div class="categoryActions">
 {#                    <button type="button" id="moviesSearch" class="btn btn_cinemood_basic_full" data-target="categoryFilms">Afficher les films à appartenant à cette catégorie</button>#}

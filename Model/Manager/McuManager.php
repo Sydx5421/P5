@@ -59,8 +59,13 @@ class McuManager extends AbstractManager
 
     }
 
+    public function deleteMcuConnection($mcuId){
+        $db = $this->dbConnect();
+        $req = $db->prepare('DELETE FROM mcu_connection WHERE id = ?');
+        $req->execute(array($mcuId));
 
-
+        return $req;
+    }
     public function deleteComment($mcuId){
         $db = $this->dbConnect();
         $req = $db->prepare('UPDATE  mcu_connection set justification_comment = NULL WHERE id = ?');
@@ -85,6 +90,17 @@ class McuManager extends AbstractManager
         $comment = $req->fetch();
 
         return $comment["justification_comment"];
+    }
+
+    public function getMcuFromMcuId($mcuId){
+        $db = $this->dbConnect();
+        $req = $db->prepare("SELECT * FROM mcu_connection WHERE id = ? ");
+        $req->execute(array($mcuId));
+
+        $mcuConnection = $req->fetchObject('App\Model\Entity\MCUConnection');
+        $req->closeCursor();
+
+        return $mcuConnection;
     }
 
     public function getMcuFromUser($userId){
