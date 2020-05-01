@@ -41,8 +41,8 @@ class MainController extends AbstractController
 
         if($this->isPost()){
             $pseudo = trim(htmlspecialchars($_POST['pseudo']));
-            $password = trim(htmlspecialchars($_POST['password']));
-            $confirm_password = trim(htmlspecialchars($_POST['confirm_password']));
+            $password = sha1($_POST['password']);
+            $confirm_password = sha1($_POST['confirm_password']);
             $email = trim(htmlspecialchars($_POST['email']));
 
             $newUserData = [
@@ -83,33 +83,30 @@ class MainController extends AbstractController
         if($this->isPost()){
 
             if(isset($_POST['email_or_pseudo']) && isset($_POST['password'])){
-//                vd('!', $this->isPost(), (isset($_POST['email_or_pseudo']) && isset($_POST['password'])), (!empty
-//                    ($_POST['email_or_pseudo']) && !empty($_POST['password'])));
                 if(!empty($_POST['email_or_pseudo']) && !empty($_POST['password'])){
-                    $password = htmlspecialchars($_POST['password']);
+                    $password = sha1($_POST['password']);
                     $login = htmlspecialchars($_POST['email_or_pseudo']);
 
                     $userLogin = $UserManager->login($login, $password);
-//                    vd($userLogin);
+
                     if(is_object($userLogin)){
                         $userLogged = new User($userLogin);
                         if($userLogged->getIsAdmin() == 1){
                             $_SESSION['admin'] = true;
                             $this->isAdmin = true;
                         }
-//                        vd($userLogged->getIsAdmin(), $this->isAdmin);
                         $_SESSION['user'] = $userLogin;
                         $this->userConnected = true;
-//                        vd($_SESSION['user']->id, $_SESSION['user']);
-                        $this->addFlash('Bienvenue ' . $userLogged->getPseudo());
+
+                        $this->addFlash('Bienvenue ' . $userLogged->getPseudo(), "success");
                         $this->redirect('dashboard/' . $userLogged->getId());
                         exit();
                     }else{
-                        $this->addFlash($userLogin);
+                        $this->addFlash($userLogin, "danger");
                         $this->redirect('home' );
                     }
                 }else{
-                    $this->addFlash('Veuillez remplir tous les champs afin de pouvoir vous connecter.');
+                    $this->addFlash('Veuillez remplir tous les champs afin de pouvoir vous connecter.', "danger");
                     $this->redirect('home');
                 }
             }
@@ -130,7 +127,7 @@ class MainController extends AbstractController
         $CategoryManager = new CategoryManager();
         $categories =  $CategoryManager->getCategories();
 
-        echo $this->render('categories.twig', array('classPage' =>'categoriesPage', 'categories' => $categories));
+        echo $this->render('categories.twig', array('categories' => $categories));
     }
 
     public function category($categoryId, $search=null){
@@ -146,7 +143,7 @@ class MainController extends AbstractController
             $module = "categorySearch";
         }
 
-        echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module'
+        echo $this->render('category.twig', array('category' => $category, 'module'
         => $module, 'movieList' => $movieList));
     }
 
@@ -160,14 +157,14 @@ class MainController extends AbstractController
         $category =  $CategoryManager->getCategory($categoryId);
 
         if($categoryId === null ){
-            echo $this->render('movie.twig', array("movie" => $infosMovie, "classPage" => "moviePage"));
+            echo $this->render('movie.twig', array("movie" => $infosMovie));
             die;
         }else{
             // récupérer les comentaires pour cette catégory et ce film
             $mcuList = $McuManager->getAllCommentsForMC($movieId, $categoryId);
 //            vd($mcuList);
 
-            echo $this->render('movie.twig', array("movie" => $infosMovie, "classPage" => "moviePage", "category" =>
+            echo $this->render('movie.twig', array("movie" => $infosMovie, "category" =>
                 $category->getNom(), "mcuList" => $mcuList));
         }
     }

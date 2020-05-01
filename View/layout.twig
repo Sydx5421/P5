@@ -40,23 +40,27 @@
     </div>
 {% endif %}
 
-{% if app.session is defined  %}
-{{ app.session.pseudo }}
-{% else %}
-<h1>Session n'est pas définit ou ne passe pas</h1>
-{% endif %}
+{#{% if app.session is defined  %}#}
+{#{{ app.session.pseudo }}#}
+{#{% else %}#}
+{#<h1>Session n'est pas définit ou ne passe pas</h1>#}
+{#{% endif %}#}
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
-{#Affichage de mon contenu de page#}
-{#2 syntaxes possibles#}
-{#{% block content %} {% endblock %}#}
-{# ou #}
+{# ************* Main Page content ************ #}
 {% if block("content") is defined %}
     {{ block('content') }}
 {% endif %}
 
 
-
+{# ************ Footer *************#}
+<footer>
+    <div class="container">
+        <div class="nwl_copyright">Copyright © 2020 Cinemood</div>
+        <div class="tmdb_logo_container">
+            <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg">
+        </div>
+    </div>
+</footer>
 
 
 <!-- Bootstrap core JavaScript================================================== -->

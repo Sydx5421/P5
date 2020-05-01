@@ -2,6 +2,10 @@
 body{
     background-color: black;
     color: #cccaca!important;
+    min-height: 100vh;
+}
+main{
+    min-height: 25vh;
 }
 body .jumbotron{
     color: grey !important;
@@ -25,8 +29,6 @@ a:hover{
 .btn_cinemood_basic_full{
     color: #fff;
     background-color: #ff7800c7;
-    /*background-color: #ff9333;*/
-    /*color: #ff7800;*/
     border-color: #ff7800;
 }
 .btn_cinemood_basic_empty,
@@ -36,9 +38,6 @@ a:hover{
 }
 .btn_cinemood_basic:hover,
 .btn-outline-success:hover{
-    /*color: #fff !important;*/
-    /*background-color: #ff7800;*/
-    /*border-color: #ff7800;*/
     color: #fff;
     background-color: #275baf;
     border-color: #204b91;
@@ -94,7 +93,6 @@ nav div.navbar a.active{
 /**************** Forms ********************/
 
 .basicForms{
-    /*max-width: 500px;*/
     margin: 2rem 0;
 }
 
@@ -108,7 +106,6 @@ nav div.navbar a.active{
 
 div.nwl_submit_btn{
     justify-content: flex-end;
-    padding-right: 2rem;
 }
 
 .basicForms textarea{
@@ -141,7 +138,6 @@ div.nwl_submit_btn{
 .categoriesPage .jumbotron form tr{
     display: flex;
     flex-wrap: wrap;
-    /*width: max-content;*/
     width: 100%;
 }
 .categoriesPage .jumbotron form tr td,
@@ -179,7 +175,6 @@ div.nwl_submit_btn{
 .search_results a{
     display: block;
     width: min-content;
-    /*border: solid #fff 1px;*/
 }
 
 .search_results a figure{
@@ -199,6 +194,10 @@ div.nwl_submit_btn{
     border: 2px solid #ff7800 ;
 }
 
+/*********** Home Page *********/
+.homePage h2{
+    width: 100%;
+}
 
 /*********** Movie Page *********/
 body.moviePage .jumbotron{
@@ -294,18 +293,31 @@ body.categoriesPage .jumbotron{
     margin: 0;
 }
 
+/*************** Register ***************/
+.registerPage .jumbotron{
+    padding: 2rem;
+}
+.registerPage .container form{
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: 10px;
+}
+.registerPage .container div.nwl_submit_btn{
+    margin-top: 2rem;
+}
+
 /*************** Dashboard ***************/
 .dashboard button{
     border-radius: 5px;
-    /*padding-left: .2rem;*/
     border: none;
     background-color: transparent;
     border: 1px solid;
     color: #ff7800;
 }
 .dashboard button:hover{
-    /*background-color: #ff7800;*/
-    /*border: 1px solid #fff;*/
     color: #fff;
 }
 .dashboard form{
@@ -350,4 +362,32 @@ body.categoriesPage .jumbotron{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/************ Footer ***********/
+footer{
+    margin-top: 4rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 60px;
+    color: #FFFFFF;
+}
+footer .container{
+    margin: auto;
+}
+footer .nwl_copyright{
+    width: 100%;
+    text-align: center;
+}
+footer .tmdb_logo_container{
+    display: flex;
+    justify-content: flex-end;
+}
+footer img{
+    max-width: 120px;
+}
+@media (max-width: 500px) {
+    footer img{
+        max-width: 75px;
+    }
 }

@@ -1,53 +1,57 @@
 {% extends 'layout.twig' %}
 {% import 'form.twig' as form %}
 
+{% set classPage = 'homePage' %}
 
 {% block content %}
-    <div class="jumbotron">
+    <header>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Bienvenue sur Cinemood</h1>
+                <p>Le site qui vous permet de classer et de rechercher des films selon des catégorie que vous créez !</p>
+                <form method="POST" action="simpleMovieSearch" class="basicForms" >
+                    {{ form.input_placeholder('search', {'placeholder' : 'rechercher un film'}) }}
+                    {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
+
+                    <div class="nwl_submit_btn">
+                        <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <main>
         <div class="container">
-            <h1>Home</h1>
-            <form method="POST" action="simpleMovieSearch" class="basicForms" >
-                {{ form.input_placeholder('search', {'placeholder' : 'search'}) }}
-                {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
-
-                <div class="nwl_submit_btn">
-                    <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <div class="container">
-        <!-- ********************** Random Movies ****************** -->
-        <div class="search_results row">
-
-            {% for movie in randMovies %}
-                <a href="{{ app.basepath }}movie/{{ movie.id }}" class="text-center">
-                    <figure class="">
-                        {% if movie.poster_path  %}
-                            <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movies.title }} poster">
-                        {% else %}
-                            <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
-                        {% endif %}
-                        <figcaption>{{ movie.title }}</figcaption>
+            <!-- ********************** Random Movies ****************** -->
+            <div class="search_results row">
+            <h2><strong>Random Movies :</strong> Connaissez-vous ces films? Classez-les !</h2>
+                {% for movie in randMovies %}
+                    <a href="{{ app.basepath }}movie/{{ movie.id }}" class="text-center">
+                        <figure class="">
+                            {% if movie.poster_path  %}
+                                <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movies.title }} poster">
+                            {% else %}
+                                <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
+                            {% endif %}
+                            <figcaption>{{ movie.title }}</figcaption>
+                        </figure>
+                    </a>
+                {% else %}
+                    <figure class='movieElt'>
+                        <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
+                        <figcaption>Not Found</figcaption>
                     </figure>
-                </a>
-            {% else %}
-                <figure class='movieElt'>
-                    <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
-                    <figcaption>Not Found</figcaption>
-                </figure>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
+            <hr>
+        </div> <!-- /container -->
+    </main>
 
-        <hr>
 
         <!-- **************** FOOTER **************** -->
-        <footer>
-            <p>&copy; 2016 Company, Inc.</p>
-        </footer>
-    </div> <!-- /container -->
+
 {% endblock %}
 
 {% block javascripts %}

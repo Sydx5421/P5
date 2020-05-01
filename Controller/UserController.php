@@ -41,7 +41,7 @@ class UserController extends AbstractController
         $McuManager = new McuManager();
         $mcuList = $McuManager->getMcuFromUser($userId);
 //        vd($mcuList);
-        echo $this->render('dashboard.twig',  array("classPage" => "dashboard", "mcuList" => $mcuList));
+        echo $this->render('dashboard.twig',  array("mcuList" => $mcuList));
     }
 
     /**
@@ -155,7 +155,7 @@ class UserController extends AbstractController
 
         $categories =  $CategoryManager->getCategories();
 
-        echo $this->render('categories.twig', array('classPage' =>'categoriesPage', 'categories' => $categories));
+        echo $this->render('categories.twig', array('categories' => $categories));
 
     }
 
@@ -172,7 +172,7 @@ class UserController extends AbstractController
         $searchResult = $this->searchMovies();
 
 
-        echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module, 'moviesSearchResults' => $searchResult["moviesSearchResults"], 'searchQuery' => $searchResult["searchQuery"], 'previousPage' => $searchResult["previousPage"], 'nextPage' => $searchResult["nextPage"]));
+        echo $this->render('category.twig', array('category' => $category, 'module' => $module, 'moviesSearchResults' => $searchResult["moviesSearchResults"], 'searchQuery' => $searchResult["searchQuery"], 'previousPage' => $searchResult["previousPage"], 'nextPage' => $searchResult["nextPage"]));
     }
 
     /**
@@ -218,13 +218,13 @@ class UserController extends AbstractController
                     $movieCreation = $MovieManager->createMovie($newMovie);
                     if($movieCreation !== true){
                         $this->addFlash('Erreur 1: le classement n\'a pas pu être enregistré car  ' .                         $movieCreation,'danger');
-                    echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module));
+                    echo $this->render('category.twig', array('category' => $category, 'module' => $module));
                     }
 
                 }else{
                     // on gère l'erreur qui a été généré
                     $this->addFlash('Erreur 1: le classement n\'a pas pu être enregistré car  ' .                         $MovieManager->doesMovieExist($newMovie),'danger');
-                    echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module));
+                    echo $this->render('category.twig', array('category' => $category, 'module' => $module));
                 }
             }
             // Le film existe déjà dans notre base ou vient d'être créé, on peut donc créer la connection :
@@ -249,7 +249,7 @@ class UserController extends AbstractController
             }
         }
 
-        echo $this->render('category.twig', array('classPage' =>'categoryPage', 'category' => $category, 'module' => $module, 'movie' => $searchResult["movie"]));
+        echo $this->render('category.twig', array('category' => $category, 'module' => $module, 'movie' => $searchResult["movie"]));
     }
 
 
