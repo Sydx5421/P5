@@ -175,6 +175,7 @@ div.nwl_submit_btn{
 .search_results a{
     display: block;
     width: min-content;
+    max-width: 300px;
 }
 
 .search_results a figure{
@@ -198,7 +199,33 @@ div.nwl_submit_btn{
 .homePage h2{
     width: 100%;
 }
+.homePage .mcuLinkWrapp{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    position: relative;
+}
 
+.homePage .mcuLinkWrapp i{
+    font-size: 3rem;
+    -webkit-text-stroke-color: #fff;
+    -webkit-text-stroke-width: 2px;
+    color: #b0b0b0d1;
+
+    position: absolute;
+    top: 50%;
+    margin-top: -28px;
+}
+
+.homePage .mcuLinkWrapp a,
+.homePage .mcuLinkWrapp a p{
+    width: 154px;
+    max-width: 154px;
+}
+.homePage .mcuLinkWrapp .categoryElt{
+    font-size: 1.7rem;
+}
 /*********** Movie Page *********/
 body.moviePage .jumbotron{
     padding: 1rem 2rem;
@@ -222,10 +249,10 @@ body.moviePage .container div table tr td:first-child{
 }
 
 /************* Category Page ************/
-.categoryPage .categorieInfos{
+.categoryPage .categoryInfos{
     display: flex;
 }
-.categoryPage .categorieInfos .descriptionWrapper{
+.categoryPage .categoryInfos .descriptionWrapper{
     padding: 0 1rem;
 }
 

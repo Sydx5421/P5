@@ -87,7 +87,6 @@ class CategoryManager extends AbstractManager
         $movieIdList = [];
 
         while($movieId = $req->fetchObject('App\Model\Entity\Movie')){
-
             $movieIdList[] = $movieId;
         }
         $req->closeCursor();
@@ -98,5 +97,28 @@ class CategoryManager extends AbstractManager
         return $movieIdList;
     }
 
+    public function getCategoriesOfUser(){
+        $db = $this->dbConnect();
+        $req = $db->prepare("SELECT * FROM categories WHERE user_id = ?");
+        $req->execute();
+    }
+
+    public function getLastCategoriesCreated(){
+        $db = $this->dbConnect();
+        $req = $db->prepare("SELECT * FROM categories ORDER BY id DESC LIMIT 3");
+        $req->execute();
+
+        $categoryList = [];
+
+        while($category = $req->fetchObject('App\Model\Entity\Category')){
+            $categoryList[] = $category;
+        }
+        $req->closeCursor();
+
+        if($categoryList == null){
+            return "Aucune catégorie trouvée.";
+        }
+        return $categoryList;
+    }
 
 }

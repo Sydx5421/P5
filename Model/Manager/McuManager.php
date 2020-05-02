@@ -126,4 +126,29 @@ class McuManager extends AbstractManager
         }
         return $mcuList;
     }
+
+    public function getLastMcu(){
+        $db = $this->dbConnect();
+        $req = $db->prepare("SELECT mcu.id, mcu.movie_id, mcu.category_id, mcu.user_id,  mcu.justification_comment, mcu.creation_date, cat.nom, cat.font_color, cat.background_color, m.title, m.poster_path
+                                        FROM (mcu_connection mcu
+                                        INNER JOIN movies m
+                                        ON (mcu.movie_id = m.id))
+                                        INNER JOIN categories cat
+                                        ON (mcu.category_id = cat.id)
+                                        ORDER BY id DESC LIMIT 3");
+        $req->execute();
+
+        $mcuList = [];
+
+        while($mcuElt = $req->fetchObject('App\Model\Entity\MCUConnection')){
+            $mcuList[] = $mcuElt;
+        }
+        $req->closeCursor();
+
+        if($mcuList == null){
+            return "Aucune connections trouvées";
+        }
+        return $mcuList;
+    }
+
 }

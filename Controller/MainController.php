@@ -20,14 +20,19 @@ class MainController extends AbstractController
      * @throws \Twig\Error\SyntaxError
      */
     public function home(){
+        // Récupération des films aléatoires
         $TmdbApi = new TmdbApi("01caf40148572dc465c9503e59ded4bf");
         $randMovies =  $TmdbApi->getRandomMovies();
 
-        $randMovie1 = $randMovies[0];
-        $randMovie2 = $randMovies[1];
-        $randMovie3 = $randMovies[2];
+        // Récupération des 3 dernières catégories créées
+        $CategoryManager = new CategoryManager();
+        $lastCategories = $CategoryManager->getLastCategoriesCreated();
 
-        echo $this->render('home.twig', array('randMovies' => $randMovies) );
+        // Récupération des 3 dernières connexions :
+        $McuManager = new McuManager();
+        $lastMcuConnection = $McuManager->getLastMcu();
+
+        echo $this->render('home.twig', array('randMovies' => $randMovies,'lastCategories' => $lastCategories, 'lastMcuConnection' => $lastMcuConnection));
 
     }
 

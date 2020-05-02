@@ -8,7 +8,7 @@
         {% if app.session.user  %}
             <div class="jumbotron">
                 <div class="container">
-                    <div class="categorieInfos">
+                    <div class="categoryInfos">
                         <div class="titleWrapper" ><h1 class="categoryElt" style="background-color: {{ category.backgroundColor }}; color : {{ category.fontColor }} ">{{ category.nom }}</h1></div>
                         <div class="descriptionWrapper"><p>{{ category.description }}</p></div>
 
@@ -26,9 +26,9 @@
         {% else %}
             <div class="jumbotron">
                 <div class="container">
-                    <div class="categorieInfos">
-                        <h1>{{ category.nom }}</h1>
-                        <p>{{ category.description }}</p>
+                    <div class="categoryInfos">
+                        <div class="titleWrapper" ><h1 class="categoryElt" style="background-color: {{ category.backgroundColor }}; color : {{ category.fontColor }} ">{{ category.nom }}</h1></div>
+                        <div class="descriptionWrapper"><p>{{ category.description }}</p></div>
                     </div>
                 </div>
             </div>
@@ -38,13 +38,13 @@
     <main>
         <div id="innerContent" class="container">
             {% if module == 'categorySearch' %}
-                <h2>{{ module }}</h2>
+{#                <h2>{{ module }}</h2>#}
                 {{ include('module/categoryNewMovieSearch.twig') }}
             {% elseif module == 'addMovie' %}
-                <h2>{{ module }}</h2>
+{#                <h2>{{ module }}</h2>#}
                 {{ include('module/addMoviesToCategory.twig') }}
             {% else %}
-                <h2>{{ module }}</h2>
+{#                <h2>{{ module }}</h2>#}
                 {{ include('module/categoryMovieList.twig') }}
             {% endif %}
         </div>
