@@ -139,30 +139,25 @@
                         var firstBtnsWrapper = $(this).parent(".firstBtnsWrapper");
                         var thisParentCellId = $(firstBtnsWrapper).parent().attr("id");
                         var mcuId =  this.getAttribute("data-mcuId");
-                        $(this).on('click', function() {
-                            if ( confirm( "Êtes-vous sur-e de vouloir enregistrer ces modifications? " + commentDivId + " " + thisParentCellId ) ) {
-                                console.log("allez on supprime le commentaire ! ");
-                                EditAjax("editComment/" + mcuId, "delete", thisParentCellId, callbackOnEdit);
-                                $(this).hide();
-                            }
-                        });
+                        if ( confirm( "Êtes-vous sur-e de vouloir supprimer ce commentaire? " + commentDivId + " " + thisParentCellId ) ) {
+                            console.log("allez on supprime le commentaire ! ");
+                            EditAjax("editComment/" + mcuId, "delete", thisParentCellId, callbackOnEdit);
+                            $(this).hide();
+                        }
                     }else if(this.classList.contains("deleteMcuConnection")){
                         var firstBtnsWrapper = $(this).parent(".firstBtnsWrapper");
                         var thisParentCellId = $(firstBtnsWrapper).parent().attr("id");
                         var mcuId =  this.getAttribute("data-mcuId");
-                        $(this).on('click', function() {
-                            if ( confirm( "Êtes-vous sur-e de vouloir supprimer cette connection? ") ) {
-                                console.log("allez on supprime la connexion ! ");
-                                deleteRowAjax("deleteConnection/" + mcuId, "row_" + mcuId, callbackOnDelete);
-                                // testAjax("editComment/" + mcuId, "delete", thisParentCellId, callback);
-                                // $(this).hide();
-                            }
-                        });
+                        if ( confirm( "Êtes-vous sur-e de vouloir supprimer cette connection? ") ) {
+                            console.log("allez on supprime la connexion ! ");
+                            deleteRowAjax("deleteConnection/" + mcuId, "row_" + mcuId, callbackOnDelete);
+                            // testAjax("editComment/" + mcuId, "delete", thisParentCellId, callback);
+                            // $(this).hide();
+                        }
                     }
 
                 });
             }
-
 
             function EditAjax(url, action, thisParentCellId, callbackOnEdit, comment = null){ // actions administrateur
                 var xhr = new XMLHttpRequest();
@@ -196,6 +191,11 @@
                 $(commentDiv).text(response);
                 $(firstBtnsWrapper).show();
                 $(secondBtnsWrapper).hide();
+                // var mcuId = $("#"+parentCellId + " .firstBtnsWrapper .editComment").attr("data-mcuId");
+
+                if(response != "" && response != null){
+                    $("#"+parentCellId + " .firstBtnsWrapper .deleteComment").show();
+                }
             }
 
             function deleteRowAjax(url, rowId, callbackOnDelete) { // actions administrateur
@@ -215,7 +215,6 @@
 
             function callbackOnDelete(rowId) {
                 $("#" + rowId).remove();
-                console.log("FUNCTION callbackOnDelete ??!!!");
             }
 
         });

@@ -151,4 +151,8 @@ class McuManager extends AbstractManager
         return $mcuList;
     }
 
+    public function getCategory(){
+
+    }
+
 }

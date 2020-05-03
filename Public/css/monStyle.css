@@ -199,6 +199,9 @@ div.nwl_submit_btn{
 .homePage h2{
     width: 100%;
 }
+.homePage .search_results.row{
+    margin-top: 5rem;
+}
 .homePage .mcuLinkWrapp{
     display: flex;
     align-items: center;
@@ -223,8 +226,10 @@ div.nwl_submit_btn{
     width: 154px;
     max-width: 154px;
 }
+
 .homePage .mcuLinkWrapp .categoryElt{
-    font-size: 1.7rem;
+    font-size: 1.6rem;
+    padding: 2rem .5rem;
 }
 /*********** Movie Page *********/
 body.moviePage .jumbotron{
@@ -267,13 +272,14 @@ body.categoriesPage .jumbotron{
     display: block;
 }
 .categoryElt{
-    padding: 2rem;
+    padding: 2rem 1rem;
     font-size: 2rem;
     border-radius: 15px;
     width: max-content;
     max-width: 300px;
     text-align: center;
     font-weight: bold;
+    word-wrap: break-word;
 }
 @media (max-width: 1200px) {
     .categoryElt{

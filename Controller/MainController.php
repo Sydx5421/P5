@@ -162,6 +162,8 @@ class MainController extends AbstractController
         $category =  $CategoryManager->getCategory($categoryId);
 
         if($categoryId === null ){
+//            Afficher toutes les catégories liées à ce film
+
             echo $this->render('movie.twig', array("movie" => $infosMovie));
             die;
         }else{
