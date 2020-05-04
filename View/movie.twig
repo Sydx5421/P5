@@ -10,14 +10,16 @@
                 <h1>{{ movie.title }}</h1>
             </div>
             <div class="container">
-                <figure class="">
-                    {% if movie.poster_path  %}
-                        <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movies.title }} poster">
-                    {% else %}
-                        <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
-                    {% endif %}
-                    <figcaption></figcaption>
-                </figure>
+                <a href="{{ app.basepath }}movie/{{ movie.id }}">
+                    <figure class="">
+                        {% if movie.poster_path  %}
+                            <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movies.title }} poster">
+                        {% else %}
+                            <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
+                        {% endif %}
+                        <figcaption></figcaption>
+                    </figure>
+                </a>
                 <div>
                     <table>
                         <tbody>
@@ -60,7 +62,7 @@
         </div>
     </header>
     <main>
-        <div id="search_results" class="container">
+        <div id="search_results" class="container categoryList">
             {% if category is null %}
             {# AFficher la liste des catégorie associée à ce film si il y en a #}
                 <h2>Liste des catégories associées à ce film</h2>
@@ -68,9 +70,17 @@
                 <div class="container search_results">
                     {% if categories is iterable %}
                         {% for category in categories %}
-                            <a href="{{ app.basepath }}category/{{ category.id }}">
-                                <p class="categoryElt" style="background-color: {{ category.backgroundColor }}; color : {{ category.fontColor }} "> {{ category.nom }}</p>
-                            </a>
+                            <div class="categoryHolder">
+                                <a href="{{ app.basepath }}category/{{ category.id }}" title="Voir la fiche de la catégorie">
+                                    <p class="categoryElt" style="background-color: {{ category.backgroundColor }}; color : {{ category.fontColor }}"> {{ category.nom }}</p>
+                                </a>
+                                {% if category.nbComments > 0 %}
+                                    <a href="{{ app.basepath }}movie/{{ movie.id }}/cat/{{ category.id }}" class="seeComments" title="Voir les commentaires">
+                                        <i class="fas fa-comment-alt"></i>
+                                        <span>{{ category.nbComments }}</span>
+                                    </a>
+                                {% endif %}
+                            </div>
                         {% endfor %}
                     {% else %}
                         {{ categories }}
@@ -80,7 +90,12 @@
 
             {% else %}
             {# Dans le cas ou une catégorie est déjà selectionnée, afficher les commentaires concernant ce film pour cette catégorie#}
-                <h2>Commentaires justifiant du classement de ce film dans la catégorie "{{ category }}"</h2>
+                <h2>Commentaires justifiant du classement de ce film dans la catégorie :</h2>
+                <div class="container categoryHolder">
+                    <a href="{{ app.basepath }}category/{{ category.id }}">
+                        <p class="categoryElt" style="background-color: {{ category.backgroundColor }}; color : {{ category.fontColor }} "> {{ category.nom }}</p>
+                    </a>
+                </div>
                 <div class="comments_list">
                     {% if mcuList is iterable %}
                         {% for MCUConnection in mcuList %}

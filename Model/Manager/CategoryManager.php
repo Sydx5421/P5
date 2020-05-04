@@ -44,7 +44,7 @@ class CategoryManager extends AbstractManager
 
         if($movieId != null){
             $req = $db->prepare(
-                "SELECT cat.id, count(*) as nbOfTimesCatIsUsed, cat.nom, cat.font_color, cat.background_color 
+                "SELECT cat.id, count(*) as nbOfTimesCatIsUsed, count(mcu.justification_comment) as nbComments, cat.nom, cat.font_color, cat.background_color 
                         FROM `categories` cat
                         INNER JOIN `mcu_connection` mcu
                         ON mcu.category_id = cat.id 

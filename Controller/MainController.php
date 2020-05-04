@@ -159,20 +159,20 @@ class MainController extends AbstractController
 
         $CategoryManager = new CategoryManager();
         $McuManager = new McuManager();
-        $category =  $CategoryManager->getCategory($categoryId);
 
         if($categoryId === null ){
 //            Afficher toutes les catégories liées à ce film
             $categories = $CategoryManager->getCategories($movieId);
-
+//            vd($categories);
             echo $this->render('movie.twig', array("movie" => $infosMovie, "categories" => $categories));
             die;
         }else{
+            $category =  $CategoryManager->getCategory($categoryId);
             // récupérer les comentaires pour cette catégory et ce film
             $mcuList = $McuManager->getAllCommentsForMC($movieId, $categoryId);
 
             echo $this->render('movie.twig', array("movie" => $infosMovie, "category" =>
-                $category->getNom(), "mcuList" => $mcuList));
+                $category, "mcuList" => $mcuList));
         }
     }
 

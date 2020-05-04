@@ -240,6 +240,10 @@ body.moviePage .jumbotron h1{
     padding-bottom: 1rem;
 }
 
+body.moviePage h2{
+    margin-bottom: 4rem;
+}
+
 body.moviePage .jumbotron .container{
     display: flex;
 }
@@ -251,6 +255,33 @@ body.moviePage .container div table tr td:first-child{
     white-space:nowrap;
     font-weight: bold;
     padding: .3rem 2rem .3rem 0rem;
+}
+
+body.moviePage .container.categoryHolder{
+    display: flex;
+    justify-content: center;
+}
+
+/*Position du lien vers les commentaires d'une catégorie pour le film*/
+body.moviePage .categoryList .categoryHolder{
+    position: relative;
+}
+body.moviePage .categoryList .categoryHolder .seeComments{
+    position: absolute;
+    top: -.7rem;
+    right: -.7rem;
+}
+body.moviePage .categoryList .categoryHolder .seeComments i{
+    font-size: 2rem;
+    color: #ffffffe6;
+    -webkit-text-stroke-color: #ff7800;
+    -webkit-text-stroke-width: 2px;
+}
+body.moviePage .categoryList .categoryHolder .seeComments span{
+    position: absolute;
+    top: 0;
+    left: .7rem;
+    color: #ff7800;
 }
 
 /************* Category Page ************/
@@ -400,10 +431,11 @@ body.categoriesPage .jumbotron{
 /************ Footer ***********/
 footer{
     margin-top: 4rem;
-    padding: 1rem;
+    padding: 5rem 1rem 1rem 1rem;
     width: 100%;
     min-height: 60px;
     color: #FFFFFF;
+    border-top: 1px solid #5b5b5b;
 }
 footer .container{
     margin: auto;
