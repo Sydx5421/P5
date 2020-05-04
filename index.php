@@ -32,11 +32,7 @@ $router->addRoute(new Route('/category/(\d+)/(\w+)', 'main', 'category'));
 $router->addRoute(new Route('/movie/(\d+)', 'main', 'movie'));
 $router->addRoute(new Route('/movie/(\d+)/cat/(\d+)', 'main', 'movie'));
 
-
-
 //$router->addRoute(new Route('/categoryFilms', 'main', 'categoryFilms'));
-
-
 
 // ------------------- Actions réservées à l'utilisateur connecté
 $router->addRoute(new Route('/dashboard/(\d+)', 'User', 'dashboard'));

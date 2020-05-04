@@ -39,9 +39,23 @@ class CategoryManager extends AbstractManager
 
     }
 
-    public function getCategories(){
+    public function getCategories($movieId = null){
         $db = $this->dbConnect();
-        $req = $db->query("SELECT * FROM categories ORDER BY up_votes, nom");
+
+        if($movieId != null){
+            $req = $db->prepare(
+                "SELECT cat.id, count(*) as nbOfTimesCatIsUsed, cat.nom, cat.font_color, cat.background_color 
+                        FROM `categories` cat
+                        INNER JOIN `mcu_connection` mcu
+                        ON mcu.category_id = cat.id 
+                        WHERE mcu.movie_id = ?
+                        GROUP BY mcu.category_id
+                        ORDER BY nbOfTimesCatIsUsed DESC" );
+            $req->execute(array($movieId));
+        }else{
+            $req = $db->query("SELECT * FROM categories ORDER BY up_votes, nom");
+        }
+
         $categories = [];
 
         while($category = $req->fetchObject('App\Model\Entity\Category')){

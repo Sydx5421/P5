@@ -163,13 +163,13 @@ class MainController extends AbstractController
 
         if($categoryId === null ){
 //            Afficher toutes les catégories liées à ce film
+            $categories = $CategoryManager->getCategories($movieId);
 
-            echo $this->render('movie.twig', array("movie" => $infosMovie));
+            echo $this->render('movie.twig', array("movie" => $infosMovie, "categories" => $categories));
             die;
         }else{
             // récupérer les comentaires pour cette catégory et ce film
             $mcuList = $McuManager->getAllCommentsForMC($movieId, $categoryId);
-//            vd($mcuList);
 
             echo $this->render('movie.twig', array("movie" => $infosMovie, "category" =>
                 $category->getNom(), "mcuList" => $mcuList));
