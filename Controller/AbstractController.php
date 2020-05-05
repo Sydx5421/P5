@@ -3,6 +3,10 @@
 namespace App\Controller;
 //use App\vendor\twig\twig\lib\Twig\Extension\Twig_Extension_Session;
 use App\vendor\twig\twig\lib\Twig\Extension\Session;
+use http\Exception;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 abstract class AbstractController
 {
@@ -50,6 +54,18 @@ abstract class AbstractController
 
     }
 
+    private function error(\Exception $e){
+        try {
+            // vérifier l'url avec un $_SERVER["referer"] pour voir si je suis déjà sur la page notFound ou pas.
+//            if($_SERVER["referer"] != "notFound"){
+                $this->redirect($this->basePath . "notFound");//
+//            }
+//            vd($e, "try");
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+    }
 
     /**
      * Cette methode est un racourcit de la méthode twig premettant de retourner les vues + elle est enrichie de
@@ -58,9 +74,6 @@ abstract class AbstractController
      * @param $view
      * @param array $params
      * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
     protected function render($view, $params = array()){
         $app = new \stdClass();
@@ -78,7 +91,16 @@ abstract class AbstractController
         // unset du message flash, pour qu'il ne s'affiche qu'une seul fois
         unset($_SESSION["message_flash"]);
 
-        return $this->twig->render($view, $params);
+        try {
+//            throw new LoaderError("TEst error loader");
+            return $this->twig->render($view, $params);
+        } catch (LoaderError $e) {
+            $this->error($e);
+        } catch (RuntimeError $e) {
+            $this->error($e);
+        } catch (SyntaxError $e) {
+            $this->error($e);
+        }
     }
 
     /**

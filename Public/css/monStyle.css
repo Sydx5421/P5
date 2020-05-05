@@ -171,6 +171,11 @@ div.nwl_submit_btn{
     justify-content: space-around;
     grid-gap: 2rem 2rem;
 }
+@media (max-width: 500px) {
+    .search_results{
+        justify-content: center;
+    }
+}
 
 .search_results a{
     display: block;
@@ -283,8 +288,23 @@ body.moviePage .categoryList .categoryHolder .seeComments span{
     left: .7rem;
     color: #ff7800;
 }
+/*Gestion de l'affichage du cadre d'infos de la fiche film < 600px*/
+@media (max-width: 770px) {
+    body.moviePage .jumbotron h1,
+    body.moviePage .jumbotron a.movieThumbnail{
+        text-align: center;
+    }
+    .filmInfosWrapper1{
+        flex-direction: column;
+    }
+    body.moviePage table.filmInfos tbody tr{
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-/************* Category Page ************/
+}
+
+    /************* Category Page ************/
 .categoryPage .categoryInfos{
     display: flex;
 }
@@ -311,6 +331,7 @@ body.categoriesPage .jumbotron{
     text-align: center;
     font-weight: bold;
     word-wrap: break-word;
+    border: 1px solid #6c6c6c;
 }
 @media (max-width: 1200px) {
     .categoryElt{
@@ -426,6 +447,19 @@ body.categoriesPage .jumbotron{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 765px) {
+    .dashboard table th{
+        display: none;
+    }
+
+}
+
+/*.dashboard table .nwl_comment_cell .comment_elt[contenteditable = true],*/
+.dashboard table .nwl_comment_cell .comment_elt{
+    word-break: break-word;
+    margin-bottom: 3rem;
 }
 
 /************ Footer ***********/

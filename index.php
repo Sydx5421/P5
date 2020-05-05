@@ -21,6 +21,7 @@ $router = new RouterPOO();
 // ------------------ Route(URL, nomDuController, nomDeLaction)
 
 $router->addRoute(new Route('/', 'main', 'home'));
+//$router->addRoute(new Route('/notFound', 'main', 'notFound'));
 $router->addRoute(new Route('/home', 'main', 'home'));
 $router->addRoute(new Route('/simpleMovieSearch', 'main', 'simpleMovieSearch'));
 $router->addRoute(new Route('/simpleMovieSearch/(\w+)/(\d+)', 'main', 'simpleMovieSearch'));

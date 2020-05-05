@@ -9,9 +9,9 @@
             <div class="container">
                 <h1>{{ movie.title }}</h1>
             </div>
-            <div class="container">
-                <a href="{{ app.basepath }}movie/{{ movie.id }}">
-                    <figure class="">
+            <div class="container filmInfosWrapper1">
+                <a href="{{ app.basepath }}movie/{{ movie.id }}" class="movieThumbnail">
+                    <figure>
                         {% if movie.poster_path  %}
                             <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movies.title }} poster">
                         {% else %}
@@ -21,7 +21,7 @@
                     </figure>
                 </a>
                 <div>
-                    <table>
+                    <table class="filmInfos">
                         <tbody>
                             <tr>
                                 <td>Titre original : </td>
