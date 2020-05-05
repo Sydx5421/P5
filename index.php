@@ -42,12 +42,9 @@ $router->addRoute(new Route('/editComment/(\d+)', 'User', 'editComment'));
 $router->addRoute(new Route('/deleteConnection/(\d+)', 'User', 'deleteConnection'));
 $router->addRoute(new Route('/createCategory', 'User', 'createCategory'));
 $router->addRoute(new Route('/categorySearchNewMovies/(\d+)', 'User', 'categorySearchNewMovies'));
+$router->addRoute(new Route('/categorySearchNewMovies/(\d+)/(\w+)/(\d+)', 'User', 'categorySearchNewMovies'));
 $router->addRoute(new Route('/addMoviesToCategory/(\d+)/(\d+)', 'User', 'addMoviesToCategory'));
 
-
-// ----------------------------- requête API TMDB
-//$router->addRoute(new Route('/searchMovies', 'TmdbRequests', 'searchMovies'));
-//$router->addRoute(new Route('/searchMovies/(\w+)/(\d+)', 'TmdbRequests', 'searchMovies'));
 
 //------------------------------ action réservées à l'admin :
 $router->addRoute(new Route('/adminActionComment', 'admin', 'adminActionComment'));

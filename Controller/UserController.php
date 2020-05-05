@@ -165,12 +165,15 @@ class UserController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function categorySearchNewMovies($catId){
+    public function categorySearchNewMovies($catId, $searchQueryGet = null, $pageQueryGet = null){
         $CategoryManager = new CategoryManager();
         $category =  $CategoryManager->getCategory($catId);
         $module = "categorySearch";
         $searchResult = $this->searchMovies();
 
+        if($searchQueryGet != null && $pageQueryGet != null ){
+            $searchResult = $this->searchMovies($searchQueryGet, $pageQueryGet);
+        }
 
         echo $this->render('category.twig', array('category' => $category, 'module' => $module, 'moviesSearchResults' => $searchResult["moviesSearchResults"], 'searchQuery' => $searchResult["searchQuery"], 'previousPage' => $searchResult["previousPage"], 'nextPage' => $searchResult["nextPage"]));
     }

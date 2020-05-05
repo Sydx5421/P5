@@ -311,7 +311,25 @@ body.moviePage .categoryList .categoryHolder .seeComments span{
 .categoryPage .categoryInfos .descriptionWrapper{
     padding: 0 1rem;
 }
+.categoryPage .categoryActions a i{
+    margin-right: .7rem;
+}
 
+@media (max-width: 770px) {
+    .categoryPage .categoryInfos{
+        flex-wrap: wrap;
+    }
+    .categoryPage .categoryInfos .titleWrapper{
+        margin: auto;
+    }
+    .categoryPage .addMovieToCategory{
+        flex-wrap: wrap;
+    }
+    .categoryPage .addMovieToCategory form{
+        max-width: 100%;
+        margin-top: 0;
+    }
+}
 /************* Categories Page ************/
 body.categoriesPage .jumbotron{
     padding: 1rem 2rem;
