@@ -25,15 +25,16 @@
     <Main>
         <div class="container">
             <h2>Inscrivez-vous</h2>
-            <form method="POST" action="" class="basicForms" >
-                {{ form.input_placeholder('email', {'label' : 'Votre E-mail', 'placeholder' : 'monmail@qch.com'}) }}
+            <form method="POST" action="{{ app.basepath }}register" class="basicForms" >
+                <table class="table_form">
+                    {{ form.input_placeholder('email', {'label' : 'Votre E-mail', 'placeholder' : 'monmail@qch.com'}) }}
 
-                {{ form.input_placeholder('pseudo', {'label' : 'Votre Pseudo', 'placeholder' : 'pseudo'}) }}
+                    {{ form.input_placeholder('pseudo', {'label' : 'Votre Pseudo', 'placeholder' : 'pseudo'}) }}
 
-                {{ form.input_placeholder('password', {'label' : 'Votre Mot de passe', 'type' : 'password', 'placeholder' : '********'}) }}
+                    {{ form.input_placeholder('register_password', {'label' : 'Votre Mot de passe', 'type' : 'password', 'placeholder' : '********'}) }}
 
-                {{ form.input_placeholder('confirm_password', {'label' : 'Confirmez votre mot de passe', 'type' : 'password', 'placeholder' : '********'}) }}
-
+                    {{ form.input_placeholder('confirm_register_password', {'label' : 'Confirmez votre mot de passe', 'type' : 'password', 'placeholder' : '********'}) }}
+                </table>
                 <div class="nwl_submit_btn">
                     <button class="btn btn-primary" type="submit" name="confirm_register">S'inscrire</button>
                 </div>

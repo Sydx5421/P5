@@ -8,9 +8,11 @@
             <div class="container">
                 <h1>Search Page</h1>
                 <form method="POST" action="../index.php" class="basicForms" >
-                    {{ form.input_placeholder('search', {'placeholder' : 'search'}) }}
+                    <table class="table_form">
+                        {{ form.input_placeholder('search', {'placeholder' : 'search'}) }}
 
-                    {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
+                        {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
+                    </table>
 
                     <div class="nwl_submit_btn">
                         <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>

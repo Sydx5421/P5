@@ -14,7 +14,7 @@
                             <p class="categoryElt" >Nom de votre categorie</p>
                         </div>
                         <form method="POST" action="{{ app.basepath }}createCategory" class="basicForms" >
-                            <table>
+                            <table class="table_form">
                                 {{ form.input_placeholder('userId', {'type' : 'hidden', 'value' : app.session.user.id }) }}
 
                                 {{ form.input_placeholder('nameCategory', {'label' : 'Nom de la catégorie', 'placeholder' : 'Womance'}) }}

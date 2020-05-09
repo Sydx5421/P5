@@ -10,8 +10,10 @@
                 <h1>Bienvenue sur Cinemood</h1>
                 <p>Le site qui vous permet de classer et de rechercher des films selon des catégorie que vous créez !</p>
                 <form method="POST" action="simpleMovieSearch" class="basicForms" >
-                    {{ form.input_placeholder('search', {'placeholder' : 'rechercher un film'}) }}
-                    {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
+                    <table class="table_form">
+                        {{ form.input_placeholder('search', {'placeholder' : 'rechercher un film'}) }}
+                        {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
+                    </table>
 
                     <div class="nwl_submit_btn">
                         <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>

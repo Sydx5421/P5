@@ -11,7 +11,7 @@
                         {% if movie.posterPath is null %}
                             <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
                         {% else %}
-                            <img src='http://image.tmdb.org/t/p/w185{{ movie.posterPath }}' alt="{{ movie.title }} poster"
+                            <img src='http://image.tmdb.org/t/p/w185{{ movie.posterPath }}' alt="{{ movie.title }} poster">
                         {% endif %}
                         <figcaption>{{ movie.title }}</figcaption>
                     </figure>
