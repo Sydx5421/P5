@@ -103,7 +103,6 @@
                                 <div class="comment_elt">
                                     <span><a href=""><i class="far fa-fw fa-user"></i>{{ MCUConnection.pseudo }}</a> - {{ MCUConnection.creationDate }} </span>
                                     <p class="text_comment"> {{ MCUConnection.justificationComment }} </p>
-                                    <p> valeur de isAdmin : {{ app.isAdmin }} </p>
                                     {% if app.isAdmin == true %}
                                         <button class="btn nwl_suprimer " data-id="{{ MCUConnection.id }}" title="Supprimer ce commentaire"><i class="fas fa-dumpster-fire"></i></button>
 {#                                    {% else %}#}

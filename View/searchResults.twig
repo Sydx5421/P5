@@ -7,7 +7,7 @@
         <div class="jumbotron">
             <div class="container">
                 <h1>Search Page</h1>
-                <form method="POST" action="../index.php" class="basicForms" >
+                <form method="POST" action="{{ app.basepath }}simpleMovieSearch" class="basicForms" >
                     <table class="table_form">
                         {{ form.input_placeholder('search', {'placeholder' : 'search'}) }}
 
@@ -25,7 +25,7 @@
         <div class="container">
             <!-- Search results description -->
             {% if searchQuery  %}
-                <h2>Résultat de la recherche pour "<span>{{searchQuery}}</span>", <span id="nb_results"></span> résultats. Page {{moviesSearchResults.page ? moviesSearchResults.page : "1"}}  sur <span id="nb_pages"></span> pages : totalPage SessionStorage : {{ app.session.totalPagesForSearch }}</h2>
+                <h2>Résultat de la recherche pour "<span>{{searchQuery}}</span>", <span id="nb_results"></span> résultats.  Page {{moviesSearchResults.page ? moviesSearchResults.page : "1"}}  sur <span id="nb_pages"></span> {{ moviesSearchResults.total_pages ?: "" }}</h2>
             {% endif %}
 
             <!-- *************** film elements ***************** -->

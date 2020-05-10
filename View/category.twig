@@ -22,9 +22,13 @@
         {% else %}
             <div class="jumbotron">
                 <div class="container">
+                    <p class="subtitle" >Pour ajouter des films à cette catégorie connectez-vous ou <a href="{{ app.basepath }}register">inscrivez-vous</a>!</p>
                     <div class="categoryInfos">
                         <div class="titleWrapper" ><h1 class="categoryElt" style="background-color: {{ category.backgroundColor }}; color : {{ category.fontColor }} ">{{ category.nom }}</h1></div>
-                        <div class="descriptionWrapper"><p>{{ category.description }}</p></div>
+                        <div class="descriptionWrapper">
+                            <p class="nwl_label">Description : </p>
+                            <p>{{ category.description }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

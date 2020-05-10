@@ -204,15 +204,20 @@ class UserController extends AbstractController
 
             $newMovie = new Movie($newMovieData);
 
+            $justifyComment = trim(htmlspecialchars($_POST['justificationText']));
+
+            if(trim(htmlspecialchars($_POST['justificationText'])) == null || trim(htmlspecialchars($_POST['justificationText'])) == "" ){
+                $justifyComment = null;
+            }
+
             $newMCUConnectionData = [
                 'movie_id' => trim(htmlspecialchars($_POST['movieId'])),
                 'category_id' => trim(htmlspecialchars($_POST['categoryId'])),
                 'user_id' => trim(htmlspecialchars($_POST['userId'])),
-                'justification_comment' => trim(htmlspecialchars($_POST['justificationText'])),
+                'justification_comment' => $justifyComment,
             ];
 
             $newMCUConnection = new MCUConnection($newMCUConnectionData);
-
 
 
             if(!$MovieManager->doesMovieExist($newMovie)){
@@ -241,7 +246,8 @@ class UserController extends AbstractController
             $MCUConnectionCreation = $McuManager->createMovieConnection($newMCUConnection);
 
             if($MCUConnectionCreation === true){
-                $this->addFlash('Votre classement du film "'  . $newMCUConnection->getMovieId() .  '" dans la catégorie ' . $newMCUConnection->getCategoryId() . ' a bien été enregistré ! Merci pour votre contribution !', 'success');
+                $this->addFlash('Votre classement du film "'  . $newMovie->getTitle() .  '" dans la catégorie ' .
+                    $category->getNom() . ' a bien été enregistré ! Merci pour votre contribution !', 'success');
 
                 $this->redirect($this->basePath . 'category/' . $catId);
 

@@ -36,16 +36,11 @@
             </form>
         {% else %}
             <form class="form-inline my-2 my-lg-0" method="POST" action="{{ app.basepath }}login">
-                <table class="table_form">
-                    {{ form.input_placeholder('email_or_pseudo', {'class' : 'col-xs', 'placeholder' : 'E-mail ou pseudo'}) }}
-                    {{ form.input_placeholder('password', {'class' : 'col-xs', 'placeholder' : 'Mot de passe', 'type':'password'}) }}
-                </table>
+                <input type="text" name="email_or_pseudo" class="form-control col-xs" placeholder="E-mail ou pseudo">
+                <input type="password" name="password" class="form-control col-xs" placeholder="Mot de passe">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="confirm_login">Login</button>
             </form>
         {% endif %}
     </div>
 </nav>
-
-
-{#</nav>#}
 

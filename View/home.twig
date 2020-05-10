@@ -8,25 +8,29 @@
         <div class="jumbotron">
             <div class="container">
                 <h1>Bienvenue sur Cinemood</h1>
-                <p>Le site qui vous permet de classer et de rechercher des films selon des catégorie que vous créez !</p>
-                <form method="POST" action="simpleMovieSearch" class="basicForms" >
-                    <table class="table_form">
-                        {{ form.input_placeholder('search', {'placeholder' : 'rechercher un film'}) }}
-                        {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}
-                    </table>
+                <p class="subtitle">Le site qui vous permet de classer et de rechercher des films selon des catégories que vous créez !</p>
+                <p>Pour classer un film dans une catégorie, rendez-vous sur la <a href="{{ app.basepath }}categories">page des catégories</a> et selectionnez la catégorie de votre choix ou créez-en une nouvelle! Une fois sur la page de la catégorie choisie vous pourrez rechercher le film que vous souhaitez y ajouter. N'hésitez à commenter votre classement ! </p>
+                <p>A la rechercher d'un bon film à regarder? Visiter les pages de vos catégories favorites et découvrez ce que les membres de la communauté Cinemood y ont ajouté! </p>
 
-                    <div class="nwl_submit_btn">
-                        <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>
-                    </div>
 
-                </form>
+{#                <form method="POST" action="{{ app.basepath }}simpleMovieSearch" class="basicForms" >#}
+{#                    <table class="table_form">#}
+{#                        {{ form.input_placeholder('search', {'placeholder' : 'rechercher un film'}) }}#}
+{#                        {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}#}
+{#                    </table>#}
+
+{#                    <div class="nwl_submit_btn">#}
+{#                        <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>#}
+{#                    </div>#}
+
+{#                </form>#}
             </div>
         </div>
     </header>
 
     <main>
         <div class="container">
-            <!-- ********************** Random Movies ****************** -->
+            <!-- ********************** Dernières connections ****************** -->
             <div class="search_results row">
                 <h2><strong>Dernières connections :</strong> </h2>
                 {% if lastMcuConnection is iterable %}
@@ -43,13 +47,14 @@
                                     <figcaption>{{ MCUConnection.title }}</figcaption>
                                 </figure>
                             </a>
-                            <a href="{{ app.basepath }}category/{{ MCUConnection.category_id }}" title="Voir la fiche Cinemood de cette catégorie">
+                            <a href="{{ app.basepath }}category/{{ MCUConnection.categoryId }}" title="Voir la fiche Cinemood de cette catégorie">
                                 <p class="categoryElt" style="background-color: {{ MCUConnection.background_color }}; color : {{ MCUConnection.font_color }} "> {{ MCUConnection.nom }}</p>
                             </a>
                         </div>
                     {% endfor %}
                 {% endif %}
             </div>
+            <!-- ********************** Dernières catégories créées ****************** -->
             <div class="search_results row lastCategories">
                 <h2><strong>Dernières catégories créées :</strong> </h2>
                 {% if lastCategories is iterable %}
@@ -60,6 +65,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
+            <!-- ********************** Random Movies ****************** -->
             <div class="search_results row">
                 <h2><strong>Random Movies :</strong> Connaissez-vous ces films? Classez-les !</h2>
                 {% for movie in randMovies %}

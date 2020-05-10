@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Classez et recherchez des films selon des catégories que vous créez ! Découvrez et faites découvrir des films suceptibles de plaire d'avange grâce des classements subjectifs et argumentés. Rejoignez la communauté Cinemood.">
+    <meta name="author" content="Syd2120">
 
     <meta property="og:image" content="{{ app.basepath }}/Public/img/cinemood_logo.png">
     <meta property="og:image:type" content="image/png">
@@ -14,7 +14,7 @@
     <meta property="og:image:height" content="500">
 
     <link rel="icon" href="{{ app.basepath }}/Public/img/cinemood_icon.png">
-    <link rel="canonical" href="https://getbootstrap.com/docs/3.3/examples/jumbotron/">
+{#    <link rel="canonical" href="https://getbootstrap.com/docs/3.3/examples/jumbotron/">#}
 
     <title>Cinemood</title>
 
@@ -47,11 +47,6 @@
     </div>
 {% endif %}
 
-{#{% if app.session is defined  %}#}
-{#{{ app.session.pseudo }}#}
-{#{% else %}#}
-{#<h1>Session n'est pas définit ou ne passe pas</h1>#}
-{#{% endif %}#}
 
 {# ************* Main Page content ************ #}
 {% if block("content") is defined %}
@@ -83,6 +78,8 @@
 {% if block("javascripts") is defined %}
     {{ block('javascripts') }}
 {% endif %}
+
+
 
 </body>
 </html>

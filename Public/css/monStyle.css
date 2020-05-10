@@ -56,6 +56,19 @@ a:hover{
     background-color: #275baf;
     border-color: #204b91;
 }
+.jumbotron a :not(.btn_cinemood_basic_full),
+.jumbotron a :not(.btn_cinemood_basic_full i){
+    color: #b55b5b;
+}
+
+.jumbotron .subtitle{
+    font-size: 1.3rem;
+}
+.jumbotron .nwl_label{
+    margin-bottom: .2rem;
+    text-decoration: underline;
+    font-weight: bold;
+}
 /************ navbar *************/
 nav.navbar{
     background-color: black;
@@ -90,6 +103,14 @@ nav div.navbar a.active{
     align-items: center;
 }
 
+nav li.nav-item a{
+    color: #dfdfdf;
+}
+nav li.nav-item a:hover,
+nav li.nav-item a.active{
+    color: #fff;
+}
+
 /**************** Forms ********************/
 
 .basicForms{
@@ -110,6 +131,9 @@ div.nwl_submit_btn{
 
 .basicForms textarea{
     border-radius: 10px;
+}
+table.table_form{
+    width: 100%;
 }
 
 /**** Form d'ajout de film à une catégorie ******/
@@ -204,6 +228,7 @@ div.nwl_submit_btn{
 .homePage h2{
     width: 100%;
 }
+
 .homePage .search_results.row{
     margin-top: 5rem;
 }
@@ -393,7 +418,7 @@ body.categoriesPage .jumbotron{
     color: #cc1616;
 }
 .comments_list .comment_elt p.text_comment{
-    margin: 0;
+    margin: 0 2rem;
 }
 
 /*************** Register ***************/
@@ -466,6 +491,14 @@ body.categoriesPage .jumbotron{
     align-items: center;
     justify-content: center;
 }
+.dashboard table td.categoryElt a{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
 
 @media (max-width: 765px) {
     .dashboard table th{
