@@ -136,7 +136,6 @@
                 allButtons[i].addEventListener('click', function() {
                     if(this.classList.contains("nwl_suprimer")){
                         if ( confirm( "Êtes-vous sur-e de vouloir supprimer ce message?" ) ) {
-                            // Code à éxécuter si le l'utilisateur clique sur "OK"
                             adminActionComment(this.getAttribute("data-id"), 'delete');
                             commentElt = $(this).parents(".comment_elt");
                             commentEltParent = commentElt[0].parentNode;
@@ -157,7 +156,6 @@
                         let response = JSON.parse(xhr.response);
                         if(response.result == 1){
                             let response = JSON.parse(xhr.response);
-                            console.log(response);
                         }else if(response.result == 0) {
                             alert('le  commentaire d\'id : ' + commentId + ', n\'a PAS été ' + action);
                         }
@@ -165,7 +163,6 @@
                 });
                 xhr.send(formData);
             }
-
 
         });
     </script>

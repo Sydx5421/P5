@@ -1,5 +1,4 @@
 {% extends 'layout.twig' %}
-{% import 'form.twig' as form %}
 
 {% set classPage = 'homePage' %}
 
@@ -11,19 +10,6 @@
                 <p class="subtitle">Le site qui vous permet de classer et de rechercher des films selon des catégories que vous créez !</p>
                 <p>Pour classer un film dans une catégorie, rendez-vous sur la <a href="{{ app.basepath }}categories">page des catégories</a> et selectionnez la catégorie de votre choix ou créez-en une nouvelle! Une fois sur la page de la catégorie choisie vous pourrez rechercher le film que vous souhaitez y ajouter. N'hésitez à commenter votre classement ! </p>
                 <p>A la rechercher d'un bon film à regarder? Visiter les pages de vos catégories favorites et découvrez ce que les membres de la communauté Cinemood y ont ajouté! </p>
-
-
-{#                <form method="POST" action="{{ app.basepath }}simpleMovieSearch" class="basicForms" >#}
-{#                    <table class="table_form">#}
-{#                        {{ form.input_placeholder('search', {'placeholder' : 'rechercher un film'}) }}#}
-{#                        {{ form.input_placeholder('pageQuery', {'type' : 'hidden', 'value' : '1'}) }}#}
-{#                    </table>#}
-
-{#                    <div class="nwl_submit_btn">#}
-{#                        <button id="movieSearchBtn" class="btn btn-primary" type="submit" name="confirm_search">Search</button>#}
-{#                    </div>#}
-
-{#                </form>#}
             </div>
         </div>
     </header>
@@ -32,7 +18,7 @@
         <div class="container">
             <!-- ********************** Dernières connections ****************** -->
             <div class="search_results row">
-                <h2><strong>Dernières connections :</strong> </h2>
+                <h2><strong>Exemples de connections :</strong> </h2>
                 {% if lastMcuConnection is iterable %}
                     {% for MCUConnection in lastMcuConnection %}
                         <div class="mcuLinkWrapp">
@@ -56,7 +42,7 @@
             </div>
             <!-- ********************** Dernières catégories créées ****************** -->
             <div class="search_results row lastCategories">
-                <h2><strong>Dernières catégories créées :</strong> </h2>
+                <h2><strong>Catégories aléatoires :</strong> </h2>
                 {% if lastCategories is iterable %}
                     {% for category in lastCategories %}
                         <a href="{{ app.basepath }}category/{{ category.id }}" title="Voir la fiche Cinemood de cette catégorie">
@@ -66,25 +52,9 @@
                 {% endif %}
             </div>
             <!-- ********************** Random Movies ****************** -->
-            <div class="search_results row">
+            <div id="randomMoviesRow" class="search_results row">
                 <h2><strong>Random Movies :</strong> Connaissez-vous ces films? Classez-les !</h2>
-                {% for movie in randMovies %}
-                    <a href="{{ app.basepath }}movie/{{ movie.id }}" class="text-center">
-                        <figure class="">
-                            {% if movie.poster_path  %}
-                                <img src='http://image.tmdb.org/t/p/w185{{ movie.poster_path }}' alt="{{ movies.title }} poster">
-                            {% else %}
-                                <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
-                            {% endif %}
-                            <figcaption>{{ movie.title }}</figcaption>
-                        </figure>
-                    </a>
-                {% else %}
-                    <figure class='movieElt'>
-                        <img style="width : 185px; height : 278px;" src='{{ app.basepath }}Public/img/no_poster.png' alt="Poster not found">
-                        <figcaption>Not Found</figcaption>
-                    </figure>
-                {% endfor %}
+                <i class="fas fa-spinner fa-pulse" id="randomMoviesSpinner"></i>
             </div>
             <hr>
         </div> <!-- /container -->
@@ -96,5 +66,45 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET','{{ app.basepath }}randomMovies' );
+            xhr.addEventListener('readystatechange', function() { // On gère ici une requête asynchrone
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur
+                    $("#randomMoviesSpinner").hide();
+
+                    let response = JSON.parse(xhr.response);
+                    var randomMoviesRow = $("#randomMoviesRow");
+                    for (var i = 0; i < response.length; i++){
+                        var film = response[i],
+                            title = film["title"],
+                            posterPath = film["poster_path"],
+                            filmId = film["id"]
+                        if(posterPath != null){
+                            $(randomMoviesRow).append(
+                                '<a href="{{ app.basepath }}movie/' + filmId + '" class="text-center">\n' +
+                                '    <figure class="">\n' +
+                                '        <img src=\'http://image.tmdb.org/t/p/w185' + posterPath + '\' alt=" ' + title + ' poster">\n' +
+                                '        <figcaption>' + title + '</figcaption>\n' +
+                                '    </figure>\n' +
+                                '</a>');
+                        }else{
+                            $(randomMoviesRow).append(
+                                '<a href="{{ app.basepath }}movie/' + filmId + '" class="text-center">\n' +
+                                '    <figure class="">\n' +
+                                '        <img style="width : 185px; height : 278px;" src="{{ app.basepath }}Public/img/no_poster.png" alt="Poster not found">' +
+                                '        <figcaption>' + title + '</figcaption>\n' +
+                                '    </figure>\n' +
+                                '</a>');
+                        }
+                    }
+                }
+            });
+            xhr.send();
+            $("#randomMoviesSpinner").show();
+        });
+
+    </script>
 
 {% endblock %}

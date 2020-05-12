@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Library\API\TmdbApi;
-use App\Model\Entity\Category;
 use App\Model\Entity\User;
 use App\Model\Manager\CategoryManager;
 use App\Model\Manager\McuManager;
@@ -13,29 +12,24 @@ class MainController extends AbstractController
 {
     use TmdbRequestsTrait;
 
-
-    /**
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    public function home(){
-        // Récupération des films aléatoires
+    public function randomMovies(){
         $TmdbApi = new TmdbApi("01caf40148572dc465c9503e59ded4bf");
         $randMovies =  $TmdbApi->getRandomMovies();
+        echo $randMovies ;
+    }
 
+    public function home(){
         // Récupération des 3 dernières catégories créées
         $CategoryManager = new CategoryManager();
-        $lastCategories = $CategoryManager->getLastCategoriesCreated();
+        $lastCategories = $CategoryManager->getRandomCategories();
 
         // Récupération des 3 dernières connexions :
         $McuManager = new McuManager();
-        $lastMcuConnection = $McuManager->getLastMcu();
+        $lastMcuConnection = $McuManager->getRandomMcu();
 
-        echo $this->render('home.twig', array('randMovies' => $randMovies,'lastCategories' => $lastCategories, 'lastMcuConnection' => $lastMcuConnection));
+        echo $this->render('home.twig', array('lastCategories' => $lastCategories, 'lastMcuConnection' => $lastMcuConnection));
 
     }
-
 
     public function register(){
         $UserManager = new UserManager();
@@ -73,11 +67,7 @@ class MainController extends AbstractController
             echo $this->render('register.twig');
     }
 
-    /**
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
+
     public function login(){
         $UserManager = new UserManager();
 
@@ -117,7 +107,6 @@ class MainController extends AbstractController
 
     public function simpleMovieSearch($searchQueryGet = null, $pageQueryGet = null){
         $searchResult = $this->searchMovies($searchQueryGet, $pageQueryGet);
-//        vd($searchResult, $searchResult["moviesSearchResults"], $searchResult["moviesSearchResults"]);
 
         echo $this->render('searchResults.twig', array('moviesSearchResults' => $searchResult["moviesSearchResults"], 'searchQuery' => $searchResult["searchQuery"], 'previousPage' => $searchResult["previousPage"], 'nextPage' => $searchResult["nextPage"]));
 
@@ -140,7 +129,6 @@ class MainController extends AbstractController
         $module = "categoryFilms";
 
         if($search != null){
-//            vd($search);
             $module = "categorySearch";
         }
 
@@ -149,7 +137,6 @@ class MainController extends AbstractController
     }
 
     public function movie($movieId, $categoryId = null){
-//        vd($movieId, $categoryId );
         $MovieAPI = new TmdbApi("01caf40148572dc465c9503e59ded4bf");
         $infosMovie = $MovieAPI->getMoviesById($movieId);
 
@@ -159,7 +146,6 @@ class MainController extends AbstractController
         if($categoryId === null ){
 //            Afficher toutes les catégories liées à ce film
             $categories = $CategoryManager->getCategories($movieId);
-//            vd($categories);
             echo $this->render('movie.twig', array("movie" => $infosMovie, "categories" => $categories));
             die;
         }else{
@@ -173,7 +159,6 @@ class MainController extends AbstractController
     }
 
     public function categoryFilms(){
-//        vd('est-ce quon rentre ici?');
         $this->render('categoryFilms');
     }
 

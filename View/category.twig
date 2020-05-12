@@ -38,13 +38,10 @@
     <main>
         <div id="innerContent" class="container">
             {% if module == 'categorySearch' %}
-{#                <h2>{{ module }}</h2>#}
                 {{ include('module/categoryNewMovieSearch.twig') }}
             {% elseif module == 'addMovie' %}
-{#                <h2>{{ module }}</h2>#}
                 {{ include('module/addMoviesToCategory.twig') }}
             {% else %}
-{#                <h2>{{ module }}</h2>#}
                 {{ include('module/categoryMovieList.twig') }}
             {% endif %}
         </div>
@@ -62,11 +59,10 @@
         trigger.on('click', function(){
             // Set $this for re-use. Set target from data-attribute
             var $this = $(this),
-                target = $this.data('target'); console.log(target);
+                target = $this.data('target');
 
             // Load target page into container
             container.load('module/' + target + '.twig');
-            {#container.load('{{ include('module/'+ target +'.twig') }}');#}
 
         });
     });

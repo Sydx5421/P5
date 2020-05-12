@@ -3,9 +3,6 @@
 
 namespace App\Model\Manager;
 
-use App\Model\Entity\Category;
-use App\Model\Entity\Movie;
-use App\Model\Manager\AbstractManager;
 use App\Model\Entity\MCUConnection;
 
 class McuManager extends AbstractManager
@@ -16,15 +13,12 @@ class McuManager extends AbstractManager
 
         $req = $db->prepare("INSERT INTO mcu_connection (movie_id, category_id, user_id, justification_comment) VALUES(:movie_id, :category_id, :user_id, :justification_comment)");
 
-//        vd($db, $req, $newMCUConnection, $newMCUConnection->getMovieId());
         $req->bindValue(':movie_id', $newMCUConnection->getMovieId());
         $req->bindValue(':category_id', $newMCUConnection->getCategoryId());
         $req->bindValue(':user_id', $newMCUConnection->getUserId());
         $req->bindValue(':justification_comment', $newMCUConnection->getJustificationComment());
 
-        $reqExec = $req->execute();
-
-        return $reqExec;
+        return $req->execute();
 
     }
 
@@ -127,7 +121,7 @@ class McuManager extends AbstractManager
         return $mcuList;
     }
 
-    public function getLastMcu(){
+    public function getRandomMcu(){
         $db = $this->dbConnect();
         $req = $db->prepare("SELECT mcu.id, mcu.movie_id, mcu.category_id, mcu.user_id,  mcu.justification_comment, mcu.creation_date, cat.nom, cat.font_color, cat.background_color, m.title, m.poster_path
                                         FROM (mcu_connection mcu
@@ -135,7 +129,7 @@ class McuManager extends AbstractManager
                                         ON (mcu.movie_id = m.id))
                                         INNER JOIN categories cat
                                         ON (mcu.category_id = cat.id)
-                                        ORDER BY id DESC LIMIT 3");
+                                        ORDER BY RAND() LIMIT 3");
         $req->execute();
 
         $mcuList = [];
@@ -149,10 +143,6 @@ class McuManager extends AbstractManager
             return "Aucune connections trouvées";
         }
         return $mcuList;
-    }
-
-    public function getCategory(){
-
     }
 
 }

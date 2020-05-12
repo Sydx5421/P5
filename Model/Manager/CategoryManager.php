@@ -4,9 +4,6 @@
 namespace App\Model\Manager;
 
 use App\Model\Entity\Category;
-use App\Model\Entity\Movie;
-use App\Model\Manager\AbstractManager;
-use App\Model\Entity\MCUConnection;
 
 class CategoryManager extends AbstractManager
 {
@@ -88,7 +85,6 @@ class CategoryManager extends AbstractManager
 
     public function getCategoryMovieList($categoryId){
         $db = $this->dbConnect();
-//        $req = $db->prepare("SELECT movie_id as id FROM `mcu_connection` WHERE category_id = ? GROUP BY movie_id" );
         $req = $db->prepare(
             "SELECT m.id, m.title, m.poster_path 
                         FROM `movies` m
@@ -96,7 +92,7 @@ class CategoryManager extends AbstractManager
                         ON mcu.movie_id = m.id 
                         WHERE mcu.category_id = ?
                         GROUP BY m.id" );
-        $reqExec = $req->execute(array($categoryId));
+        $req->execute(array($categoryId));
 
         $movieIdList = [];
 
@@ -117,9 +113,9 @@ class CategoryManager extends AbstractManager
         $req->execute();
     }
 
-    public function getLastCategoriesCreated(){
+    public function getRandomCategories(){
         $db = $this->dbConnect();
-        $req = $db->prepare("SELECT * FROM categories ORDER BY id DESC LIMIT 3");
+        $req = $db->prepare("SELECT * FROM categories ORDER BY RAND() LIMIT 3");
         $req->execute();
 
         $categoryList = [];

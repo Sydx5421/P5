@@ -26,7 +26,6 @@
 
 
                             </table>
-                            {#                    <p id="colorInputTest"></p>#}
 
                             <div class="nwl_submit_btn">
                                 <button class="btn btn-primary" type="submit" name="confirm_create">Créer</button>
@@ -68,27 +67,22 @@
 {% block javascripts %}
     <script>
         $( document ).ready(function(){
-            console.log("ready!")
+            // Preview de l'apparence de la catégorie
             let input = $("#nameCategory");
             input.keyup(function() {
-                console.log('Value:', input.value);
                 let value = $("#nameCategory").val();
-                console.log(value);
                 $("#cat_preview p").text(value);
             });
 
             $("#backgroundColor").change(function(){
                 var value = $("#backgroundColor").val();
-                console.log(value);
                 $("#cat_preview p").css( "background-color", value);
             })
 
             $("#fontColor").change(function(){
                 var value = $("#fontColor").val();
-                console.log(value);
                 $("#cat_preview p").css( "color", value);
             })
-
         });
     </script>
 {% endblock %}
